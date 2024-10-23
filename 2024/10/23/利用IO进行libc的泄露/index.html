@@ -21,7 +21,7 @@
   
     <meta name="description" content="利用I&#x2F;O进行libc的泄露moe最后一题，无free，堆，存在索引的溢出，可以更改i&#x2F;o的结构。 先从gdb看一下FILE的基本结构 1指令：p&#x2F;x *(FILE*)&amp;_IO_2_1_stdout_     _flags 的基础值一般为0xfbad0000(问就是规定的) 它被定义为MAGIC 1234#define _IO_MAGIC 0xFBAD0000#defi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="xyyr">
+<meta property="og:title" content="利用I&#x2F;O进行libc的泄露">
 <meta property="og:url" content="https://xyyr-c.github.io/2024/10/23/%E5%88%A9%E7%94%A8IO%E8%BF%9B%E8%A1%8Clibc%E7%9A%84%E6%B3%84%E9%9C%B2/index.html">
 <meta property="og:site_name" content="xyyr">
 <meta property="og:description" content="利用I&#x2F;O进行libc的泄露moe最后一题，无free，堆，存在索引的溢出，可以更改i&#x2F;o的结构。 先从gdb看一下FILE的基本结构 1指令：p&#x2F;x *(FILE*)&amp;_IO_2_1_stdout_     _flags 的基础值一般为0xfbad0000(问就是规定的) 它被定义为MAGIC 1234#define _IO_MAGIC 0xFBAD0000#defi">
@@ -41,14 +41,14 @@
 <meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20231021190824481.png">
 <meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20231021190843809.png">
 <meta property="article:published_time" content="2024-10-23T08:59:53.720Z">
-<meta property="article:modified_time" content="2023-10-29T13:11:35.254Z">
+<meta property="article:modified_time" content="2024-10-23T09:06:10.563Z">
 <meta property="article:author" content="xyyr">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20231021174246817.png">
   
   
   
-  <title>xyyr</title>
+  <title>利用I/O进行libc的泄露 - xyyr</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -231,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="利用I/O进行libc的泄露"></span>
           
         </div>
 
@@ -302,12 +302,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header"></h1>
+            <h1 id="seo-header">利用I/O进行libc的泄露</h1>
             
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2023年10月29日 晚上
+                    本文最后更新于 2024年10月23日 下午
                   
                 
               </p>
@@ -389,7 +389,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
+      <div>利用I/O进行libc的泄露</div>
       <div>https://xyyr-c.github.io/2024/10/23/利用IO进行libc的泄露/</div>
     </div>
     <div class="license-meta">
@@ -434,9 +434,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/23/NEWSTAR%20%E7%9A%84%E6%A0%88%E8%BF%81%E7%A7%BB/" title="">
+                      <a href="/2024/10/23/NEWSTAR%20%E7%9A%84%E6%A0%88%E8%BF%81%E7%A7%BB/" title="stack_migration--NewStarCTF(WEEK2)">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile"></span>
+                        <span class="hidden-mobile">stack_migration--NewStarCTF(WEEK2)</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -444,8 +444,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/10/23/New-Star-Week%203-pwn%20stack%20migration%20revenge/" title="">
-                        <span class="hidden-mobile"></span>
+                      <a href="/2024/10/23/New-Star-Week%203-pwn%20stack%20migration%20revenge/" title="New-Star-Week 3-pwn stack migration revenge">
+                        <span class="hidden-mobile">New-Star-Week 3-pwn stack migration revenge</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
