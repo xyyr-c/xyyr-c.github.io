@@ -21,7 +21,7 @@
   
     <meta property="og:type" content="website">
 <meta property="og:title" content="xyyr">
-<meta property="og:url" content="https://xyyr-c.github.io/index.html">
+<meta property="og:url" content="https://xyyr-c.github.io/page/2/index.html">
 <meta property="og:site_name" content="xyyr">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="xyyr">
@@ -244,48 +244,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/10/23/moe2024%E6%96%B0%E7%94%9F%E8%B5%9B--pwn%E7%AF%87/" target="_self">
+        <a href="/2024/10/23/%E4%B8%80%E9%81%93%E5%9F%BA%E7%A1%80%E7%9A%84uaf%E7%9A%84%E4%B8%A4%E7%A7%8D%E9%A3%9F%E7%94%A8%E6%96%B9%E6%B3%95double%20free/" target="_self">
           
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/moe2024%E6%96%B0%E7%94%9F%E8%B5%9B--pwn%E7%AF%87/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E4%B8%80%E9%81%93%E5%9F%BA%E7%A1%80%E7%9A%84uaf%E7%9A%84%E4%B8%A4%E7%A7%8D%E9%A3%9F%E7%94%A8%E6%96%B9%E6%B3%95double%20free/" target="_self">
         <div>
-          moe2024新生赛–pwn篇[TOC] 1 二进制漏洞审计入门指北nc直取(不过一点点打印出来确实有点带感，让普普通通的命令行打印更加，唔，酷？…好吧，一点点打印只是因为与服务器有延迟，我还以为特地这么设计的呢，我是呆逼)  2 NotEnoughTime先是一点正则表达式的解释—来自gpt 这个正则表达式 r&#39;[-+/*]?\s*\d+&#39; 用来从给定的字符串中提取数字和前面的运
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-10-23 17:00" pubdate>
-              2024-10-23
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/10/23/%E7%BE%8A%E5%9F%8E%E6%9D%AF--heap%E5%A4%8D%E7%8E%B0/" target="_self">
-          
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E7%BE%8A%E5%9F%8E%E6%9D%AF--heap%E5%A4%8D%E7%8E%B0/" target="_self">
-        <div>
-          羊城杯–heap复现​		首先是学会了IDA怎么重定义类型来让堆块的创建变得好看。（真的可以使得看起来很舒服，感谢bilibili的师傅们） ​		本题的利用是条件竞争堆，但是从其中学到了好多其他的调试及技巧。 ​		main函数，创建了一个0x100的堆块，将各种数据的操作与传递都塞在了里面，并且不断创建。每次的创建进程及其他操作都是放在了子线程的堆里。  ​		strtok函数： ​		str
+          一道基础的uaf的两种食用方法~double free 前情提要：libc-2.23，无teache。  甚至不用改名字，出题人都给把名字叫好了（爱了爱了），这样子调试的时候很舒服  欸，保护连pie都没开，或许还能用它学学别的做法。  长度自定，可以堆溢出，但是这两种做法没有用到，以后考虑用它试着unlink啥的。  创建函数的时候会有输入  delete这里没有指针置0，存在uaf  打印函数
         </div>
       </a>
 
@@ -310,15 +277,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/10/23/secert%20number--NEWCTF/" target="_self">
+        <a href="/2024/10/23/2016%20ZCTF%20note2--unlink/" target="_self">
           
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/secert%20number--NEWCTF/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/2016%20ZCTF%20note2--unlink/" target="_self">
         <div>
-          secert number–NEWCTF保护全开，主要利用格式化字符串。  用时间戳做随机数种子，然后取随机数，要求猜这个随机数。 本地打法： 1234567891011121314151617dll=cdll.LoadLibrary(&#x27;/lib/x86_64-linux-gnu/libc.so.6&#x27;)seed =time.time()a=int(seed)dll.srand(
+          2016 ZCTF note2–unlink很久没打unlink了，上一次打unlink还是将近一年前,如此怠惰 温习了一下重命名，重新指定类型啥的ida操作（重新指定类型没用上:{) 溢出点： 其中 i 是 unsigned 类型，lenth 为 int 类型，所以两者在 for 循环相比较的时候，lenth -1 的结果会被视为 unsigned 类型  输入0也可以符合这个判断  unlin
         </div>
       </a>
 
@@ -343,15 +310,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/10/23/moe-shellcode%E6%A3%80%E6%B5%8B/" target="_self">
+        <a href="/2024/10/23/%E5%A0%86%E6%BA%A2%E5%87%BAoff-by-one%20(asis-ctf-2016%20b00ks)/" target="_self">
           
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/moe-shellcode%E6%A3%80%E6%B5%8B/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E5%A0%86%E6%BA%A2%E5%87%BAoff-by-one%20(asis-ctf-2016%20b00ks)/" target="_self">
         <div>
-          moe-shellcode检测shellcode中检测不能出现syscall的机器码，即‘\x0f\x05’ 可以采取异或的方式来绕过 123456789101112131415161718192021222324252627282930313233from pwn import*context(log_level=&#x27;debug&#x27;,arch=&#x27;amd64&#x27;,
+          堆溢出off-by-one (asis-ctf-2016 b00ks) libc-2.23  漏洞点： author name 输入为32，也就是这里的a2&#x3D;32，经历了32次++a1后，a1[32]&#x3D;0，而这是第33位。    ​	其他地方对于这个scanf_s的调用正常，因为都是输入的size-1 ​	  创建堆块： 这个写着最大32，但是无妨，可以更大，需要注意的是，这里
         </div>
       </a>
 
@@ -376,15 +343,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/10/23/NEWSTAR%20%E7%9A%84%E6%A0%88%E8%BF%81%E7%A7%BB/" target="_self">
+        <a href="/2024/10/23/%E4%B8%80%E4%B8%AA%E5%87%BA%E9%A2%98%E4%BA%BA%E7%89%B9%E5%9C%B0%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%AA%E6%80%AA%E7%9A%84%E5%A0%86/" target="_self">
           
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/NEWSTAR%20%E7%9A%84%E6%A0%88%E8%BF%81%E7%A7%BB/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E4%B8%80%E4%B8%AA%E5%87%BA%E9%A2%98%E4%BA%BA%E7%89%B9%E5%9C%B0%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%AA%E6%80%AA%E7%9A%84%E5%A0%86/" target="_self">
         <div>
-          stack_migration–NewStarCTF(WEEK2) 只开了NX，题目里给了栈的地址 总之，就是栈迁移啊栈迁移，还得迁移两次，还得用ret2libc。 最后看了官方WP，发现栈迁移一次就行了，libc是可以被带出来的。（不过也就当复健了一下两次的栈迁移。） exp： 12345678910111213141516171819202122232425262728293031323334
+          一个出题人特地设计的怪怪的堆利用点：出题人特地设置了可定义的跳转，并且给了后门函数  先进入这里，看init_User   每次创建一个0x98大小的堆块来记录头信息，参数是0x98，由于堆管理机制，会创建0xa0大小（存在标记位，所以看着是0xa1）    然后看add_User的malloc_lenth的参数是我们输入的长度  点进去malloc_lenth发现，还把原来的长度乘了2  以0x
         </div>
       </a>
 
@@ -409,15 +376,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/10/23/%E5%88%A9%E7%94%A8IO%E8%BF%9B%E8%A1%8Clibc%E7%9A%84%E6%B3%84%E9%9C%B2/" target="_self">
+        <a href="/2024/10/23/NKCTF--pwn/" target="_self">
           
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E5%88%A9%E7%94%A8IO%E8%BF%9B%E8%A1%8Clibc%E7%9A%84%E6%B3%84%E9%9C%B2/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/NKCTF--pwn/" target="_self">
         <div>
-          利用I&#x2F;O进行libc的泄露moe最后一题，无free，堆，存在索引的溢出，可以更改i&#x2F;o的结构。 先从gdb看一下FILE的基本结构 1指令：p/x *(FILE*)&amp;_IO_2_1_stdout_     _flags 的基础值一般为0xfbad0000(问就是规定的) 它被定义为MAGIC 1234#define _IO_MAGIC 0xFBAD0000#defi
+          NKCTF–pwn–Maimai查分器 Maimai查分器 保护全开 存在格式化字符串漏洞 第一步：先测速率，输入15.0 SSS+ 50次获得最高速率    ​	 1234sl(b&#x27;1&#x27;)#debug()for i in range(50):    sl(b&#x27;15.0 SSS+&#x27;)   然后利用格式化字符串去泄露，本来想一口气全部泄露的，但是只有8个字节，
         </div>
       </a>
 
@@ -442,15 +409,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/10/23/New-Star-Week%203-pwn%20stack%20migration%20revenge/" target="_self">
+        <a href="/2024/10/23/ezorw/" target="_self">
           
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/New-Star-Week%203-pwn%20stack%20migration%20revenge/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/ezorw/" target="_self">
         <div>
-          New-Star-Week 3-pwn stack migration revenge开了NX和full relro 只溢出了8个字节，典型的栈迁移，这次迁移到bss段上。（以前做过的都是栈上的，特此记录。）   只要认真计算，可以不使用pop_rbp就完成条件。   首先要栈迁移到bss段上，所以要想办法对让read往bss段里输入，这时候要直到，read对buf的确定是rbp-0x50，也就是
+          NewStar-WEEK3ezorw最近作业多，事务繁忙，好久没打题了，继续看看新生赛最新一周放出来的题。主打一个复健，不过近来的新生赛进度都好快。 开了NX和canary    利用格式化字符串泄露出canary，然后因为题目给了libc文件，又提示是rop，本来打算用ret2libc泄露libc基地址，结果发现该程序中居然没有可以用的pop链。。Σ(っ °Д °;)っ     怎么办呢，经过思
         </div>
       </a>
 
@@ -475,15 +442,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/10/23/NewStatCTF--week3-pwn%20srop/" target="_self">
+        <a href="/2024/10/23/%E9%99%90%E5%88%B67%E5%AD%97%E8%8A%82%E5%86%99%E5%85%A5%E6%89%A7%E8%A1%8C%E7%9A%84orw/" target="_self">
           
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/NewStatCTF--week3-pwn%20srop/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E9%99%90%E5%88%B67%E5%AD%97%E8%8A%82%E5%86%99%E5%85%A5%E6%89%A7%E8%A1%8C%E7%9A%84orw/" target="_self">
         <div>
-          NewStatCTF–week3-pwn srop主函数只有一个输出，一个输入，存在栈溢出   存在syscall函数，没有适当的可以改rdx的别提ret2csu，太麻烦了  所以用srop（而且题目就叫srop) 先改了rbp，然后跳转到主函数的这里  1payload = b&#x27;A&#x27;*(0x30)+p64(bss_addr)+p64(main_addr)    可以往下不可以
+          限制7字节写入执行的orw  buf处直接执行机器码，向其中写入read，然后再往下orw即可。这里注意，如果添加太多值就会导致超了7，所以能简洁尽量简洁。尽可能用原有的寄存器，本来想写入到buf+一段空间，但是还有对空间进行计算，所以直接往buf写，用nop填充滑下去就好。 另：温习asm转化汇编为机器码的格式。  exp: 12345678910111213141516171819202122
         </div>
       </a>
 
@@ -508,15 +475,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/10/23/GuestBooK--pwn/" target="_self">
+        <a href="/2024/10/23/iscc-U/" target="_self">
           
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/GuestBooK--pwn/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/iscc-U/" target="_self">
         <div>
-          GuestBooK–pwn 先利用read与puts，填充掉canary的最后一位，把canary打印出来，用这种不一样的字符方便接收和检验 1payload = b&quot;A&quot;*(0x20-0x8-1)+b&quot;B&quot;+b&#x27;C&#x27;   然后需要利用strcpy输入两次，第一次把最后一位不对的canary以及后门函数地址输入进去，第二次把canary最
+          iscc-U一道特殊的uaf，高版本，没开pie，特殊的打印机制。 警告：极其混乱，掺杂着无数次歪路  由于没有libc文件，不知道libc版本，没用unsotedbin泄露，不知道该减多少。  打印函数：  创建函数：  删除函数：   先创三个堆看看notelist的储存形式：    关于c语言：notelist本身指代的是这个空间指向的数据。例如int notelist &#x3D; aaa
         </div>
       </a>
 
@@ -541,15 +508,48 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/10/23/ctfshow%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B-badboy/" target="_self">
+        <a href="/2024/10/23/orange_cat/" target="_self">
           
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/ctfshow%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B-badboy/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/orange_cat/" target="_self">
         <div>
-          ctfshow元旦水友赛-badboy好久没打了，有人提到了，就看一看。 开了canary和nx保护，原本想着泄露canary，结果找不到泄露的方向。 kl点进去可以看到是6  可以循环两次，第一次泄露6个字节，第二次泄露3个字节。第一次泄露libc,第二次泄露栈。  地址分别相差0x18(24)和0x38(56)，fd8-eb0&#x3D;0x128(296) libc.sym查询不到__lib
+          orange_cat 就出了这一道被打成50分的，我真菜狗一只啊  包含输入、修改、输出、删除的堆块题  输入函数：只限制了堆块的大小，不限制数量    输出函数和删除函数都只能用一次  edit函数存在7个字节的溢出    top_chunk 的后三位+size（不包括符号位，符号位要为1），&amp;FFF为0 先用house of orange（这个网上讲的很好）将topchunk置为uns
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-23 16:59" pubdate>
+              2024-10-23
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/10/23/iscc-shopping/" target="_self">
+          
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/iscc-shopping/" target="_self">
+        <div>
+          iscc-shopping 主体的运行是这样的    自己输入的这个函数有漏动，read_by_me，可以溢出（这里第一次输入小于size，就可以再输入一次（这次仍然是一个小于size的数）  不断创建堆块，让块与thread2的arena相邻，通过写的溢出，填充thread2的areana，将fastbin的记录位置填充为bss的call的地址，下面是填充后的结果  将0x602038的位置填入
         </div>
       </a>
 
@@ -572,7 +572,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

