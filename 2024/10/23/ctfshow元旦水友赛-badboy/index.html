@@ -26,13 +26,13 @@
 <meta property="og:site_name" content="xyyr">
 <meta property="og:description" content="ctfshow元旦水友赛-badboy好久没打了，有人提到了，就看一看。 开了canary和nx保护，原本想着泄露canary，结果找不到泄露的方向。 kl点进去可以看到是6  可以循环两次，第一次泄露6个字节，第二次泄露3个字节。第一次泄露libc,第二次泄露栈。  地址分别相差0x18(24)和0x38(56)，fd8-eb0&#x3D;0x128(296) libc.sym查询不到__lib">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240225185144632-17088626220521-17088626249693.png">
-<meta property="og:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240225185750638.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410231746207.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410231746208.png">
 <meta property="article:published_time" content="2024-10-23T08:59:53.710Z">
-<meta property="article:modified_time" content="2024-10-23T09:46:13.175Z">
+<meta property="article:modified_time" content="2024-10-23T09:48:23.308Z">
 <meta property="article:author" content="xyyr">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="d:\%E5%88%B7%E9%A2%98wp\picture\image-20240225185144632-17088626220521-17088626249693.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410231746207.png">
   
   
   
@@ -306,9 +306,9 @@
                 <h4 id="ctfshow元旦水友赛-badboy"><a href="#ctfshow元旦水友赛-badboy" class="headerlink" title="ctfshow元旦水友赛-badboy"></a>ctfshow元旦水友赛-badboy</h4><p>好久没打了，有人提到了，就看一看。</p>
 <p>开了canary和nx保护，原本想着泄露canary，结果找不到泄露的方向。</p>
 <p>kl点进去可以看到是6</p>
-<p><img src="D:\刷题wp\picture\image-20240225185144632-17088626220521-17088626249693.png" srcset="/img/loading.gif" lazyload alt="image-20240225185144632"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410231746207.png" srcset="/img/loading.gif" lazyload alt="image-20240225185144632"></p>
 <p>可以循环两次，第一次泄露6个字节，第二次泄露3个字节。第一次泄露libc,第二次泄露栈。</p>
-<p><img src="D:\刷题wp\picture\image-20240225185750638.png" srcset="/img/loading.gif" lazyload alt="image-20240225185750638"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202410231746208.png" srcset="/img/loading.gif" lazyload alt="image-20240225185750638"></p>
 <p>地址分别相差0x18(24)和0x38(56)，fd8-eb0&#x3D;0x128(296)</p>
 <p>libc.sym查询不到__libc_start_call_main这个名字，直接手动查找相减找了偏移为0x1110+0x26000</p>
 <p>(至于为什么又加了一个，因为手动vmmap看libc载入地址的时候看错地方了，第一个才是载入地址，这里看成了第二个，所以多减了一次。)</p>
