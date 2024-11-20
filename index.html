@@ -244,6 +244,39 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/11/20/%E5%BA%94%E7%94%A8%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/" target="_self">
+          
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/20/%E5%BA%94%E7%94%A8%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/" target="_self">
+        <div>
+          应用密码学实验笔记密码学数学基础单元测试有限域运算 关于x-time的计算（有限域为GF($2^8$)）：  在AES 算法中定义 m(x) 多项式（不可约多项式）为： m(x)&#x3D;x8+x4+x3+x+1(十六进制的11B)  x-time(x)就是计算x&lt;&lt;1(相当于乘2)，如果移位前的最高位为1，就让移位后x取模m(x)一定要注意顺序。   123456789101112
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-11-20 15:37" pubdate>
+              2024-11-20
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/10/23/moe2024%E6%96%B0%E7%94%9F%E8%B5%9B--pwn%E7%AF%87/" target="_self">
           moe2024新生赛--pwn篇
         </a>
@@ -741,67 +774,6 @@
       <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/GuestBooK--pwn/" target="_self">
         <div>
           GuestBooK–pwn 先利用read与puts，填充掉canary的最后一位，把canary打印出来，用这种不一样的字符方便接收和检验 1payload = b&quot;A&quot;*(0x20-0x8-1)+b&quot;B&quot;+b&#x27;C&#x27;   然后需要利用strcpy输入两次，第一次把最后一位不对的canary以及后门函数地址输入进去，第二次把canary最
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-10-23 16:59" pubdate>
-              2024-10-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/pwn/">#pwn</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/10/23/ctfshow%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B-badboy/" target="_self">
-          ctfshow元旦水友赛-badboy
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/ctfshow%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B-badboy/" target="_self">
-        <div>
-          ctfshow元旦水友赛-badboy好久没打了，有人提到了，就看一看。 开了canary和nx保护，原本想着泄露canary，结果找不到泄露的方向。 kl点进去可以看到是6  可以循环两次，第一次泄露6个字节，第二次泄露3个字节。第一次泄露libc,第二次泄露栈。  地址分别相差0x18(24)和0x38(56)，fd8-eb0&#x3D;0x128(296) libc.sym查询不到__lib
         </div>
       </a>
 
