@@ -244,8 +244,69 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/11/22/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E8%AF%BE%E7%A8%8B%E9%9A%8F%E8%AE%B0/" target="_self">
+          逆向工程课程随记
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/22/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E8%AF%BE%E7%A8%8B%E9%9A%8F%E8%AE%B0/" target="_self">
+        <div>
+          关于PE文件（可移植的执行体） dll文件、exe文件都属于pe文件  虚拟地址中，32位的一页为4kB(0x1000)，64位的为8kb(0x2000)  物理扇区以512字节（0x200）为一个单位对齐，因此PE文件在内存中的尺寸要比文件大。  pe文件有固定的开始特征，MZ头与PE头总体PE结构      DOS头剩余的作用 在0x3c（地址固定）的位置处有一个B0,这个位置记录了PE头的偏
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-11-22 16:21" pubdate>
+              2024-11-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/re/" class="category-chain-item">re</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/re/">#re</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/11/20/%E5%BA%94%E7%94%A8%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/" target="_self">
-          2016 ZCTF note2--unlink
+          应用密码学实验笔记
         </a>
       </h2>
 
@@ -741,67 +802,6 @@
       <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/NewStatCTF--week3-pwn%20srop/" target="_self">
         <div>
           NewStatCTF–week3-pwn srop主函数只有一个输出，一个输入，存在栈溢出   存在syscall函数，没有适当的可以改rdx的别提ret2csu，太麻烦了  所以用srop（而且题目就叫srop) 先改了rbp，然后跳转到主函数的这里  1payload = b&#x27;A&#x27;*(0x30)+p64(bss_addr)+p64(main_addr)    可以往下不可以
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-10-23 16:59" pubdate>
-              2024-10-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/pwn/">#pwn</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/10/23/GuestBooK--pwn/" target="_self">
-          GuestBooK--pwn
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/GuestBooK--pwn/" target="_self">
-        <div>
-          GuestBooK–pwn 先利用read与puts，填充掉canary的最后一位，把canary打印出来，用这种不一样的字符方便接收和检验 1payload = b&quot;A&quot;*(0x20-0x8-1)+b&quot;B&quot;+b&#x27;C&#x27;   然后需要利用strcpy输入两次，第一次把最后一位不对的canary以及后门函数地址输入进去，第二次把canary最
         </div>
       </a>
 

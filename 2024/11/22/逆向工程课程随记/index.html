@@ -1,0 +1,772 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xyyr.png">
+  <link rel="icon" href="/img/xyyr.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="xyyr">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="关于PE文件（可移植的执行体） dll文件、exe文件都属于pe文件  虚拟地址中，32位的一页为4kB(0x1000)，64位的为8kb(0x2000)  物理扇区以512字节（0x200）为一个单位对齐，因此PE文件在内存中的尺寸要比文件大。  pe文件有固定的开始特征，MZ头与PE头总体PE结构      DOS头剩余的作用 在0x3c（地址固定）的位置处有一个B0,这个位置记录了PE头的偏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逆向工程课程随记">
+<meta property="og:url" content="https://xyyr-c.github.io/2024/11/22/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E8%AF%BE%E7%A8%8B%E9%9A%8F%E8%AE%B0/index.html">
+<meta property="og:site_name" content="xyyr">
+<meta property="og:description" content="关于PE文件（可移植的执行体） dll文件、exe文件都属于pe文件  虚拟地址中，32位的一页为4kB(0x1000)，64位的为8kb(0x2000)  物理扇区以512字节（0x200）为一个单位对齐，因此PE文件在内存中的尺寸要比文件大。  pe文件有固定的开始特征，MZ头与PE头总体PE结构      DOS头剩余的作用 在0x3c（地址固定）的位置处有一个B0,这个位置记录了PE头的偏">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/05687f47ba88ee3c24f23-490819d83b69f4a075.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/337d2154be36db04b1226-c1554555caac9282e9.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/4f2d4350c600b5707090c-0fc047828d4ce447a6.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/9dfe062a5725e58a16642-e6246b10a3176777e6.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/e04781a08522b7499be1f-af57634359bc57e01a.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/7b08ba63dc0d05a80ac17-ae5e01d8f3c441935c.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/2ccc2711ff25502c7fdf8-11aecff1fc2e98cc46.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/53f79f27649b4ac688e7c-84b19fe73346adb5f3.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/00c9d837318d97d1dfdbb-1369c0c24ec7a78eb2.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/272c0bace914b36cf2c5a-5aa15e4dd283aece62.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/baf9607264538e9c5c123-0cc3f94079041335dd.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/471d3c7eb08ee4589ea3e-2b4aec73d60a68f17e.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/33981b7951c298c2dd074-f4809e75905a0f9981.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/4de7f4157da87237910e0-a9d00aa7347a6a0316.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/d02852812b1aecb65ebc9-55bccd00cd3f8b6b5a.png">
+<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/b4f2d6d0f52e479099cd8-77ada638a5ecb57cf5.png">
+<meta property="article:published_time" content="2024-11-22T08:21:59.825Z">
+<meta property="article:modified_time" content="2024-11-24T12:31:09.002Z">
+<meta property="article:author" content="xyyr">
+<meta property="article:tag" content="re">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://telegraph-image-5jy.pages.dev/file/05687f47ba88ee3c24f23-490819d83b69f4a075.png">
+  
+  
+  
+  <title>逆向工程课程随记 - xyyr</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/links.css">
+<link rel="stylesheet" href="/css/scrollAnimation.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"xyyr-c.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>xyyr</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="逆向工程课程随记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-11-22 16:21" pubdate>
+          2024年11月22日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          520 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          5 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">逆向工程课程随记</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2024年11月24日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="关于PE文件（可移植的执行体）"><a href="#关于PE文件（可移植的执行体）" class="headerlink" title="关于PE文件（可移植的执行体）"></a>关于PE文件（可移植的执行体）</h2><ul>
+<li><p>dll文件、exe文件都属于pe文件</p>
+</li>
+<li><p>虚拟地址中，32位的一页为4kB(0x1000)，64位的为8kb(0x2000)</p>
+</li>
+<li><p>物理扇区以512字节（0x200）为一个单位对齐，因此PE文件在内存中的尺寸要比文件大。</p>
+</li>
+<li><p>pe文件有固定的开始特征，MZ头与PE头<br>总体PE结构</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/05687f47ba88ee3c24f23-490819d83b69f4a075.png" srcset="/img/loading.gif" lazyload alt="image-20241124185750324"></p>
+</li>
+<li><p><img src="https://telegraph-image-5jy.pages.dev/file/337d2154be36db04b1226-c1554555caac9282e9.png" srcset="/img/loading.gif" lazyload alt="image-20241124184342102"></p>
+</li>
+</ul>
+<h3 id="DOS头剩余的作用"><a href="#DOS头剩余的作用" class="headerlink" title="DOS头剩余的作用"></a>DOS头剩余的作用</h3><ul>
+<li>在0x3c（地址固定）的位置处有一个B0,这个位置记录了PE头的偏移位置。</li>
+</ul>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/4f2d4350c600b5707090c-0fc047828d4ce447a6.png" srcset="/img/loading.gif" lazyload alt="image-20241124183941912"></p>
+<h3 id="PE头标识以及标准PE头"><a href="#PE头标识以及标准PE头" class="headerlink" title="PE头标识以及标准PE头"></a>PE头标识以及标准PE头</h3><p><img src="https://telegraph-image-5jy.pages.dev/file/9dfe062a5725e58a16642-e6246b10a3176777e6.png" srcset="/img/loading.gif" lazyload alt="image-20241124190225209"></p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/e04781a08522b7499be1f-af57634359bc57e01a.png" srcset="/img/loading.gif" lazyload alt="image-20241124190256491"></p>
+<ul>
+<li>PE文件中自定义节的数量，在节表来描述节的信息，每个节的描述信息都固定40个字节。</li>
+<li>标志集合如果为0x2000就是dll</li>
+</ul>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/7b08ba63dc0d05a80ac17-ae5e01d8f3c441935c.png" srcset="/img/loading.gif" lazyload alt="image-20241124185228367"></p>
+<p>这个文件有5个节，如下：</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/2ccc2711ff25502c7fdf8-11aecff1fc2e98cc46.png" srcset="/img/loading.gif" lazyload alt="image-20241124185419557"></p>
+<h3 id="扩展PE头"><a href="#扩展PE头" class="headerlink" title="扩展PE头"></a>扩展PE头</h3><p>总体结构：</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/53f79f27649b4ac688e7c-84b19fe73346adb5f3.png" srcset="/img/loading.gif" lazyload alt="image-20241124191408697"></p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/00c9d837318d97d1dfdbb-1369c0c24ec7a78eb2.png" srcset="/img/loading.gif" lazyload alt="image-20241124191427964"></p>
+<p>数据示例：</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/272c0bace914b36cf2c5a-5aa15e4dd283aece62.png" srcset="/img/loading.gif" lazyload alt="image-20241124191023141"></p>
+<p>红框再往后，0x00001000,0x00000200，分别代表在内存和文件的对齐方式（对应32位）</p>
+<p>PE扩展头的最后一个字段是16个元素的数组，里面定义了PE文件中各种数据的目录信息，如导出表、导入表、资源等16种。</p>
+<h3 id="节表（每一节40字节，0x28）"><a href="#节表（每一节40字节，0x28）" class="headerlink" title="节表（每一节40字节，0x28）"></a>节表（每一节40字节，0x28）</h3><p><img src="https://telegraph-image-5jy.pages.dev/file/baf9607264538e9c5c123-0cc3f94079041335dd.png" srcset="/img/loading.gif" lazyload alt="image-20241124192304406"></p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/471d3c7eb08ee4589ea3e-2b4aec73d60a68f17e.png" srcset="/img/loading.gif" lazyload alt="image-20241124192402958"></p>
+<p>如这里是text节表</p>
+<p>0x1092代表实际字节数，0x1000是RVA，0x1200是对齐后的尺寸，0x0400是原始数据在文件中的数据，也就是最下面的红框。</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/33981b7951c298c2dd074-f4809e75905a0f9981.png" srcset="/img/loading.gif" lazyload alt="image-20241124192944192"></p>
+<h3 id="寻找kernel-32-dll的基地址"><a href="#寻找kernel-32-dll的基地址" class="headerlink" title="寻找kernel.32.dll的基地址"></a>寻找kernel.32.dll的基地址</h3><ol>
+<li><p>去除低两个字节的值，只保留高两个字节的高位地址，windows中32位程序的入口地址通常应该通常以7000 0000 H开始。如同linux中可执行文件，64位以7f开头，32位以ff开头。</p>
+</li>
+<li><p>不断寻找MZ与PE标志，如果找到MZ标志，就将它对应的地址+0x3c，把里面对应的地址加载到找到MZ时的基地址中，比对是否为PE，如果是，则代表这是真正的入口地址。</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/4de7f4157da87237910e0-a9d00aa7347a6a0316.png" srcset="/img/loading.gif" lazyload alt="image-20241124193742932"></p>
+<p>总程序</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/d02852812b1aecb65ebc9-55bccd00cd3f8b6b5a.png" srcset="/img/loading.gif" lazyload alt="image-20241124202458642"></p>
+<p>jb代表进位或借位信号</p>
+<p>大于的话，CF标志（借位）为0，不会进行跳转。</p>
+<p>流程图（这是老师留的作业，不理解的自己跟着画一遍，别直接截走)：</p>
+<p><img src="https://telegraph-image-5jy.pages.dev/file/b4f2d6d0f52e479099cd8-77ada638a5ecb57cf5.png" srcset="/img/loading.gif" lazyload alt="image-20241124202241012"></p>
+</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/re/" class="category-chain-item">re</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/re/" class="print-no-link">#re</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>逆向工程课程随记</div>
+      <div>https://xyyr-c.github.io/2024/11/22/逆向工程课程随记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>xyyr</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年11月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/11/20/%E5%BA%94%E7%94%A8%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/" title="应用密码学实验笔记">
+                        <span class="hidden-mobile">应用密码学实验笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://twikoo-3vqs-8mznoews9-xyyrs-projects.vercel.app/","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/scrollAnimation.js"></script>
+<script src="/js/particle.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/22.2017.cba-normal.model.json"},"display":{"position":"left","width":300,"height":600,"hOffset":-60,"vOffset":-150},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
