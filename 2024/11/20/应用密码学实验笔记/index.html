@@ -27,10 +27,10 @@
 <meta property="og:description" content="应用密码学实验笔记密码学数学基础单元测试有限域运算 关于x-time的计算（有限域为GF($2^8$)）：  在AES 算法中定义 m(x) 多项式（不可约多项式）为： m(x)&#x3D;x8+x4+x3+x+1(十六进制的11B)  x-time(x)就是计算x&lt;&lt;1(相当于乘2)，如果移位前的最高位为1，就让移位后x取模m(x)一定要注意顺序。   123456789101112">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411042117617.png">
-<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/d7132746a42c47253cbc8-09f30de6ad9bf82fb6.png">
-<meta property="og:image" content="https://telegraph-image-5jy.pages.dev/file/6654ba71e4d8259d74cc6-79e1456f7bb47b80d2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261609371.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261609777.png">
 <meta property="article:published_time" content="2024-11-20T07:37:27.156Z">
-<meta property="article:modified_time" content="2024-11-22T03:32:49.179Z">
+<meta property="article:modified_time" content="2024-11-26T08:09:54.801Z">
 <meta property="article:author" content="xyyr">
 <meta property="article:tag" content="AES">
 <meta name="twitter:card" content="summary_large_image">
@@ -297,7 +297,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2024年11月22日 中午
+                    本文最后更新于 2024年11月26日 下午
                   
                 
               </p>
@@ -368,14 +368,14 @@
 <h2 id="python手搓AES-128"><a href="#python手搓AES-128" class="headerlink" title="python手搓AES-128"></a>python手搓AES-128</h2><p>AES需要的步骤：扩展密钥，及10轮操作。前九轮操作为轮密钥加、字节代替、行移位、列混淆。最后一轮没有列混淆。</p>
 <h3 id="密钥扩展"><a href="#密钥扩展" class="headerlink" title="密钥扩展"></a>密钥扩展</h3><p>​	4个字（16字节）的密钥扩展为44个字的密钥。</p>
 <p>​	以下是伪代码（来自密码编码学域网络安全-原理与实践（第八版））</p>
-<p><img src="https://telegraph-image-5jy.pages.dev/file/d7132746a42c47253cbc8-09f30de6ad9bf82fb6.png" srcset="/img/loading.gif" lazyload alt="image-20241120170318310"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261609371.png" srcset="/img/loading.gif" lazyload alt="image-20241120170318310"></p>
 <p>​	其中，subword是s盒变换，RotWord是行循环左移1位，Rcon是轮常量，Rcon[j] &#x3D; [Rc[j],0,0,0]。RC[j]的初始值为1，后续是前一项乘2（注意，这里的乘法都是有限域上的乘法）</p>
 <p>​	注意，这里需要将输入的密钥以ascii码存储，用二维列表w[44] [4]来存储它们</p>
 <ul>
 <li>进行字符串的转化时的问题：</li>
 </ul>
 <p>​	当字节型数据与字符混合在一个字符串中时，单独提取的一个数据会被转化为整数，即字节型数据单独提取时会化为整数。</p>
-<p><img src="https://telegraph-image-5jy.pages.dev/file/6654ba71e4d8259d74cc6-79e1456f7bb47b80d2.png" srcset="/img/loading.gif" lazyload alt="image-20241120193742293"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261609777.png" srcset="/img/loading.gif" lazyload alt="image-20241120193742293"></p>
 <ul>
 <li><p>注意，RC在数组中时从0开始的，书上时从1开始的，调用数组时要减1</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs rust">temp = [<span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">Sbox</span>(a ^ b) <span class="hljs-keyword">for</span> <span class="hljs-title class_">a</span>, b <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">zip</span>(<span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">Rotword</span>(temp), [<span class="hljs-keyword">self</span>.RC[i <span class="hljs-comment">// 4 - 1], 0, 0, 0])]</span><br></code></pre></td></tr></table></figure>
