@@ -32,6 +32,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261610652.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261613676.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261612919.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412021546367.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412021552705.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412021546710.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412021626763.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261612671.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261602388.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261601122.png">
@@ -41,8 +45,16 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261557350.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261556685.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261623966.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271159298.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271345541.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271357103.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271401394.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271404208.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412041116466.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412041104805.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412041110986.png">
 <meta property="article:published_time" content="2024-11-22T08:21:59.825Z">
-<meta property="article:modified_time" content="2024-11-26T08:26:03.833Z">
+<meta property="article:modified_time" content="2024-12-04T06:29:51.972Z">
 <meta property="article:author" content="xyyr">
 <meta property="article:tag" content="re">
 <meta name="twitter:card" content="summary_large_image">
@@ -256,7 +268,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          626 字
+          1.5k 字
         
       </span>
     
@@ -267,7 +279,7 @@
         
         
         
-          6 分钟
+          13 分钟
         
       </span>
     
@@ -309,7 +321,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2024年11月26日 下午
+                    本文最后更新于 2024年12月4日 下午
                   
                 
               </p>
@@ -341,9 +353,122 @@
 <p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261613676.png" srcset="/img/loading.gif" lazyload alt="image-20241124190256491"></p>
 <ul>
 <li>PE文件中自定义节的数量，在节表来描述节的信息，每个节的描述信息都固定40个字节。</li>
-<li>标志集合如果为0x2000就是dll</li>
+<li>标志集合如果为0x2000就是dll（这是从网上搜到有人回复的，但是存疑）（网上是对的标志位）</li>
 </ul>
 <p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261612919.png" srcset="/img/loading.gif" lazyload alt="image-20241124185228367"></p>
+<p>这是询问的gpt关于这个标志集合的解释（gpt有误，还好去问了问官方文档，下面这个是错的哦）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412021546367.png" srcset="/img/loading.gif" lazyload alt="image-20241202154606214"></p>
+<p>官方文档给出的表格：</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412021552705.png" srcset="/img/loading.gif" lazyload alt="image-20241202155211599"></p>
+<p>这是一个dll文件对应的标志（？？？？？）<br><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412021546710.png" srcset="/img/loading.gif" lazyload alt="image-20241202154647636"></p>
+<p>问了老师。。。小端序去读：0x210e</p>
+<p>老师建议用pe editor去看</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412021626763.png" srcset="/img/loading.gif" lazyload alt="image-20241202162152492"></p>
+<p>pe文件可能的类型：</p>
+<p>在 PE 文件格式中，根据用途和特性，主要可以分为以下几种类型：</p>
+<hr>
+<ol>
+<li><strong>可执行文件（Executable, EXE）</strong></li>
+</ol>
+<ul>
+<li>特点：<ul>
+<li>包含程序入口点（Entry Point）。</li>
+<li>可直接加载到内存中由操作系统运行。</li>
+<li>通过链接器将目标文件链接生成。</li>
+</ul>
+</li>
+<li><strong>典型扩展名</strong>：<code>.exe</code></li>
+<li>用途：<ul>
+<li>普通的 Windows 应用程序。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ol start="2">
+<li><strong>动态链接库（Dynamic Link Library, DLL）</strong></li>
+</ol>
+<ul>
+<li>特点：<ul>
+<li>没有程序入口点，不能独立执行。</li>
+<li>提供函数和资源供其他程序调用。</li>
+<li>支持多进程共享代码和数据。</li>
+</ul>
+</li>
+<li><strong>典型扩展名</strong>：<code>.dll</code></li>
+<li>用途：<ul>
+<li>系统和应用程序的共享库（如 <code>kernel32.dll</code>, <code>user32.dll</code>）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ol start="3">
+<li><strong>系统文件（System File, SYS）</strong></li>
+</ol>
+<ul>
+<li>特点：<ul>
+<li>用于操作系统的内核模式。</li>
+<li>通常是设备驱动程序或系统服务的实现。</li>
+<li>加载时需要内核的帮助。</li>
+</ul>
+</li>
+<li><strong>典型扩展名</strong>：<code>.sys</code></li>
+<li>用途：<ul>
+<li>Windows 内核模块或驱动程序。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ol start="4">
+<li><strong>对象文件（Object File, OBJ）</strong></li>
+</ol>
+<ul>
+<li>特点：<ul>
+<li>是编译器生成的中间文件。</li>
+<li>由链接器处理后生成最终的可执行文件或库。</li>
+<li>包含代码和数据的片段以及重定位信息。</li>
+</ul>
+</li>
+<li><strong>典型扩展名</strong>：<code>.obj</code></li>
+<li>用途：<ul>
+<li>静态库或最终程序的构建过程。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ol start="5">
+<li><strong>静态库（Static Library, LIB）</strong></li>
+</ol>
+<ul>
+<li>特点：<ul>
+<li>包含多个目标文件的集合。</li>
+<li>链接到最终的可执行文件中。</li>
+<li>不需要在运行时单独加载。</li>
+</ul>
+</li>
+<li><strong>典型扩展名</strong>：<code>.lib</code></li>
+<li>用途：<ul>
+<li>提供代码重用功能的静态模块。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ol start="6">
+<li><strong>引导程序文件（Boot File）</strong></li>
+</ol>
+<ul>
+<li>特点：<ul>
+<li>用于操作系统引导阶段。</li>
+<li>一些特定情况下被解释为 PE 文件。</li>
+</ul>
+</li>
+<li><strong>典型扩展名</strong>：无固定扩展名（如 <code>bootmgr</code>）。</li>
+<li>用途：<ul>
+<li>系统启动相关。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>这些类型文件的基础格式是相同的，但具体的标志、段结构和用途有所不同。了解这些类型有助于分析不同的 PE 文件及其作用。</p>
 <p>这个文件有5个节，如下：</p>
 <p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261612671.png" srcset="/img/loading.gif" lazyload alt="image-20241124185419557"></p>
 <h3 id="扩展PE头"><a href="#扩展PE头" class="headerlink" title="扩展PE头"></a>扩展PE头</h3><p>总体结构：</p>
@@ -370,6 +495,36 @@
 <p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261623966.png" srcset="/img/loading.gif" lazyload alt="image-20241124202241012"></p>
 </li>
 </ol>
+<h3 id="关于导入表"><a href="#关于导入表" class="headerlink" title="关于导入表"></a>关于导入表</h3><p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271159298.png" srcset="/img/loading.gif" lazyload alt="image-20241127115909912"></p>
+<p> PE位置+0x78是16个表项的序列信息。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271345541.png" srcset="/img/loading.gif" lazyload alt="image-20241127134544447"></p>
+<blockquote>
+<p><strong>该字段定义了</strong> <strong>PE</strong> <strong>文件中出现的所有不同类型的数据的目录信息。如导出表、导入表、资源等。</strong> <strong>16种</strong></p>
+<p>8个字节记录一个目录，0x00002010是虚拟偏移，0x0000003c（60）是长度</p>
+</blockquote>
+<ul>
+<li>该偏移位于.rdata段，物理对应的起始为0x600,文件中的导入表就是0x610位置</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271357103.png" srcset="/img/loading.gif" lazyload alt="image-20241127135747068"></p>
+<ul>
+<li>每个导入表的表项有0x14字节（20字节），这里涉及到了两个导入的函数，2个表项，40字节，<u><em><strong>但是需要最后一个表项用全0表示终止，所以总共用了3个表项，60字节。</strong></em></u></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271401394.png" srcset="/img/loading.gif" lazyload alt="image-20241127140106324"></p>
+<p>以下分别是桥1，指向链接库的指针，桥2</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271404208.png" srcset="/img/loading.gif" lazyload alt="image-20241127140420154"></p>
+<p>桥一虚拟偏移2008，文件偏移608</p>
+<h3 id="导出表"><a href="#导出表" class="headerlink" title="导出表"></a>导出表</h3><p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412041116466.png" srcset="/img/loading.gif" lazyload alt="image-20241204111650355"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412041104805.png" srcset="/img/loading.gif" lazyload alt="image-20241204110407587"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412041110986.png" srcset="/img/loading.gif" lazyload alt="image-20241204111019820"></p>
+<p>节对应rva2000-&gt;foa800</p>
+<blockquote>
+<p>nName 94c-&gt;2190—-990-&gt; “winresult.dll”</p>
+<p>nBase  950-&gt;01(这是起始序号，函数编号-起始序号就是索引号)</p>
+<p>Address of functions 95c-&gt;2168—-968 -&gt;数组（1083、1022逐个的RVA偏移）</p>
+<p>Address of Names    960-&gt;2178—-978 -&gt;数组（219E（99E-&gt;函数名字）、21AB）（对应相加）</p>
+<p>Address of NameOrdinals 964-&gt;2188—988-&gt;数组（0000、0001、0002、0003）（这是索引号）</p>
+<p>也可以得知函数序号分别为1、2、3、4.</p>
+</blockquote>
 
                 
               </div>
