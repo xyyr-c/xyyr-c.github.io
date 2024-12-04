@@ -50,11 +50,15 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271357103.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271401394.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271404208.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412042133640.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412042119046.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412042123001.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412042214967.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412041116466.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412041104805.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412041110986.png">
 <meta property="article:published_time" content="2024-11-22T08:21:59.825Z">
-<meta property="article:modified_time" content="2024-12-04T06:29:51.972Z">
+<meta property="article:modified_time" content="2024-12-04T14:16:55.961Z">
 <meta property="article:author" content="xyyr">
 <meta property="article:tag" content="re">
 <meta name="twitter:card" content="summary_large_image">
@@ -268,7 +272,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          1.7k 字
         
       </span>
     
@@ -279,7 +283,7 @@
         
         
         
-          13 分钟
+          14 分钟
         
       </span>
     
@@ -321,7 +325,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2024年12月4日 下午
+                    本文最后更新于 2024年12月4日 晚上
                   
                 
               </p>
@@ -503,7 +507,7 @@
 <p>8个字节记录一个目录，0x00002010是虚拟偏移，0x0000003c（60）是长度</p>
 </blockquote>
 <ul>
-<li>该偏移位于.rdata段，物理对应的起始为0x600,文件中的导入表就是0x610位置</li>
+<li>该偏移位于.rdata段，物理对应的起始为0x600,文件中的导入表目录就是0x610位置</li>
 </ul>
 <p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271357103.png" srcset="/img/loading.gif" lazyload alt="image-20241127135747068"></p>
 <ul>
@@ -513,6 +517,19 @@
 <p>以下分别是桥1，指向链接库的指针，桥2</p>
 <p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411271404208.png" srcset="/img/loading.gif" lazyload alt="image-20241127140420154"></p>
 <p>桥一虚拟偏移2008，文件偏移608</p>
+<p>桥1指向的内容静态与动态都是一个指向索引+字符串的地址</p>
+<p>桥2静态与桥1指向一致，动态则指向是一个指向载入的函数的地址。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412042133640.png" srcset="/img/loading.gif" lazyload alt="image-20241204213358524"></p>
+<p>由于实验让画静态与动态关于winresult.dll相关信息，不再重复上面的那个文件的课上内容，下面用实验的要求的文件进行分析。</p>
+<p>导入表2080，对应于文件的684</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412042119046.png" srcset="/img/loading.gif" lazyload alt="image-20241204211727567"></p>
+<p>这4个框是导入的3个dll库和一个终止标志</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412042123001.png" srcset="/img/loading.gif" lazyload alt="image-20241204212340887"></p>
+<ul>
+<li>桥1里hint的值是索引值</li>
+</ul>
+<p>第三个框，dll库地址为227a(87a)-&gt;winresult.dll，是需要分析的库</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412042214967.png" srcset="/img/loading.gif" lazyload alt="image-20241204221437843"></p>
 <h3 id="导出表"><a href="#导出表" class="headerlink" title="导出表"></a>导出表</h3><p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412041116466.png" srcset="/img/loading.gif" lazyload alt="image-20241204111650355"></p>
 <p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412041104805.png" srcset="/img/loading.gif" lazyload alt="image-20241204110407587"></p>
 <p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412041110986.png" srcset="/img/loading.gif" lazyload alt="image-20241204111019820"></p>
@@ -523,7 +540,7 @@
 <p>Address of functions 95c-&gt;2168—-968 -&gt;数组（1083、1022逐个的RVA偏移）</p>
 <p>Address of Names    960-&gt;2178—-978 -&gt;数组（219E（99E-&gt;函数名字）、21AB）（对应相加）</p>
 <p>Address of NameOrdinals 964-&gt;2188—988-&gt;数组（0000、0001、0002、0003）（这是索引号）</p>
-<p>也可以得知函数序号分别为1、2、3、4.</p>
+<p>也可以得知函数编号分别为1、2、3、4.（第一张图的index就是函数编号）</p>
 </blockquote>
 
                 
