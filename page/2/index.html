@@ -244,6 +244,67 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/10/23/NewStatCTF--week3-pwn%20srop/" target="_self">
+          NewStatCTF--week3-pwn srop
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/NewStatCTF--week3-pwn%20srop/" target="_self">
+        <div>
+          NewStatCTF–week3-pwn srop主函数只有一个输出，一个输入，存在栈溢出   存在syscall函数，没有适当的可以改rdx的别提ret2csu，太麻烦了  所以用srop（而且题目就叫srop) 先改了rbp，然后跳转到主函数的这里  1payload = b&#x27;A&#x27;*(0x30)+p64(bss_addr)+p64(main_addr)    可以往下不可以
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-23 16:59" pubdate>
+              2024-10-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/pwn/">#pwn</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/10/23/GuestBooK--pwn/" target="_self">
           GuestBooK--pwn
         </a>
@@ -741,67 +802,6 @@
       <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E9%99%90%E5%88%B67%E5%AD%97%E8%8A%82%E5%86%99%E5%85%A5%E6%89%A7%E8%A1%8C%E7%9A%84orw/" target="_self">
         <div>
           限制7字节写入执行的orw  buf处直接执行机器码，向其中写入read，然后再往下orw即可。这里注意，如果添加太多值就会导致超了7，所以能简洁尽量简洁。尽可能用原有的寄存器，本来想写入到buf+一段空间，但是还有对空间进行计算，所以直接往buf写，用nop填充滑下去就好。 另：温习asm转化汇编为机器码的格式。  exp: 12345678910111213141516171819202122
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-10-23 16:59" pubdate>
-              2024-10-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/pwn/">#pwn</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/10/23/iscc-U/" target="_self">
-          iscc-U
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/iscc-U/" target="_self">
-        <div>
-          iscc-U一道特殊的uaf，高版本，没开pie，特殊的打印机制。 警告：极其混乱，掺杂着无数次歪路  由于没有libc文件，不知道libc版本，没用unsotedbin泄露，不知道该减多少。  打印函数：  创建函数：  删除函数：   先创三个堆看看notelist的储存形式：    关于c语言：notelist本身指代的是这个空间指向的数据。例如int notelist &#x3D; aaa
         </div>
       </a>
 
