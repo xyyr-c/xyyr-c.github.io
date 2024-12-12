@@ -244,6 +244,67 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/10/23/%E9%99%90%E5%88%B67%E5%AD%97%E8%8A%82%E5%86%99%E5%85%A5%E6%89%A7%E8%A1%8C%E7%9A%84orw/" target="_self">
+          限制7字节写入执行的orw
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E9%99%90%E5%88%B67%E5%AD%97%E8%8A%82%E5%86%99%E5%85%A5%E6%89%A7%E8%A1%8C%E7%9A%84orw/" target="_self">
+        <div>
+          限制7字节写入执行的orw  buf处直接执行机器码，向其中写入read，然后再往下orw即可。这里注意，如果添加太多值就会导致超了7，所以能简洁尽量简洁。尽可能用原有的寄存器，本来想写入到buf+一段空间，但是还有对空间进行计算，所以直接往buf写，用nop填充滑下去就好。 另：温习asm转化汇编为机器码的格式。  exp: 12345678910111213141516171819202122
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-23 16:59" pubdate>
+              2024-10-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/pwn/">#pwn</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/10/23/iscc-U/" target="_self">
           iscc-U
         </a>
