@@ -43,7 +43,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412131618820.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412211611022.png">
 <meta property="article:published_time" content="2024-12-12T15:05:26.103Z">
-<meta property="article:modified_time" content="2024-12-21T11:10:17.255Z">
+<meta property="article:modified_time" content="2024-12-21T11:25:35.732Z">
 <meta property="article:author" content="xyyr">
 <meta property="article:tag" content="web">
 <meta name="twitter:card" content="summary_large_image">
@@ -257,7 +257,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.1k 字
+          7.2k 字
         
       </span>
     
@@ -268,7 +268,7 @@
         
         
         
-          59 分钟
+          60 分钟
         
       </span>
     
@@ -1144,6 +1144,10 @@ js
 <p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412211611022.png" srcset="/img/loading.gif" lazyload alt="image-20241221160937147"></p>
 <p>代码：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs vue">   &lt;el-upload<br>     class=&quot;upload-demo&quot;<br>     drag<br>     action=&quot;&quot;<br>     :http-request=&quot;upload_cer&quot;<br>     accept=&quot;.cer&quot;<br>     name=&quot;cer&quot;<br>     ref = &quot;file_list&quot;<br>     :auto-upload=&quot;true&quot;<br>     :limit= &quot;1&quot;<br>   &gt;<br>   const file_list = ref([])   <br>file_list.value.clearFiles()<br></code></pre></td></tr></table></figure>
+
+<h3 id="证书卡片吊销后视图不立刻更新"><a href="#证书卡片吊销后视图不立刻更新" class="headerlink" title="证书卡片吊销后视图不立刻更新"></a>证书卡片吊销后视图不立刻更新</h3><p>在调用吊销函数时，直接将存储这些信息的数组中删掉该对象，vue视图会重新渲染。</p>
+<p>由于 <code>certs</code> 是响应式的，重新赋值 <code>certs.value</code> 会触发视图更新，导致 DOM 中移除已吊销证书的卡片。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vue">certs.value = certs.value.filter(cert =&gt; cert.id !== cert_id)<br></code></pre></td></tr></table></figure>
 
 
                 
