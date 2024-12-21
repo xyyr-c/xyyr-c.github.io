@@ -19,20 +19,20 @@
   <meta name="author" content="xyyr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="flask+vue前后端分离学习 预期效果：使用flask+vue实现前后端分离 零基础速学 一周完成小组任务  Ok just do it 目前参考文章 neverlesslai&#x2F;SimpleCAWEB: 简易CA系统的WEB端  大型实验周的作品，实现了一个包含X.509证书的申请，审核，撤销等功能的简单CA系统 【2024最新版】3小时学会Vue3，小白零基础视频教程，web前端快">
+    <meta name="description" content="flask+vue前后端分离学习 预期效果：使用flask+vue实现前后端分离 零基础速学 一周完成小组任务  Ok just do it  最终：实际5天多一点完成，感谢大佬发出来的建议CA的web端的参考  目前参考文章 neverlesslai&#x2F;SimpleCAWEB: 简易CA系统的WEB端  大型实验周的作品，实现了一个包含X.509证书的申请，审核，撤销等功能的简单CA系统">
 <meta property="og:type" content="article">
 <meta property="og:title" content="flask+vue前后端分离学习">
 <meta property="og:url" content="https://xyyr-c.github.io/2024/12/12/flask+vue%E5%89%8D%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="xyyr">
-<meta property="og:description" content="flask+vue前后端分离学习 预期效果：使用flask+vue实现前后端分离 零基础速学 一周完成小组任务  Ok just do it 目前参考文章 neverlesslai&#x2F;SimpleCAWEB: 简易CA系统的WEB端  大型实验周的作品，实现了一个包含X.509证书的申请，审核，撤销等功能的简单CA系统 【2024最新版】3小时学会Vue3，小白零基础视频教程，web前端快">
+<meta property="og:description" content="flask+vue前后端分离学习 预期效果：使用flask+vue实现前后端分离 零基础速学 一周完成小组任务  Ok just do it  最终：实际5天多一点完成，感谢大佬发出来的建议CA的web端的参考  目前参考文章 neverlesslai&#x2F;SimpleCAWEB: 简易CA系统的WEB端  大型实验周的作品，实现了一个包含X.509证书的申请，审核，撤销等功能的简单CA系统">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://xyyr-c.github.io/2024/12/12/flask+vue%E5%89%8D%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/web.img">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412131332940.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412131335600.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412131335682.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412131401459.png">
-<meta property="og:image" content="c:/Users/czy/AppData/Roaming/Typora/typora-user-images/image-20241213135700476.png">
-<meta property="og:image" content="c:/Users/czy/AppData/Roaming/Typora/typora-user-images/image-20241213135713295.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212004324.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212004325.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412131401488.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412131401449.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412131401553.png">
@@ -42,8 +42,17 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412131618923.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412131618820.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412211611022.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412211955934.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412211955648.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412211957825.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412211958480.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212000695.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212000744.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212001206.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212002962.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212004286.png">
 <meta property="article:published_time" content="2024-12-12T15:05:26.103Z">
-<meta property="article:modified_time" content="2024-12-21T11:25:35.732Z">
+<meta property="article:modified_time" content="2024-12-21T12:15:48.249Z">
 <meta property="article:author" content="xyyr">
 <meta property="article:tag" content="web">
 <meta name="twitter:card" content="summary_large_image">
@@ -257,7 +266,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.2k 字
+          7.5k 字
         
       </span>
     
@@ -268,7 +277,7 @@
         
         
         
-          60 分钟
+          63 分钟
         
       </span>
     
@@ -324,6 +333,9 @@
 <li>一周完成小组任务</li>
 </ul>
 <p>Ok just do it</p>
+<blockquote>
+<p>最终：实际5天多一点完成，感谢大佬发出来的建议CA的web端的参考</p>
+</blockquote>
 <p>目前参考文章</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/neverlesslai/SimpleCAWEB">neverlesslai&#x2F;SimpleCAWEB: 简易CA系统的WEB端</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/520MianXiangDuiXiang520/SimpleCA?tab=readme-ov-file"> 大型实验周的作品，实现了一个包含X.509证书的申请，审核，撤销等功能的简单CA系统</a></p>
@@ -1092,8 +1104,8 @@ js
 <h4 id="第六个例子，app5-py-封装为表格返回"><a href="#第六个例子，app5-py-封装为表格返回" class="headerlink" title="第六个例子，app5.py(封装为表格返回)"></a>第六个例子，app5.py(封装为表格返回)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask , render_template, request<br><span class="hljs-keyword">from</span> werkzeug.wrappers.response <span class="hljs-keyword">import</span> ResponseStream<br><br>app = Flask(__name__)<br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/&#x27;</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">stufent</span>():<br>    <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;student.html&#x27;</span>)<br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/result&#x27;</span>,methods=[<span class="hljs-string">&#x27;POST&#x27;</span>,<span class="hljs-string">&#x27;GET&#x27;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">result</span>():<br>    <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;POST&#x27;</span>:<br>        result = request.form<br>        <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&quot;result.html&quot;</span>, result=result)<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    app.run(debug=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
 
 <h4 id="7-app6-py-url重定向与错误）"><a href="#7-app6-py-url重定向与错误）" class="headerlink" title="7. app6.py(url重定向与错误）"></a>7. app6.py(url重定向与错误）</h4><p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412131401459.png" srcset="/img/loading.gif" lazyload alt="image-20241213135603758"></p>
-<p><img src="C:/Users/czy/AppData/Roaming/Typora/typora-user-images/image-20241213135700476.png" srcset="/img/loading.gif" lazyload alt="image-20241213135700476"></p>
-<p><img src="C:/Users/czy/AppData/Roaming/Typora/typora-user-images/image-20241213135713295.png" srcset="/img/loading.gif" lazyload alt="image-20241213135713295"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212004324.png" srcset="/img/loading.gif" lazyload alt="image-20241213135700476"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212004325.png" srcset="/img/loading.gif" lazyload alt="image-20241213135713295"></p>
 <h3 id="高级知识"><a href="#高级知识" class="headerlink" title="高级知识"></a>高级知识</h3><ul>
 <li>cookies及会话</li>
 <li>消息闪现</li>
@@ -1123,7 +1135,7 @@ js
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;script type=&quot;module&quot;&gt;<br>        import &#123; createApp, reactive &#125; from &#x27;./js/vue.esm-browser.js&#x27;<br><br>        createApp(&#123;<br>            setup() &#123;<br>                const data = reactive(&#123;<br>                    type: &quot;0&quot;, //搜索类型<br>                    content: &quot;&quot;, //搜索内容<br>                    list: [],<br>                &#125;)<br><br>                //搜索<br>                const search = () =&gt; &#123;<br>                    //console.log(data.content)<br>                    data.list = [] //清空<br><br>                    if (data.type == &quot;1&quot;) &#123;<br>                        let id = data.content //参数<br><br>                        //get请求<br>                        axios.get(`http://127.0.0.1/article/get/id/$&#123;id&#125;`).then(response =&gt; &#123;<br>                            console.log(&quot;get.data:&quot;, response.data)<br><br>                            if(response.data.status == &quot;success&quot;)&#123;<br>                                if(response.data.data)&#123;<br>                                    data.list.push(response.data.data) //push 向数组末尾添加一个或多个元素<br>                                &#125;<br>                            &#125;<br>                        &#125;).catch(error =&gt; &#123;<br>                            console.log(&quot;get.error:&quot;, error)<br>                        &#125;)<br>                    &#125; else if (data.type == &quot;2&quot;) &#123;<br>                        //参数<br>                        let param  = &#123;<br>                            title: data.content<br>                        &#125;<br><br>                        //post请求 [axios post的默认请求头是 application/json]<br>                        axios.post(&#x27;http://127.0.0.1:5000/article/postJson/search&#x27;, param).then(response =&gt; &#123;<br>                            console.log(&quot;postJson.data:&quot;, response.data)<br><br>                            if(response.data.status == &quot;success&quot;)&#123;<br>                                for(let i=0; i&lt;response.data.data.length; i++)&#123;<br>                                    data.list.push(response.data.data[i]) //push 向数组末尾添加一个或多个元素<br>                                &#125;<br>                            &#125;<br>                        &#125;).catch(error =&gt; &#123;<br>                            console.log(&quot;postJson.error:&quot;, error)<br>                        &#125;)<br>                    &#125;<br>                &#125;<br><br>                return &#123;<br>                    data,<br>                    search<br>                &#125;<br>            &#125;<br>        &#125;).mount(&quot;#app&quot;)<br>    &lt;/script&gt;<br></code></pre></td></tr></table></figure>
 
 <p>效果：后端用request接收前端传递的数据，前端用axios接收对应的数据。</p>
-<h2 id="中途遇到过的困难"><a href="#中途遇到过的困难" class="headerlink" title="中途遇到过的困难"></a>中途遇到过的困难</h2><h3 id="刷新后定位异常的问题"><a href="#刷新后定位异常的问题" class="headerlink" title="刷新后定位异常的问题"></a>刷新后定位异常的问题</h3><p>路由配置的index.ts中，将路由形式改为webhash</p>
+<h2 id="前端中途遇到过的困难"><a href="#前端中途遇到过的困难" class="headerlink" title="前端中途遇到过的困难"></a>前端中途遇到过的困难</h2><h3 id="刷新后定位异常的问题"><a href="#刷新后定位异常的问题" class="headerlink" title="刷新后定位异常的问题"></a>刷新后定位异常的问题</h3><p>路由配置的index.ts中，将路由形式改为webhash</p>
 <h3 id="前端用户验证问题："><a href="#前端用户验证问题：" class="headerlink" title="前端用户验证问题："></a>前端用户验证问题：</h3><p>用sessionStorage在登录成功时存储，登出时退出，每个功能调用前先验证会话信息。</p>
 <p>涉及用法：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs vue">sessionStorage.setItem(&quot;username&quot;, username.value)<br>sessionStorage.clear()<br></code></pre></td></tr></table></figure>
@@ -1149,6 +1161,37 @@ js
 <p>由于 <code>certs</code> 是响应式的，重新赋值 <code>certs.value</code> 会触发视图更新，导致 DOM 中移除已吊销证书的卡片。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vue">certs.value = certs.value.filter(cert =&gt; cert.id !== cert_id)<br></code></pre></td></tr></table></figure>
 
+<h2 id="功能展示"><a href="#功能展示" class="headerlink" title="功能展示"></a>功能展示</h2><ol>
+<li>登录</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412211955934.png" srcset="/img/loading.gif" lazyload alt="image-20241221194808117"></p>
+<ol start="2">
+<li>注册</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412211955648.png" srcset="/img/loading.gif" lazyload alt="image-20241221195541389"></p>
+<ol start="3">
+<li>csr信息填写</li>
+</ol>
+<p>  基础信息的填写，可以选择上传csr文件，也可以直接填写，只有域名是必填项，不填时会出现警告；国家要求两位英文字母，电子邮件要求是邮件格式，否则会有提示。</p>
+<p>  <img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412211957825.png" srcset="/img/loading.gif" lazyload alt="image-20241221195623989"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412211958480.png" srcset="/img/loading.gif" lazyload alt="image-20241221195858410"></p>
+<ol start="4">
+<li><p>公钥上传，可以点击自动生成，右侧会自动显示生成的公钥，也可以将自己的公钥复制过去，点手动提交<br><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212000695.png" srcset="/img/loading.gif" lazyload alt="image-20241221200002641"></p>
+</li>
+<li><p>提交完成后，点击下载证书，可以直接下载文件</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212000744.png" srcset="/img/loading.gif" lazyload alt="image-20241221200030676"></p>
+</li>
+<li><p>查询CA证书，查询自己所有生效的CA，可以选择下载，也可以点击吊销使证书失效。<br><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212001206.png" srcset="/img/loading.gif" lazyload alt="image-20241221200118141"></p>
+</li>
+<li><p>验证CA证书，将文件上传后，会弹出提示消息<br><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212002962.png" srcset="/img/loading.gif" lazyload alt="image-20241221200201882"></p>
+</li>
+<li><p>退出登录 ：点击退出登录后直接退出</p>
+</li>
+<li><p>前端有本地会话验证用户信息，后端有session验证信息，二者分离验证，保证只有登录的用户才能正常使用，如果直接通过页面跳转进来，会弹出提示消息，点击后返回到登录页面</p>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412212004286.png" srcset="/img/loading.gif" lazyload alt="image-20241221200402251"></p>
+<p>​    </p>
 
                 
               </div>
