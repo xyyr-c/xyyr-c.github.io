@@ -19,13 +19,15 @@
   <meta name="author" content="xyyr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="关于PE文件（可移植的执行体） 由于一开始的导入图片的图床崩了，后续重新传了一遍图片，但有的图片本地没有了，可能有点乱序和少东西？？？我现在没有发现哪儿少啥了懒得再改了:dog: 已经弄了好几遍了,弄了好久，好累，有谁发现哪儿对不上或者少啥戳一下我，主要内容是顺着老师的ppt捋的   dll文件、exe文件都属于pe文件  虚拟地址中，32位的一页为4kB(0x1000)，64位的为8kb(0x2">
+    <meta name="description" content="复习时间很充沛，打算从头到尾把ppt和相关的实验知识边摸鱼边捋一遍。 章节顺序按照老师的ppt顺序 涉及到栈的没整理，pwn玩了这么久栈，没必要整了（懒得整了）。   上课让写交过的东西  静态桥与动态桥 栈附近，哪里是传入的函数参数，哪里是局部变量（32位） 病毒置入文件的操作   [TOC] 第一章 数据的存储及表示形式 这里的单位：字节（byte）、字（双字节word）、双字（四字节dwo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="逆向工程课程随记">
+<meta property="og:title" content="逆向工程课程随记+总复习">
 <meta property="og:url" content="https://xyyr-c.github.io/2024/11/22/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E8%AF%BE%E7%A8%8B%E9%9A%8F%E8%AE%B0/index.html">
 <meta property="og:site_name" content="xyyr">
-<meta property="og:description" content="关于PE文件（可移植的执行体） 由于一开始的导入图片的图床崩了，后续重新传了一遍图片，但有的图片本地没有了，可能有点乱序和少东西？？？我现在没有发现哪儿少啥了懒得再改了:dog: 已经弄了好几遍了,弄了好久，好累，有谁发现哪儿对不上或者少啥戳一下我，主要内容是顺着老师的ppt捋的   dll文件、exe文件都属于pe文件  虚拟地址中，32位的一页为4kB(0x1000)，64位的为8kb(0x2">
+<meta property="og:description" content="复习时间很充沛，打算从头到尾把ppt和相关的实验知识边摸鱼边捋一遍。 章节顺序按照老师的ppt顺序 涉及到栈的没整理，pwn玩了这么久栈，没必要整了（懒得整了）。   上课让写交过的东西  静态桥与动态桥 栈附近，哪里是传入的函数参数，哪里是局部变量（32位） 病毒置入文件的操作   [TOC] 第一章 数据的存储及表示形式 这里的单位：字节（byte）、字（双字节word）、双字（四字节dwo">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412282127773.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412282133995.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261606036.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261607830.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261605231.png">
@@ -60,15 +62,15 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412111125025.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412111135070.png">
 <meta property="article:published_time" content="2024-11-22T08:21:59.825Z">
-<meta property="article:modified_time" content="2024-12-11T03:50:20.504Z">
+<meta property="article:modified_time" content="2024-12-28T13:56:13.001Z">
 <meta property="article:author" content="xyyr">
 <meta property="article:tag" content="re">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202411261606036.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412282127773.png">
   
   
   
-  <title>逆向工程课程随记 - xyyr</title>
+  <title>逆向工程课程随记+总复习 - xyyr</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -251,7 +253,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="逆向工程课程随记"></span>
+            <span id="subtitle" data-typed-text="逆向工程课程随记+总复习"></span>
           
         </div>
 
@@ -274,7 +276,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k 字
+          2.9k 字
         
       </span>
     
@@ -285,7 +287,7 @@
         
         
         
-          17 分钟
+          24 分钟
         
       </span>
     
@@ -322,12 +324,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">逆向工程课程随记</h1>
+            <h1 id="seo-header">逆向工程课程随记+总复习</h1>
             
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2024年12月11日 中午
+                    本文最后更新于 2024年12月28日 晚上
                   
                 
               </p>
@@ -335,7 +337,108 @@
             
               <div class="markdown-body">
                 
-                <h2 id="关于PE文件（可移植的执行体）"><a href="#关于PE文件（可移植的执行体）" class="headerlink" title="关于PE文件（可移植的执行体）"></a>关于PE文件（可移植的执行体）</h2><blockquote>
+                <blockquote>
+<p>复习时间很充沛，打算从头到尾把ppt和相关的实验知识<del>边摸鱼边</del>捋一遍。</p>
+<p>章节顺序按照老师的ppt顺序</p>
+<p>涉及到栈的没整理，pwn玩了这么久栈，没必要整了<del>（懒得整了）</del>。</p>
+</blockquote>
+<blockquote>
+<p>上课让写交过的东西</p>
+<ol>
+<li>静态桥与动态桥</li>
+<li>栈附近，哪里是传入的函数参数，哪里是局部变量（32位）</li>
+<li>病毒置入文件的操作</li>
+</ol>
+</blockquote>
+<p>[TOC]</p>
+<h2 id="第一章-数据的存储及表示形式"><a href="#第一章-数据的存储及表示形式" class="headerlink" title="第一章 数据的存储及表示形式"></a>第一章 数据的存储及表示形式</h2><ol>
+<li>这里的单位：字节（byte）、字（双字节word）、双字（四字节dword）、八字节(qword)  <ul>
+<li>注意，在计组中，机器字长也成为字，这里的字一般是32位或64位的。（所以还是喜欢叫它内存单元喵~）</li>
+</ul>
+</li>
+<li>注意，可执行文件一般采用小端序储存数据；TCP&#x2F;IP中传递数据以网络字节序传输，通常是以大端序传输。</li>
+<li>d代表数据、db是一个字节的数据、dw是一个字的数据、dd是双字</li>
+</ol>
+<h2 id="第二章-x86汇编语言介绍"><a href="#第二章-x86汇编语言介绍" class="headerlink" title="第二章 x86汇编语言介绍"></a>第二章 x86汇编语言介绍</h2><blockquote>
+<p>pwn狗只把这些常用传参rdi、rsi、rdx、rcx、r8、r9，以及系统调用要动rax记得死死的，其他它们的理论作用还真没记过，这里记一记</p>
+</blockquote>
+<h3 id="通用寄存器"><a href="#通用寄存器" class="headerlink" title="通用寄存器"></a>通用寄存器</h3><ul>
+<li>数据寄存器：eax、ebx、ecx、edx</li>
+<li>指针变址寄存器：ebp、esp、esi、edi</li>
+</ul>
+<ol>
+<li><p>累加器eax</p>
+<p>在加法、乘法、除法指令中的默认寄存器、存储函数返回值。</p>
+</li>
+<li><p>基址寄存器ebx，ds段中的数据指针。</p>
+</li>
+</ol>
+<blockquote>
+<p>咦？ds,看到过，不知道啥用，问问gpt</p>
+<p>现代操作系统和 64 位处理器架构已不再依赖传统的段式寻址，因此段寄存器（如 <code>DS</code>）的作用已经被削弱。在用户模式下，程序无法直接访问段寄存器的值，而是通过虚拟内存和分页机制来访问内存。</p>
+<ul>
+<li><p><code>DS</code>（数据段）外，常见的段寄存器还有：</p>
+</li>
+<li><p>**<code>CS</code>**（Code Segment）：指向代码段，用于存储程序指令。</p>
+</li>
+<li><p>**<code>SS</code>**（Stack Segment）：指向堆栈段，用于存储程序的栈数据。</p>
+</li>
+<li><p>**<code>ES</code>**（Extra Segment）：通常用于额外的数据段。</p>
+</li>
+<li><p><strong><code>FS</code></strong> 和 **<code>GS</code>**：这些是附加的段寄存器，用于存储额外的数据段或特定的操作系统用途。</p>
+</li>
+</ul>
+<p>也就是其实不怎么用了。</p>
+</blockquote>
+<ol start="3">
+<li>计数器ecx，用于循环中使用</li>
+</ol>
+<blockquote>
+<p>补充一下loop指令</p>
+<p>loop 地址：先将ecx-1，如果不为0，则跳转到该地址。</p>
+</blockquote>
+<ol start="4">
+<li><p>edx:用于存放整数除法产生的余数</p>
+</li>
+<li><p>ebp、esp，栈底栈顶指针，不赘述了（函数传参以及栈帧太熟了，略）</p>
+</li>
+<li><p>eip，指令指针寄存器</p>
+</li>
+<li><p>标志寄存器（成为flags或PSW，也就是程序状态字寄存器），32位中扩展为32位寄存器，成为EFLAGS。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412282127773.png" srcset="/img/loading.gif" lazyload alt="image-20241228212752676"></p>
+<ul>
+<li><p>OF（overflow flag）、SF(sign flag)、ZF(zero flag)、PF、CF意如其名，略</p>
+</li>
+<li><p>AF:辅助进位标志，低字节向高字节进位或借位时置1（若是字节操作，低四位向高四位借位时置1）</p>
+</li>
+<li><p>DF、IF、TF没怎么细了解过，不怎么常用于目前我浅陋的知识需要的判断，直接截个课件了</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202412282133995.png" srcset="/img/loading.gif" lazyload alt="image-20241228213329899"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="汇编指令集"><a href="#汇编指令集" class="headerlink" title="汇编指令集"></a>汇编指令集</h3><ul>
+<li>mov、lea（都是把右给左，intel_x86架构下）</li>
+<li>pushad、popad 在栈上按顺序压入32位通用寄存器，顺序是eax、ecx、edx、ebx、esp、ebp、esi、edi。</li>
+<li>jmp、call、leave</li>
+<li>ret n 代表pop rip 后，再往下弹出n个字节的栈（也就是esp - n）</li>
+</ul>
+<p>各种寻址：计组学了，略。</p>
+<h2 id="第三章od"><a href="#第三章od" class="headerlink" title="第三章od"></a>第三章od</h2><blockquote>
+<p>就是介绍od的使用，没啥东西。</p>
+</blockquote>
+<blockquote>
+<p>关于断点去搜了搜</p>
+<ul>
+<li><p>shift + f12 可以设置条件断点</p>
+</li>
+<li><p>he 硬件断点</p>
+</li>
+<li><p>bp 软件断点。</p>
+</li>
+</ul>
+</blockquote>
+<h2 id="第四章-关于PE文件（可移植的执行体）"><a href="#第四章-关于PE文件（可移植的执行体）" class="headerlink" title="第四章 关于PE文件（可移植的执行体）"></a>第四章 关于PE文件（可移植的执行体）</h2><blockquote>
 <p>由于一开始的导入图片的图床崩了，后续重新传了一遍图片，但有的图片本地没有了，可能有点乱序和少东西？？？我现在没有发现哪儿少啥了<del>懒得再改了:dog:</del></p>
 <p><del>已经弄了好几遍了,弄了好久，好累，有谁发现哪儿对不上或者少啥戳一下我，主要内容是顺着老师的ppt捋的</del></p>
 </blockquote>
@@ -626,7 +729,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>逆向工程课程随记</div>
+      <div>逆向工程课程随记+总复习</div>
       <div>https://xyyr-c.github.io/2024/11/22/逆向工程课程随记/</div>
     </div>
     <div class="license-meta">
