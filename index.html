@@ -244,6 +244,67 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2025/05/25/2200320211%E9%99%88%E5%AD%90%E4%BB%AA%E4%BD%9C%E4%B8%9A3/" target="_self">
+          记一次持续化隐藏服务的程序分析
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/05/25/2200320211%E9%99%88%E5%AD%90%E4%BB%AA%E4%BD%9C%E4%B8%9A3/" target="_self">
+        <div>
+          当计算机重启后，这个程序如何确保它继续运行(达到持久化驻留) ?  调用了CreatService函数，创建了一个服务，并设置为开机自启动。 分析过程：  &#x3D;&#x3D;StartServiceCtrlDispatcherA&#x3D;&#x3D; 函数将服务进程的主线程连接到服务控制管理器，这会导致线程成为调用进程的服务控制调度程序线程。 它的参数是一个结构体类型的指针  这里传入的
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-25 14:31" pubdate>
+              2025-05-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/re/" class="category-chain-item">re</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/re/">#re</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/12/12/flask+vue%E5%89%8D%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/" target="_self">
           flask+vue前后端分离学习
         </a>
@@ -741,67 +802,6 @@
       <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/NEWSTAR%20%E7%9A%84%E6%A0%88%E8%BF%81%E7%A7%BB/" target="_self">
         <div>
           stack_migration–NewStarCTF(WEEK2) 只开了NX，题目里给了栈的地址 总之，就是栈迁移啊栈迁移，还得迁移两次，还得用ret2libc。 最后看了官方WP，发现栈迁移一次就行了，libc是可以被带出来的。（不过也就当复健了一下两次的栈迁移。） exp： 12345678910111213141516171819202122232425262728293031323334
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-10-23 16:59" pubdate>
-              2024-10-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/pwn/">#pwn</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/10/23/%E5%88%A9%E7%94%A8IO%E8%BF%9B%E8%A1%8Clibc%E7%9A%84%E6%B3%84%E9%9C%B2/" target="_self">
-          利用I/O进行libc的泄露
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E5%88%A9%E7%94%A8IO%E8%BF%9B%E8%A1%8Clibc%E7%9A%84%E6%B3%84%E9%9C%B2/" target="_self">
-        <div>
-          利用I&#x2F;O进行libc的泄露moe最后一题，无free，堆，存在索引的溢出，可以更改i&#x2F;o的结构。 先从gdb看一下FILE的基本结构 1指令：p/x *(FILE*)&amp;_IO_2_1_stdout_     _flags 的基础值一般为0xfbad0000(问就是规定的) 它被定义为MAGIC 1234#define _IO_MAGIC 0xFBAD0000#defi
         </div>
       </a>
 

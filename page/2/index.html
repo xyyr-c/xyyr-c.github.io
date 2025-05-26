@@ -244,6 +244,67 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/10/23/%E5%88%A9%E7%94%A8IO%E8%BF%9B%E8%A1%8Clibc%E7%9A%84%E6%B3%84%E9%9C%B2/" target="_self">
+          利用I/O进行libc的泄露
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E5%88%A9%E7%94%A8IO%E8%BF%9B%E8%A1%8Clibc%E7%9A%84%E6%B3%84%E9%9C%B2/" target="_self">
+        <div>
+          利用I&#x2F;O进行libc的泄露moe最后一题，无free，堆，存在索引的溢出，可以更改i&#x2F;o的结构。 先从gdb看一下FILE的基本结构 1指令：p/x *(FILE*)&amp;_IO_2_1_stdout_     _flags 的基础值一般为0xfbad0000(问就是规定的) 它被定义为MAGIC 1234#define _IO_MAGIC 0xFBAD0000#defi
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-23 16:59" pubdate>
+              2024-10-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/pwn/">#pwn</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/10/23/New-Star-Week%203-pwn%20stack%20migration%20revenge/" target="_self">
           New-Star-Week 3-pwn stack migration revenge
         </a>
@@ -741,67 +802,6 @@
       <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/NKCTF--pwn/" target="_self">
         <div>
           NKCTF–pwn–Maimai查分器 Maimai查分器 保护全开 存在格式化字符串漏洞 第一步：先测速率，输入15.0 SSS+ 50次获得最高速率    ​	 1234sl(b&#x27;1&#x27;)#debug()for i in range(50):    sl(b&#x27;15.0 SSS+&#x27;)   然后利用格式化字符串去泄露，本来想一口气全部泄露的，但是只有8个字节，
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-10-23 16:59" pubdate>
-              2024-10-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/pwn/">#pwn</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/10/23/ezorw/" target="_self">
-          NewStar-WEEK3-ezorw-putorsys
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/ezorw/" target="_self">
-        <div>
-          NewStar-WEEK3ezorw最近作业多，事务繁忙，好久没打题了，继续看看新生赛最新一周放出来的题。主打一个复健，不过近来的新生赛进度都好快。 开了NX和canary    利用格式化字符串泄露出canary，然后因为题目给了libc文件，又提示是rop，本来打算用ret2libc泄露libc基地址，结果发现该程序中居然没有可以用的pop链。。Σ(っ °Д °;)っ     怎么办呢，经过思
         </div>
       </a>
 
