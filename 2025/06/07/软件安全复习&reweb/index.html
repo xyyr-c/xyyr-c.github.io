@@ -1,0 +1,937 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xyyr.png">
+  <link rel="icon" href="/img/xyyr.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="xyyr">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="软件安全复习&#x2F;知识总结 考试前的复习，顺便回顾一下知识。  [TOC] 杂七杂八的基础概述知识 中午状态不佳，先总一下基本常识   软件安全面临的安全威胁：软件自身的安全（软件漏洞）、恶意代码、软件侵权   软件漏洞通常被认为是软件生命周期中与安全相关的设计错误、编码缺陷、运行故障等 恶意代码：软件或代码片段，如二进制执行文件、脚本语言代码、宏代码或是寄生在其他代码或启动扇区中的一段指令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件安全复习&amp;re&#x2F;web">
+<meta property="og:url" content="https://xyyr-c.github.io/2025/06/07/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0&reweb/index.html">
+<meta property="og:site_name" content="xyyr">
+<meta property="og:description" content="软件安全复习&#x2F;知识总结 考试前的复习，顺便回顾一下知识。  [TOC] 杂七杂八的基础概述知识 中午状态不佳，先总一下基本常识   软件安全面临的安全威胁：软件自身的安全（软件漏洞）、恶意代码、软件侵权   软件漏洞通常被认为是软件生命周期中与安全相关的设计错误、编码缺陷、运行故障等 恶意代码：软件或代码片段，如二进制执行文件、脚本语言代码、宏代码或是寄生在其他代码或启动扇区中的一段指令">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072141283.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072125335.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071602724.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071655950.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071700141.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071702112.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071704238.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071708516.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071717789.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071719435.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071721742.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071727454.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071727187.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071755999.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072027059.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072029143.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072041523.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072043321.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072102163.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072104516.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072106794.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072106708.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072211780.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072219353.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072221125.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072223130.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072224189.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072226450.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072233105.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072237258.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072328956.png">
+<meta property="article:published_time" content="2025-06-07T15:28:27.776Z">
+<meta property="article:modified_time" content="2025-06-07T15:29:12.622Z">
+<meta property="article:author" content="xyyr">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="re">
+<meta property="article:tag" content="安全">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072141283.png">
+  
+  
+  
+  <title>软件安全复习&amp;re/web - xyyr</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/links.css">
+<link rel="stylesheet" href="/css/scrollAnimation.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"xyyr-c.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>xyyr</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="软件安全复习&amp;re/web"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-07 23:28" pubdate>
+          2025年6月7日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">软件安全复习&amp;re/web</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2025年6月7日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="软件安全复习-知识总结"><a href="#软件安全复习-知识总结" class="headerlink" title="软件安全复习&#x2F;知识总结"></a>软件安全复习&#x2F;知识总结</h1><blockquote>
+<p>考试前的复习，顺便回顾一下知识。</p>
+</blockquote>
+<p>[TOC]</p>
+<h2 id="杂七杂八的基础概述知识"><a href="#杂七杂八的基础概述知识" class="headerlink" title="杂七杂八的基础概述知识"></a>杂七杂八的基础概述知识</h2><blockquote>
+<p>中午状态不佳，先总一下基本常识</p>
+</blockquote>
+<ol>
+<li>软件安全面临的安全威胁：软件自身的安全（软件漏洞）、恶意代码、软件侵权</li>
+</ol>
+<ul>
+<li>软件漏洞通常被认为是软件生命周期中与安全相关的设计错误、编码缺陷、运行故障等</li>
+<li>恶意代码：软件或代码片段，如二进制执行文件、脚本语言代码、宏代码或是寄生在其他代码或启动扇区中的一段指令。示例：计算机病毒、特洛伊木马、僵尸网络、网络钓鱼</li>
+</ul>
+<ol start="2">
+<li>信息安全的基本属性</li>
+</ol>
+<p>保密性、完整性、可用性、可认证性、授权、可审计性、不可否认性、可控性、可存活性</p>
+<ol start="3">
+<li>软件安全</li>
+</ol>
+<p>软件安全是信息安全保障的重要内容，漏洞分析是降低系统脆弱性的最有效方法，软件安全防护围绕漏洞消除展开</p>
+<ol start="4">
+<li>软件漏洞</li>
+</ol>
+<ul>
+<li><p>漏洞是存在于信息系统、系统安全过程、内部控制或实现过程中的可被威胁源攻击或触发的弱点</p>
+</li>
+<li><p>漏洞是信息系统自身具有的弱点或缺陷，环境通常是特定的</p>
+</li>
+<li><p>软件漏洞涉及设计错误、编码缺陷及运行故障</p>
+</li>
+<li><p><strong>软件漏洞的特点</strong>：持久性、时效性、广泛性、具体性、可利用性、隐蔽性</p>
+</li>
+<li><p><strong>基于漏洞成因的分类</strong>：内存破坏类、逻辑错误类、输入验证类、设计错误类和配置错误类</p>
+</li>
+</ul>
+<ol start="5">
+<li>软件安全开发模型</li>
+</ol>
+<p>减小攻击面：最小权限原则</p>
+<p>考点：实施</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072141283.png" srcset="/img/loading.gif" lazyload alt="image-20250607214153155"></p>
+<p>课本119页就是ppt的这几点。课本63页是栈溢出保护（GS）、DEP(NX)、aslr、safeSEH等机制。</p>
+<h2 id="web相关知识"><a href="#web相关知识" class="headerlink" title="web相关知识"></a>web相关知识</h2><h3 id="ssrf（服务器端请求伪造）"><a href="#ssrf（服务器端请求伪造）" class="headerlink" title="ssrf（服务器端请求伪造）"></a>ssrf（服务器端请求伪造）</h3><p><code>SSRF</code> 服务端请求伪造是一个 web 漏洞，它允许攻击者诱导服务端程序向攻击者选择的任何地址发起 HTTP 请求。</p>
+<p>eg：baisc ssrf:后端服务的URL请求地址包含在了前端，可以抓包修改为本地访问；pikachu：利用file协议获取本地信息，dict进行端口腿内侧，</p>
+<h3 id="os-top10"><a href="#os-top10" class="headerlink" title="os top10"></a>os top10</h3><p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072125335.png" srcset="/img/loading.gif" lazyload alt="image-20250607212516273"></p>
+<ol>
+<li>失效的访问控制：没做权限校验，手工改参数</li>
+<li>加密机制失效：数据库明文、短哈希、base64传递密码</li>
+<li>注入：sql注入等</li>
+<li>不安全设计：登录接口未限流、使用问题与答案的形式来证明身份</li>
+<li>安全配置错误：未修改默认账户密码、默认配置和默认文件未删除、敏感文件泄露、服务器将详细的报错信息返回给用户</li>
+<li>自带缺陷和过时的组件：如复现的那个cve，设定随机数种子来产生图片</li>
+<li>身份识别和验证错误：应用会话超时、弱口令等</li>
+<li>软件和数据完整性故障：固件更新没有签名</li>
+<li>安全日志和监控故障：没有对系统进行日志监控或记录</li>
+<li>服务端请求伪造：注意：csrf是客户端伪造；ssrf才是服务端请求伪造。扫描内部服务器端口、访问敏感文件、滥用内部服务进行恶意代码的执行</li>
+</ol>
+<p>攻击点：输入框、搜索框、上传接口、登录口、后台地址等</p>
+<h2 id="windows下的溢出攻击"><a href="#windows下的溢出攻击" class="headerlink" title="windows下的溢出攻击"></a>windows下的溢出攻击</h2><h3 id="缓冲区溢出"><a href="#缓冲区溢出" class="headerlink" title="缓冲区溢出"></a>缓冲区溢出</h3><h4 id="栈溢出及相关"><a href="#栈溢出及相关" class="headerlink" title="栈溢出及相关"></a>栈溢出及相关</h4><ol>
+<li>栈的栈帧及函数调用过程</li>
+<li>异常处理SEH结构，该结构存放于栈中，可以通过涉及特定的一处数据，将异常函数的入口覆盖为shellcode的跳转指令，使程序通过发生异常来执行shellcode</li>
+</ol>
+<h4 id="堆溢出-无保护下-dword-shoot"><a href="#堆溢出-无保护下-dword-shoot" class="headerlink" title="堆溢出-无保护下-dword shoot"></a>堆溢出-无保护下-dword shoot</h4><p>任意地址写</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071602724.png" srcset="/img/loading.gif" lazyload alt="image-20250607160212539"></p>
+<p>将bk改为目标地址-4*2(linux,32位下)，fd改为要改的内容</p>
+<p>node-&gt;bk-&gt;fd &#x3D; node -&gt;fd</p>
+<p>课上练习–根据调试内容画出windows下的堆块情况（ppt看着怪怪的，自己调一次）（无比怀念linux下用pwndbg直接出来）</p>
+<p>源码：<img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071655950.png" srcset="/img/loading.gif" lazyload alt="image-20250607165551849"></p>
+<p>第一次heapalloc后，h1位于0x8204b0</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071700141.png" srcset="/img/loading.gif" lazyload alt="image-20250607170037966"></p>
+<p>第二次，h2位于0x8204C0</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071702112.png" srcset="/img/loading.gif" lazyload alt="image-20250607170200963"></p>
+<p>后续依次，从B0到00，共六个块</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071704238.png" srcset="/img/loading.gif" lazyload alt="image-20250607170425193"></p>
+<p>啊，里面有int3给我直接中断了，重新来，这次的堆基址是0x550000,同样从04B0开始，补一张创建完的图</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071708516.png" srcset="/img/loading.gif" lazyload alt="image-20250607170851478"></p>
+<p>free掉h1后</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071717789.png" srcset="/img/loading.gif" lazyload alt="image-20250607171746736"></p>
+<p>free掉h3、h5后</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071719435.png" srcset="/img/loading.gif" lazyload alt="image-20250607171957386"></p>
+<p>再执行一次alloc后</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071721742.png" srcset="/img/loading.gif" lazyload alt="image-20250607172137686"></p>
+<p>欸？先进后出？怎么依稀记得堆是先进先出来着，搜了搜，以下两图截自<a target="_blank" rel="noopener" href="https://blog.51cto.com/u_15346415/3691281">堆漏洞挖掘中bins的单向链表、双向链表存储结构_mb6128aabee41d4的技术博客_51CTO博客</a></p>
+<p>同时回忆了一下，fastbin是往前插入的，每次都往bin的表头里插入，再使用的时候也是从表头开始</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071727454.png" srcset="/img/loading.gif" lazyload alt="image-20250607172743196"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071727187.png" srcset="/img/loading.gif" lazyload alt="image-20250607172758053"></p>
+<p>而且windows的堆管理机制与linux不同，问了ai，ai说单个子桶是后进先出。</p>
+<p>浅画一下3个堆块都free后的内容，以及修改（linux的32位需要减去8，因为-&gt;fd的索引是加了0x8，不知道windows，老师讲的是目标地址，就先这么写吧，晚上调试改一下值试试）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506071755999.png" srcset="/img/loading.gif" lazyload alt="image-20250607175521416"></p>
+<p>动调改值尝试：由于原始代码把1从空闲块中取出，所以改1</p>
+<p>这里有空地址，写在这里方便看</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072027059.png" srcset="/img/loading.gif" lazyload alt="image-20250607202719995"></p>
+<p>改了这里</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072029143.png" srcset="/img/loading.gif" lazyload alt="image-20250607202918105"></p>
+<p>执行完之后发现没有申请这个块，不知道申请到哪儿了，重来一次，换个地址改，可能那里不可写，直接改成堆上的一个地址</p>
+<p>改为19ff38</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072041523.png" srcset="/img/loading.gif" lazyload alt="image-20250607204147408"></p>
+<p>并没有实现，应该是有保护机制的。。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072043321.png" srcset="/img/loading.gif" lazyload alt="image-20250607204353193"></p>
+<p>假设检测fd-&gt;bk&#x3D;p &#x3D; bk-&gt;fd,且对应与linux一样加了pre_size、size</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072102163.png" srcset="/img/loading.gif" lazyload alt="image-20250607210253072"></p>
+<p>报错了。。。假设不加，再试试</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072104516.png" srcset="/img/loading.gif" lazyload alt="image-20250607210418353"></p>
+<p>修改，目标19ff50</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072106794.png" srcset="/img/loading.gif" lazyload alt="image-20250607210617726"></p>
+<p>还是检测到了。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072106708.png" srcset="/img/loading.gif" lazyload alt="image-20250607210657591"></p>
+<p>暂且这样吧，有时间有精力的时候再去看看windows的堆分配</p>
+<p>另：回顾老师的ppt，发现这同一个程序，老师的heap_size&#x3D;8的时候分配了0x20字节，我这里的调试是0x10字节。。。。。</p>
+<p>甚至老师ppt的那个链表的添加也是从小到大往队尾填的（也就是老师那个会是先进先出）</p>
+<p>ok版本不同这么大区别，只能具体情况看着调试的具体分析了。</p>
+<h3 id="windows下的保护机制"><a href="#windows下的保护机制" class="headerlink" title="windows下的保护机制"></a>windows下的保护机制</h3><ol>
+<li>GS保护（即linux下的canary）</li>
+<li>DEP保护（linu下的nx保护，限制了执行的权限）</li>
+<li>ASLR(地址随机化)</li>
+<li>SafeSEH(检测seh对应的函数地址是否被修改)：其实现原理是，编译器在链接生成二进制IMAGE时，把所有合法的异常处理函数的地址解析出来制成一张安全的SEH表，保存在程序的IMAGE数据块里面，当程序调用异常处理函数时会将函数地址与安全SEH表中的地址进行匹配，检查调用的异常处理函数是否位于该表中。</li>
+</ol>
+<h2 id="恶意代码分析基础"><a href="#恶意代码分析基础" class="headerlink" title="恶意代码分析基础"></a>恶意代码分析基础</h2><h3 id="计算机的启动与PE"><a href="#计算机的启动与PE" class="headerlink" title="计算机的启动与PE"></a>计算机的启动与PE</h3><p>自bios芯片开始，从主引导记录读取，启动硬盘，找到激活分区，启动操作系统（内核装载、windows分区激活）</p>
+<p>pe基本信息：</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072211780.png" srcset="/img/loading.gif" lazyload alt="image-20250607220743217"></p>
+<p>导入表：导入函数地址表（iat）、导入函数目录表（it）</p>
+<p>导出表：根据编号、函数名字查找返回地址</p>
+<h3 id="恶意代码"><a href="#恶意代码" class="headerlink" title="恶意代码"></a>恶意代码</h3><ul>
+<li>恶意代码可能是独立的PE文件，亦可以不是，可能有导入表，也可能没有。如果没有，就先找到kernel32.dll的载入地址，然后找到GetProcAddree函数，在用它找到LoadLibraryA函数，从而载入其他链接库的函数。（寻找可以采用弹栈、MZ、PE来找，这个逆向工程小结有；或者查询peb，这个后续写）</li>
+</ul>
+<h4 id="弹栈找法："><a href="#弹栈找法：" class="headerlink" title="弹栈找法："></a>弹栈找法：</h4><p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072219353.png" srcset="/img/loading.gif" lazyload alt="image-20250607221903251"></p>
+<p>栈顶是kernel32的一个函数的地址</p>
+<h4 id="基于PEB的搜索"><a href="#基于PEB的搜索" class="headerlink" title="基于PEB的搜索"></a>基于PEB的搜索</h4><p>fs:[0xc]寻址到ldr表，里面有dll库加载的链表，通常+0x14，从第二个里找，下图是结构</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072221125.png" srcset="/img/loading.gif" lazyload alt="image-20250607222108023"></p>
+<p>这是具体运行时显示的值</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072223130.png" srcset="/img/loading.gif" lazyload alt="image-20250607222328053"></p>
+<p>内存位置的第一个是当前执行的程序</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072224189.png" srcset="/img/loading.gif" lazyload alt="image-20250607222455114"></p>
+<p>索引到的项-8+02c是库的名字，一般第三个是kernel32.dll库</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072226450.png" srcset="/img/loading.gif" lazyload alt="image-20250607222632353"></p>
+<h4 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h4><p>找到kernel32载入地址后，用GetProcAddress这个字符串，从kernel32导出表用名字逐项比对，找到GetProcAddress的地址，然后用它得到LoadLibraryA地址，从而实现任意dll、任意函数的加载</p>
+<p>比对过程的一部分：（里面的明文是根据上下文自己命名的，ppt里给出的那些不足以定位，但是问了edi、esi、ecx分别是什么）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072233105.png" srcset="/img/loading.gif" lazyload alt="image-20250607223317018"></p>
+<p>分别是：导出表中的一个函数名、储存的GetProcAddress字符串的地址、字符串的长度</p>
+<h4 id="重定位："><a href="#重定位：" class="headerlink" title="重定位："></a>重定位：</h4><p>call下一个地址，然后pop出来，以此定位当前运行到的地址</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072237258.png" srcset="/img/loading.gif" lazyload alt="image-20250607223752210"></p>
+<h4 id="shellcode的执行"><a href="#shellcode的执行" class="headerlink" title="shellcode的执行"></a>shellcode的执行</h4><p>写入的shellcode,可以经过哈希值来调用函数，或者异或加密，然后解密后写到VirtualAlloc创建的可读可写可执行空间，跳转过去执行。</p>
+<p>VirtualProtect可以将内存的读写权限进行修改；跳转执行可以用CreatThread函数创建线程，然后将函数执行地址设置为分配的内存空间的起始地址。</p>
+<h4 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h4><p>静态分析：反病毒引擎搜索、恶意代码的指纹哈希、ASCII 和 Unicode 字符串（如ip 地址、网址、提示信息等）、导入表的一些函数（如 io 读写函数，ReadFile、WriteFile;监控的 hook 函数 SetWindowsHookEx；Advapi32.dll 库对注册表的敏感操作）、节大小的分配异常（如 size of raw data 为 0 或远小于分配的 visual size）、节大小的异常名称（特殊的自行命名的节）、资源节可能隐藏了恶意程序与驱动。</p>
+<h4 id="学会看汇编的循环、选择等"><a href="#学会看汇编的循环、选择等" class="headerlink" title="学会看汇编的循环、选择等"></a>学会看汇编的循环、选择等</h4><h4 id="恶意代码通过dll来执行"><a href="#恶意代码通过dll来执行" class="headerlink" title="恶意代码通过dll来执行"></a>恶意代码通过dll来执行</h4><ol>
+<li><p>方法：将恶意代码保存到dll，从而加载到其他进程中；使用widows dll交互，使用第三方dll</p>
+</li>
+<li><p>实施：恶意代码通过创建一个新进程，或修改一个已存在的进程，来执行当前程序之外的代码。CreateProcess函数创建进程；或用CreateThread来加载恶意dll</p>
+</li>
+</ol>
+<blockquote>
+<p>加载新的恶意DLL:</p>
+<p>CreateThread时将起始地址设置为Loadlibrary的地址。</p>
+<p>传递给CreateThread的参数是要被加载库的名字。新的DLL被加载到这个进程的内存中， 然后DllMain被调用。</p>
+</blockquote>
+<ol start="3">
+<li>恶意代码经常使用互斥量来使得一次只运行恶意代码的一个实例，经常用硬编码来作为互斥量的名字</li>
+<li>恶意代码会创建服务来使得持久化运行，常使用win32_share_process类型的服务来执行恶意代码</li>
+</ol>
+<h4 id="恶意行为"><a href="#恶意行为" class="headerlink" title="恶意行为"></a>恶意行为</h4><ol>
+<li><p>使用下载器和启动器，下载恶意文件、执行恶意文件</p>
+</li>
+<li><p>URLDownloadtoFileA和WinExec，来下载并运行新的恶意代码。</p>
+</li>
+<li><p>后门：反向连接，创建套接字连接远程服务器并与cmd.exe标准流绑定，用隐藏窗口的方式创建cmd程序</p>
+</li>
+<li><p>窃取行为：窃取登录凭证、记录键盘击键行为、获取口令哈希。。。采用hook技术，当捕获到一些信息（入键盘输入），就执行自定义的监控函数；可以通过hook钩取键盘消息，然后执行恶意dll来执行（dll载入后会执行初始化函数，这里可以写入执行恶意行为）</p>
+</li>
+</ol>
+<h4 id="特洛伊木马："><a href="#特洛伊木马：" class="headerlink" title="特洛伊木马："></a>特洛伊木马：</h4><p>   通过修改函数入口点，跳转到恶意代码，再跳转回去（就是补丁的恶意用法）</p>
+<h4 id="dll默认载入顺序："><a href="#dll默认载入顺序：" class="headerlink" title="dll默认载入顺序："></a>dll默认载入顺序：</h4><p>当前目录、系统目录、windows目录、path环境变量的目录。注册表KnownDLL保护了一些DLL，强制这些DLL的加载路径。</p>
+<h4 id="IAT-HOOK："><a href="#IAT-HOOK：" class="headerlink" title="IAT HOOK："></a>IAT HOOK：</h4><p>本质上是修改了修改IAT表中函数的入口地址，使得原本执行的函数不被执行，而是执行hook后的自定义函数</p>
+<p>过程：找到模块基址、找到iat表、找到函数、修改权限为可写、修改为自定义函数地址、恢复权限</p>
+<h4 id="进程注入："><a href="#进程注入：" class="headerlink" title="进程注入："></a>进程注入：</h4><p>在另外一个进程分配创建线程函数，地址为LoadLibrary地址，参数为载入恶意dll。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202506072328956.png" srcset="/img/loading.gif" lazyload alt="image-20250607231221458"></p>
+<p>OpenProcess获取进程句柄，计算dll路径长度，为目标进程分配内存，拷贝dll路径到目标内存，获取目标进程的模块地址与LoadLibraryA地址，创建远程线程执行dll注入。</p>
+<h4 id="Inline-Hook"><a href="#Inline-Hook" class="headerlink" title="Inline Hook:"></a>Inline Hook:</h4><p>本质是修改函数的开头，将其跳转到恶意代码，然后可以选择修复破坏的开头，跳转回原本的函数。详解在实验2，有时间的话复制过来。</p>
+<h4 id="脚本木马"><a href="#脚本木马" class="headerlink" title="脚本木马"></a>脚本木马</h4><ol>
+<li>启发式分析是一种通过检查代码中可疑属性来检测病毒的方法；<br>脚本木马：编写简单、易于免杀以及难以封堵。</li>
+<li>可以动态调试js代码，发现其特征：如被转码过的url、发送的网络流量</li>
+</ol>
+<p>查杀：对样本哈希运算、病毒内部提取特征码（会结合偏移）</p>
+<p>免杀：修改偏移。</p>
+<p>动态启发查杀：通过分析程序指令出现的顺序，或者特定的组合情况以及所调用的函数及其参数等属于恶意行为特征，来判断目标程序是不是病毒程序。如加入启动项、复制到系统目录、删除自身；</p>
+<p>启发特征的编写其实就是可疑字符串的选取与匹配的工作。</p>
+<p>解密引擎可以去除混淆，将编码提取为字符，从而得到解密的脚本文件及其特征。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/re/" class="category-chain-item">re</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/re/web/" class="category-chain-item">web</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/web/" class="print-no-link">#web</a>
+      
+        <a href="/tags/re/" class="print-no-link">#re</a>
+      
+        <a href="/tags/%E5%AE%89%E5%85%A8/" class="print-no-link">#安全</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>软件安全复习&amp;re/web</div>
+      <div>https://xyyr-c.github.io/2025/06/07/软件安全复习&amp;reweb/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>xyyr</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/25/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%8C%81%E7%BB%AD%E5%8C%96%E9%9A%90%E8%97%8F%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%88%86%E6%9E%90/" title="记一次持续化隐藏服务的程序分析">
+                        <span class="hidden-mobile">记一次持续化隐藏服务的程序分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://twikoo-3vqs-8mznoews9-xyyrs-projects.vercel.app/","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/scrollAnimation.js"></script>
+<script src="/js/particle.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/22.2017.cba-normal.model.json"},"display":{"position":"left","width":300,"height":600,"hOffset":-60,"vOffset":-150},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>

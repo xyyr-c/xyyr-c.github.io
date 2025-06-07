@@ -244,6 +244,67 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/10/23/NEWSTAR%20%E7%9A%84%E6%A0%88%E8%BF%81%E7%A7%BB/" target="_self">
+          stack_migration--NewStarCTF(WEEK2)
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/NEWSTAR%20%E7%9A%84%E6%A0%88%E8%BF%81%E7%A7%BB/" target="_self">
+        <div>
+          stack_migration–NewStarCTF(WEEK2) 只开了NX，题目里给了栈的地址 总之，就是栈迁移啊栈迁移，还得迁移两次，还得用ret2libc。 最后看了官方WP，发现栈迁移一次就行了，libc是可以被带出来的。（不过也就当复健了一下两次的栈迁移。） exp： 12345678910111213141516171819202122232425262728293031323334
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-23 16:59" pubdate>
+              2024-10-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/pwn/">#pwn</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/10/23/%E5%88%A9%E7%94%A8IO%E8%BF%9B%E8%A1%8Clibc%E7%9A%84%E6%B3%84%E9%9C%B2/" target="_self">
           利用I/O进行libc的泄露
         </a>
@@ -741,67 +802,6 @@
       <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E4%B8%80%E4%B8%AA%E5%87%BA%E9%A2%98%E4%BA%BA%E7%89%B9%E5%9C%B0%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%AA%E6%80%AA%E7%9A%84%E5%A0%86/" target="_self">
         <div>
           一个出题人特地设计的怪怪的堆利用点：出题人特地设置了可定义的跳转，并且给了后门函数  先进入这里，看init_User   每次创建一个0x98大小的堆块来记录头信息，参数是0x98，由于堆管理机制，会创建0xa0大小（存在标记位，所以看着是0xa1）    然后看add_User的malloc_lenth的参数是我们输入的长度  点进去malloc_lenth发现，还把原来的长度乘了2  以0x
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-10-23 16:59" pubdate>
-              2024-10-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/pwn/">#pwn</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/10/23/NKCTF--pwn/" target="_self">
-          NKCTF--pwn--Maimai查分器
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/NKCTF--pwn/" target="_self">
-        <div>
-          NKCTF–pwn–Maimai查分器 Maimai查分器 保护全开 存在格式化字符串漏洞 第一步：先测速率，输入15.0 SSS+ 50次获得最高速率    ​	 1234sl(b&#x27;1&#x27;)#debug()for i in range(50):    sl(b&#x27;15.0 SSS+&#x27;)   然后利用格式化字符串去泄露，本来想一口气全部泄露的，但是只有8个字节，
         </div>
       </a>
 
