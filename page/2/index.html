@@ -244,6 +244,67 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/10/23/moe-shellcode%E6%A3%80%E6%B5%8B/" target="_self">
+          moe-shellcode检测
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/moe-shellcode%E6%A3%80%E6%B5%8B/" target="_self">
+        <div>
+          moe-shellcode检测shellcode中检测不能出现syscall的机器码，即‘\x0f\x05’ 可以采取异或的方式来绕过 123456789101112131415161718192021222324252627282930313233from pwn import*context(log_level=&#x27;debug&#x27;,arch=&#x27;amd64&#x27;,
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-23 16:59" pubdate>
+              2024-10-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/pwn/">#pwn</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/10/23/NEWSTAR%20%E7%9A%84%E6%A0%88%E8%BF%81%E7%A7%BB/" target="_self">
           stack_migration--NewStarCTF(WEEK2)
         </a>
@@ -741,67 +802,6 @@
       <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E5%A0%86%E6%BA%A2%E5%87%BAoff-by-one%20(asis-ctf-2016%20b00ks)/" target="_self">
         <div>
           堆溢出off-by-one (asis-ctf-2016 b00ks) libc-2.23  漏洞点： author name 输入为32，也就是这里的a2&#x3D;32，经历了32次++a1后，a1[32]&#x3D;0，而这是第33位。    ​	其他地方对于这个scanf_s的调用正常，因为都是输入的size-1 ​	  创建堆块： 这个写着最大32，但是无妨，可以更大，需要注意的是，这里
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-10-23 16:59" pubdate>
-              2024-10-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/pwn/">#pwn</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/10/23/%E4%B8%80%E4%B8%AA%E5%87%BA%E9%A2%98%E4%BA%BA%E7%89%B9%E5%9C%B0%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%AA%E6%80%AA%E7%9A%84%E5%A0%86/" target="_self">
-          堆溢出off-by-one (asis-ctf-2016 b00ks)
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E4%B8%80%E4%B8%AA%E5%87%BA%E9%A2%98%E4%BA%BA%E7%89%B9%E5%9C%B0%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%AA%E6%80%AA%E7%9A%84%E5%A0%86/" target="_self">
-        <div>
-          一个出题人特地设计的怪怪的堆利用点：出题人特地设置了可定义的跳转，并且给了后门函数  先进入这里，看init_User   每次创建一个0x98大小的堆块来记录头信息，参数是0x98，由于堆管理机制，会创建0xa0大小（存在标记位，所以看着是0xa1）    然后看add_User的malloc_lenth的参数是我们输入的长度  点进去malloc_lenth发现，还把原来的长度乘了2  以0x
         </div>
       </a>
 
