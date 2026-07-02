@@ -579,25 +579,19 @@
   
     <article id="comments" lazyload>
       
-  <div id="twikoo"></div>
+  <div id="gitalk-container"></div>
   <script type="text/javascript">
-    Fluid.utils.loadComments('#comments', function() {
-      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/twikoo@1.7.13/dist/twikoo.min.js/twikoo.all.min.js', function() {
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
         var options = Object.assign(
-          {"envId":"https://twikoo-3vqs-8mznoews9-xyyrs-projects.vercel.app/","region":"ap-shanghai","path":"window.location.pathname"},
+          {"clientID":"Ov23liOzmAtwEFUyS6IV","clientSecret":"430e9946d3d88b2b9d10d34d9ace5dda909038d5","repo":"xyyr-c.github.io","owner":"xyyr-c","admin":["xyyr-c"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            el: '#twikoo',
-            path: 'window.location.pathname',
-            onCommentLoaded: function() {
-              Fluid.utils.listenDOMLoaded(function() {
-                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
-                Fluid.plugins.imageCaption(imgSelector);
-                Fluid.plugins.fancyBox(imgSelector);
-              });
-            }
+            id: '65250143cec156edd11cee6e307de6d9'
           }
         )
-        twikoo.init(options)
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
       });
     });
   </script>
