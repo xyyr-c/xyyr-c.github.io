@@ -58,13 +58,25 @@
   
   
   <entry>
-    <title></title>
+    <title>关于vue3知识的重新整合</title>
     <link href="/2025/05/27/%E5%85%B3%E4%BA%8Evue3%E7%9F%A5%E8%AF%86%E7%9A%84%E9%87%8D%E6%96%B0%E6%95%B4%E5%90%88/"/>
     <url>/2025/05/27/%E5%85%B3%E4%BA%8Evue3%E7%9F%A5%E8%AF%86%E7%9A%84%E9%87%8D%E6%96%B0%E6%95%B4%E5%90%88/</url>
     
     <content type="html"><![CDATA[<h1 id="关于vue3知识的重新整合"><a href="#关于vue3知识的重新整合" class="headerlink" title="关于vue3知识的重新整合"></a>关于vue3知识的重新整合</h1><blockquote><p>上次弄得太急，太快了 ，好多基础的东西都又忘了，这次来个全过程。</p></blockquote><ol><li><p>创建vue3项目：npm create vue;</p><p>创建成功后，npm install安装必要的包，扩展包要单独用npm下载，如</p><p>npm install vite-plugin-vue-setup-extend</p><p>npm install axios（不要忘记下载）</p></li><li><p>运行vue项目：npm run dev</p></li></ol><ul><li><code>node_modules</code> : 项目依赖包文件夹，比如通过 <code>npm install 包名</code> 安装的包都会放在这个目录下；</li><li><code>public</code> : 公共资源目录，用于存放公共资源，如 <code>favicon.ico</code> 图标等；</li><li><code>index.html</code> : 首页；</li><li><code>package.json</code> : 项目描述以及依赖；</li><li><code>package-lock.json</code> : 版本管理使用的文件；</li><li><code>README.md</code> : 用于项目描述的 markdown 文档；</li><li><code>src</code> : 核心文件目录，源码都放在这里面；</li></ul><p>进入 <code>src</code> 文件夹，目录如下：</p><ul><li><code>assets</code> : 静态资源目录，用于存放样式、图片、字体等；</li><li><code>components</code>: 组件文件夹，通用的组件存放目录；</li><li><code>App.vue</code>: 主组件，也是页面的入口文件，所有页面都是在 App.vue 下进行路由切换的；</li><li><code>main.js</code> : 入口 Javascript 文件；</li></ul><ol start="3"><li><p>调格式小tips：</p><ul><li>窗口框自适应扩展：用flex弹性布局展示，设置最小高度为占满当前页面，当页面因为数据而变长时，会自行往下扩展框</li></ul><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.app-container</span> &#123;  <span class="hljs-attribute">display</span>: flex;  <span class="hljs-attribute">flex-direction</span>: column;  <span class="hljs-attribute">min-height</span>: <span class="hljs-number">100vh</span>; <span class="hljs-comment">/* 100vh 代表整个视口（屏幕可见区域）的高度 */</span> &#125;<br></code></pre></td></tr></table></figure><ul><li><p>el好多组件，有官方定义的如align&#x3D;center来调整</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">     <br></code></pre></td></tr></table></figure></li><li><p>可以用div把组件打包，如</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs css">&lt;<span class="hljs-selector-tag">div</span> class=&quot;btn-container&quot;&gt;<br>&lt;el-<span class="hljs-selector-tag">button</span> type=&quot;primary&quot; <span class="hljs-keyword">@click</span>=&quot;handleCreate&quot;&gt;生成陷门&lt;/el-button&gt;<br>&lt;/div&gt;<br>&lt;style&gt;<br>.btn-container &#123;<br>  <span class="hljs-attribute">display</span>: flex;<br>  <span class="hljs-attribute">justify-content</span>: center;<br>  <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">25px</span>;<br>&#125;<br>&lt;/style&gt;<br></code></pre></td></tr></table></figure></li></ul></li></ol>]]></content>
     
     
+    <categories>
+      
+      <category>vue</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>vue</tag>
+      
+    </tags>
     
   </entry>
   
