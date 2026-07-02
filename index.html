@@ -244,6 +244,75 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2026/07/02/WorkBuddy-IDA-MCP-Kali-MCP-PWN/" target="_self">
+          WorkBuddy + IDA MCP + Kali MCP 组合拳分析 PWN 题
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/07/02/WorkBuddy-IDA-MCP-Kali-MCP-PWN/" target="_self">
+        <div>
+          WorkBuddy + IDA MCP + Kali MCP 组合拳分析 PWN 题[TOC] 背景最近遇到一道 CTF PWN 题，需要分析一个二进制文件 pwn（ELF x86-64）。传统的做法是用 IDA 在 Windows 上静态分析，写脚本爆 seed，然后传到 Kali 上验证和打远程。文件来回传、两边环境不一致导致 rand() 结果对不上等问题非常折磨。 这次尝试了 WorkBu
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-07-02 20:27" pubdate>
+              2026-07-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/pwn/">#pwn</a>
+            
+              <a href="/tags/IDA/">#IDA</a>
+            
+              <a href="/tags/MCP/">#MCP</a>
+            
+              <a href="/tags/WorkBuddy/">#WorkBuddy</a>
+            
+              <a href="/tags/%E9%80%86%E5%90%91/">#逆向</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2025/06/07/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0&amp;reweb/" target="_self">
           软件安全复习&amp;re/web
         </a>
@@ -745,67 +814,6 @@
       <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/%E7%BE%8A%E5%9F%8E%E6%9D%AF--heap%E5%A4%8D%E7%8E%B0/" target="_self">
         <div>
           羊城杯–heap复现​		首先是学会了IDA怎么重定义类型来让堆块的创建变得好看。（真的可以使得看起来很舒服，感谢bilibili的师傅们） ​		本题的利用是条件竞争堆，但是从其中学到了好多其他的调试及技巧。 ​		main函数，创建了一个0x100的堆块，将各种数据的操作与传递都塞在了里面，并且不断创建。每次的创建进程及其他操作都是放在了子线程的堆里。  ​		strtok函数： ​		str
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-10-23 16:59" pubdate>
-              2024-10-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/pwn/">#pwn</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/10/23/secert%20number--NEWCTF/" target="_self">
-          secert number--NEWCTF
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/secert%20number--NEWCTF/" target="_self">
-        <div>
-          secert number–NEWCTF保护全开，主要利用格式化字符串。  用时间戳做随机数种子，然后取随机数，要求猜这个随机数。 本地打法： 1234567891011121314151617dll=cdll.LoadLibrary(&#x27;/lib/x86_64-linux-gnu/libc.so.6&#x27;)seed =time.time()a=int(seed)dll.srand(
         </div>
       </a>
 
