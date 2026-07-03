@@ -27,7 +27,7 @@
 <meta property="og:description" content="Moe2025 Easylibc — WorkBuddy 纯自动解题记录声明：本文所有分析、文件传输、patchelf 调试、exploit 编写与命令执行均由 WorkBuddy AI 助手通过 Kali MCP 远程控制 Kali 虚拟机自动完成，人工仅输入以下指令触发：   “做pwn题，题目也叫pwn，在kali的桌面”（发现 EZtext） “又有一道叫做easylibc的新题，本机桌面">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-03T12:32:55.881Z">
-<meta property="article:modified_time" content="2026-07-03T12:32:55.881Z">
+<meta property="article:modified_time" content="2026-07-03T12:40:59.864Z">
 <meta property="article:author" content="xyyr">
 <meta property="article:tag" content="pwn">
 <meta property="article:tag" content="WorkBuddy">
@@ -37,6 +37,7 @@
 <meta property="article:tag" content="ret2vuln">
 <meta property="article:tag" content="PIE">
 <meta property="article:tag" content="patchelf">
+<meta property="article:tag" content="glibc-all-in-one">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -247,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          1.9k 字
         
       </span>
     
@@ -258,7 +259,7 @@
         
         
         
-          13 分钟
+          17 分钟
         
       </span>
     
@@ -296,6 +297,14 @@
         <div id="board">
           <article class="post-content mx-auto">
             <h1 id="seo-header">Moe2025 Easylibc — WorkBuddy 纯自动解题记录（含 patchelf 踩坑与 ret2vuln）</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年7月3日 晚上
+                  
+                
+              </p>
             
             
               <div class="markdown-body">
@@ -350,12 +359,32 @@
 <li>系统加载器 (ld-linux 2.38) 与挑战 libc (2.35) 内部调用不兼容</li>
 <li>需要配套的 <code>ld-linux-x86-64.so.2 (2.35)</code> 才能正常运行</li>
 </ul>
-<p><strong>最终方案：放弃本地挂载，直接使用系统 libc 做本地测试。</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 清除 rpath，恢复纯系统 libc</span><br>patchelf --remove-rpath pwn<br>patchelf --set-interpreter /lib64/ld-linux-x86-64.so.2 pwn<br></code></pre></td></tr></table></figure>
+<p><strong>解决方案：使用 glibc-all-in-one 下载匹配的 ld-linux：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 克隆 glibc-all-in-one</span><br>git <span class="hljs-built_in">clone</span> https://github.com/matrix1001/glibc-all-in-one.git<br><span class="hljs-built_in">cd</span> glibc-all-in-one/legacy<br><br><span class="hljs-comment"># 更新版本列表</span><br>python3 update_list<br><br><span class="hljs-comment"># 查看可用版本</span><br>grep <span class="hljs-string">&#x27;2\\.35&#x27;</span> list<br></code></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">2</span>.<span class="hljs-number">35</span>-<span class="hljs-number">0</span>ubuntu3.<span class="hljs-number">13</span>_amd64<br><span class="hljs-attribute">2</span>.<span class="hljs-number">35</span>-<span class="hljs-number">0</span>ubuntu3.<span class="hljs-number">13</span>_i386<br><span class="hljs-attribute">2</span>.<span class="hljs-number">35</span>-<span class="hljs-number">0</span>ubuntu3_amd64<br><span class="hljs-attribute">2</span>.<span class="hljs-number">35</span>-<span class="hljs-number">0</span>ubuntu3_i386<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;AAAA&#x27;</span> | <span class="hljs-built_in">timeout</span> 3 ./pwn<br></code></pre></td></tr></table></figure>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">What <span class="hljs-keyword">is</span> <span class="hljs-keyword">this</span>?<br>How can I <span class="hljs-keyword">use</span> <span class="hljs-number">0x564c04353060</span> without a backdoor? Damn!<br>Something happening<br></code></pre></td></tr></table></figure>
-<p>✅ 二进制正常运行。</p>
+<p>挑战 libc 版本为 <code>2.35-0ubuntu3.10</code>，选取最接近的 <code>2.35-0ubuntu3.13_amd64</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 下载并解压</span><br>bash download 2.35-0ubuntu3.13_amd64<br></code></pre></td></tr></table></figure>
+
+<p>下载后 <code>libs/2.35-0ubuntu3.13_amd64/</code> 目录中包含了 <code>libc.so.6</code> 和 <code>ld-linux-x86-64.so.2</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 复制 ld-linux 到桌面</span><br><span class="hljs-built_in">cp</span> libs/2.35-0ubuntu3.13_amd64/ld-linux-x86-64.so.2 /home/kali/Desktop/ld-2.35.so<br><span class="hljs-built_in">cd</span> /home/kali/Desktop<br><span class="hljs-built_in">chmod</span> +x ld-2.35.so libc.so.6<br><br><span class="hljs-comment"># 重置二进制状态（清除之前的 patchelf）</span><br>patchelf --remove-rpath pwn 2&gt;/dev/null<br>patchelf --set-interpreter /lib64/ld-linux-x86-64.so.2 pwn 2&gt;/dev/null<br><br><span class="hljs-comment"># 同时设置 interpreter 和 rpath</span><br>patchelf --set-interpreter ./ld-2.35.so pwn<br>patchelf --set-rpath /home/kali/Desktop pwn<br></code></pre></td></tr></table></figure>
+
+<p><strong>验证：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ldd ./pwn<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">linux-vdso.so.1<br>libc.so.6 =&gt; /home/kali/Desktop/libc.so.6 (0x...)<br>./ld-2.35.so =&gt; /lib64/ld-linux-x86-64.so.2 (0x...)<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意：</strong> <code>ldd</code> 仍显示 ld 解析到系统路径，这是因为 <code>ldd</code> 本身使用系统加载器解析依赖。实际运行时 kernel 读取 ELF header 中指定的 interpreter（<code>./ld-2.35.so</code>），同系列 glibc 2.35 的 ld-linux 与挑战 libc 完全兼容。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;test&#x27;</span> | <span class="hljs-built_in">timeout</span> 3 ./pwn<br></code></pre></td></tr></table></figure>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">What <span class="hljs-keyword">is</span> <span class="hljs-keyword">this</span>?<br>How can I <span class="hljs-keyword">use</span> <span class="hljs-number">0x557e5f9a1060</span> without a backdoor? Damn!<br>Something happening<br></code></pre></td></tr></table></figure>
+<p>✅ <strong>正常运行，stack smashing 消失！</strong></p>
+<p><strong>为什么有效：</strong></p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scss">之前：pwn → 系统 ld-linux (<span class="hljs-number">2.38</span>) → 挑战 libc (<span class="hljs-number">2.35</span>)  ❌ stack smashing<br>现在：pwn → ld-<span class="hljs-number">2.35</span><span class="hljs-selector-class">.so</span> (<span class="hljs-number">2.35</span>)     → 挑战 libc (<span class="hljs-number">2.35</span>)  ✅ 正常运行<br></code></pre></td></tr></table></figure>
+
+<p>即使用 <code>2.35-0ubuntu3.13</code> 的 ld-linux 搭配 <code>2.35-0ubuntu3.10</code> 的 libc，只要主次版本号一致，ld-linux 与 libc 之间的 ABI 就是向前兼容的。</p>
+<p><strong>最终方案的 Offsets 验证（使用挑战 libc 成功拿 shell）：</strong></p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">[+] read offset: 0x1147d0     ← 挑战 libc 2.35 的偏移<br>[+] system offset: 0x50d70<br>[+] Libc base: 0x7fe6d5200000<br><br><span class="hljs-section">=== OUTPUT ===</span><br>用户id=0(root) 组id=0(root) 组=0(root)<br>flag&#123;qqqqqq111111qqqqqqqok!!!&#125;<br></code></pre></td></tr></table></figure>
+
 <hr>
 <h4 id="0x03-信息收集"><a href="#0x03-信息收集" class="headerlink" title="0x03 信息收集"></a><strong>0x03 信息收集</strong></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">file pwn<br>python3 -c <span class="hljs-string">&quot;from pwn import *; e = ELF(&#x27;./pwn&#x27;); print(e.checksec())&quot;</span><br></code></pre></td></tr></table></figure>
 
@@ -541,8 +570,8 @@
 </tr>
 <tr>
 <td>patchelf 踩坑</td>
-<td>版本不兼容，放弃挑战 libc，改用系统 libc</td>
-<td>~2min</td>
+<td>版本不兼容，glibc-all-in-one 下载匹配 ld-linux 修复</td>
+<td>~3min</td>
 </tr>
 <tr>
 <td>逆向分析</td>
@@ -556,14 +585,14 @@
 </tr>
 <tr>
 <td>最终 Exploit</td>
-<td>pop rdi + &#x2F;bin&#x2F;sh + system 获得 shell</td>
+<td>使用挑战 libc 偏移，pop rdi + &#x2F;bin&#x2F;sh + system 获得 shell</td>
 <td>~10s</td>
 </tr>
 </tbody></table>
 <p><strong>关键踩坑总结：</strong></p>
 <ol>
 <li><strong>PIE 基址偏移是 0x1060 不是 0x1030</strong>——CET 编译的 .plt 布局与传统不同，需实测页对齐确定</li>
-<li><strong>patchelf 需要配套 ld-linux</strong>——仅替换 libc.so.6 不够，还需要同版本的 ld-linux 加载器，否则 GLIBC 版本不兼容导致 <code>*** stack smashing detected ***</code></li>
+<li><strong>patchelf 需同时设置 interpreter + rpath</strong>——仅替换 libc.so.6 不够，必须用 <code>glibc-all-in-one</code> 下载匹配的 ld-linux 并用 <code>--set-interpreter</code> 指定，否则 GLIBC 版本不兼容导致 <code>*** stack smashing detected ***</code></li>
 <li><strong>ret2vuln 技巧</strong>——第一次溢出不直接 getshell，而是返回到程序原有的 printf 泄露代码，利用 vuln 执行过程中解析的 GOT 条目获取 libc 地址，再第二次溢出完成 ROP</li>
 </ol>
 <p><strong>纯 AI 自动解题全过程记录完毕。</strong> 🚀</p>
@@ -615,6 +644,8 @@
         <a href="/tags/PIE/" class="print-no-link">#PIE</a>
       
         <a href="/tags/patchelf/" class="print-no-link">#patchelf</a>
+      
+        <a href="/tags/glibc-all-in-one/" class="print-no-link">#glibc-all-in-one</a>
       
     </div>
   
