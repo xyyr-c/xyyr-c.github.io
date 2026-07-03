@@ -244,6 +244,67 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/10/23/GuestBooK--pwn/" target="_self">
+          GuestBooK--pwn
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/GuestBooK--pwn/" target="_self">
+        <div>
+          GuestBooK–pwn 先利用read与puts，填充掉canary的最后一位，把canary打印出来，用这种不一样的字符方便接收和检验 1payload = b&quot;A&quot;*(0x20-0x8-1)+b&quot;B&quot;+b&#x27;C&#x27;   然后需要利用strcpy输入两次，第一次把最后一位不对的canary以及后门函数地址输入进去，第二次把canary最
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-23 16:59" pubdate>
+              2024-10-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/pwn/">#pwn</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/10/23/ctfshow%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B-badboy/" target="_self">
           ctfshow元旦水友赛-badboy
         </a>
@@ -741,67 +802,6 @@
       <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/iscc-U/" target="_self">
         <div>
           iscc-U一道特殊的uaf，高版本，没开pie，特殊的打印机制。 警告：极其混乱，掺杂着无数次歪路  由于没有libc文件，不知道libc版本，没用unsotedbin泄露，不知道该减多少。  打印函数：  创建函数：  删除函数：   先创三个堆看看notelist的储存形式：    关于c语言：notelist本身指代的是这个空间指向的数据。例如int notelist &#x3D; aaa
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-10-23 16:59" pubdate>
-              2024-10-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/pwn/">#pwn</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/10/23/orange_cat/" target="_self">
-          orange_cat
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/23/orange_cat/" target="_self">
-        <div>
-          orange_cat 就出了这一道被打成50分的，我真菜狗一只啊  包含输入、修改、输出、删除的堆块题  输入函数：只限制了堆块的大小，不限制数量    输出函数和删除函数都只能用一次  edit函数存在7个字节的溢出    top_chunk 的后三位+size（不包括符号位，符号位要为1），&amp;FFF为0 先用house of orange（这个网上讲的很好）将topchunk置为uns
         </div>
       </a>
 
