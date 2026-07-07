@@ -27,7 +27,7 @@
 <meta property="og:description" content="Moe2025 Easylibc — WorkBuddy 纯自动解题记录声明：本文所有分析、文件传输、patchelf 调试、exploit 编写与命令执行均由 WorkBuddy AI 助手通过 Kali MCP 远程控制 Kali 虚拟机自动完成，人工仅输入以下指令触发：   “做pwn题，题目也叫pwn，在kali的桌面”（发现 EZtext） “又有一道叫做easylibc的新题，本机桌面">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-03T12:32:55.881Z">
-<meta property="article:modified_time" content="2026-07-03T12:40:59.864Z">
+<meta property="article:modified_time" content="2026-07-03T12:45:53.867Z">
 <meta property="article:author" content="xyyr">
 <meta property="article:tag" content="pwn">
 <meta property="article:tag" content="WorkBuddy">
@@ -367,7 +367,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 下载并解压</span><br>bash download 2.35-0ubuntu3.13_amd64<br></code></pre></td></tr></table></figure>
 
 <p>下载后 <code>libs/2.35-0ubuntu3.13_amd64/</code> 目录中包含了 <code>libc.so.6</code> 和 <code>ld-linux-x86-64.so.2</code>。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 复制 ld-linux 到桌面</span><br><span class="hljs-built_in">cp</span> libs/2.35-0ubuntu3.13_amd64/ld-linux-x86-64.so.2 /home/kali/Desktop/ld-2.35.so<br><span class="hljs-built_in">cd</span> /home/kali/Desktop<br><span class="hljs-built_in">chmod</span> +x ld-2.35.so libc.so.6<br><br><span class="hljs-comment"># 重置二进制状态（清除之前的 patchelf）</span><br>patchelf --remove-rpath pwn 2&gt;/dev/null<br>patchelf --set-interpreter /lib64/ld-linux-x86-64.so.2 pwn 2&gt;/dev/null<br><br><span class="hljs-comment"># 同时设置 interpreter 和 rpath</span><br>patchelf --set-interpreter ./ld-2.35.so pwn<br>patchelf --set-rpath /home/kali/Desktop pwn<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 复制 ld-linux 到桌面</span><br><span class="hljs-built_in">cp</span> libs/2.35-0ubuntu3.13_amd64/ld-linux-x86-64.so.2 /home/kali/Desktop/ld-2.35.so<br><span class="hljs-built_in">cd</span> /home/kali/Desktop<br><span class="hljs-built_in">chmod</span> +x ld-2.35.so libc.so.6<br><br><span class="hljs-comment"># 重置二进制状态（清除之前的 patchelf）</span><br>patchelf --remove-rpath pwn 2&gt;/dev/null<br>patchelf --set-interpreter /lib64/ld-linux-x86-64.so.2 pwn 2&gt;/dev/null<br><br><span class="hljs-comment"># 同时设置 interpreter 和 rpath r</span><br>patchelf --set-interpreter ./ld-2.35.so pwn<br>patchelf --set-rpath /home/kali/Desktop pwn<br></code></pre></td></tr></table></figure>
 
 <p><strong>验证：</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ldd ./pwn<br></code></pre></td></tr></table></figure>
@@ -701,6 +701,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2026/07/07/moe2025-hardpivot-WorkBuddy-auto-pwn/" title="Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（双 BSS pivot 突破 80 字节墙）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（双 BSS pivot 突破 80 字节墙）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
