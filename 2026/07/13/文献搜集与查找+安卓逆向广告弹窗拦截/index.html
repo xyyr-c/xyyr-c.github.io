@@ -1,0 +1,1240 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xyyr.png">
+  <link rel="icon" href="/img/xyyr.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="xyyr">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="文献搜集与查找+安卓逆向广告弹窗拦截机器学习统计学习 在电子书上勾勾画画，这里写很陌生的概念   风险函数也叫期望损失，是损失函数的期望（实际不可求），用训练数集的平均损失（经验风险或叫经验损失来估计）  范数（补充）：    非负性：长度永远 ≥0≥0，且只有零向量的长度为 0。 齐次性：向量缩放 aa 倍，长度也缩放 ∣a∣∣a∣ 倍（放大3倍，长度就变3倍）。 三角不等式：两边之和大于第三边">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文献搜集与查找+安卓逆向广告弹窗拦截">
+<meta property="og:url" content="https://xyyr-c.github.io/2026/07/13/%E6%96%87%E7%8C%AE%E6%90%9C%E9%9B%86%E4%B8%8E%E6%9F%A5%E6%89%BE+%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%B9%BF%E5%91%8A%E5%BC%B9%E7%AA%97%E6%8B%A6%E6%88%AA/index.html">
+<meta property="og:site_name" content="xyyr">
+<meta property="og:description" content="文献搜集与查找+安卓逆向广告弹窗拦截机器学习统计学习 在电子书上勾勾画画，这里写很陌生的概念   风险函数也叫期望损失，是损失函数的期望（实际不可求），用训练数集的平均损失（经验风险或叫经验损失来估计）  范数（补充）：    非负性：长度永远 ≥0≥0，且只有零向量的长度为 0。 齐次性：向量缩放 aa 倍，长度也缩放 ∣a∣∣a∣ 倍（放大3倍，长度就变3倍）。 三角不等式：两边之和大于第三边">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929112.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929417.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929244.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929513.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929911.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929907.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929372.png">
+<meta property="og:image" content="c:/Users/czy/AppData/Roaming/Typora/typora-user-images/image-20260708193836113.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929422.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929423.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929447.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929855.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929349.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929160.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929209.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929532.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130928925.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607131555176.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607131555469.png">
+<meta property="article:published_time" content="2026-07-13T09:38:47.184Z">
+<meta property="article:modified_time" content="2026-08-02T09:30:44.105Z">
+<meta property="article:author" content="xyyr">
+<meta property="article:tag" content="re">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="文献">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929112.png">
+  
+  
+  
+  <title>文献搜集与查找+安卓逆向广告弹窗拦截 - xyyr</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/links.css">
+<link rel="stylesheet" href="/css/scrollAnimation.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"xyyr-c.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>xyyr</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="文献搜集与查找+安卓逆向广告弹窗拦截"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-07-13 17:38" pubdate>
+          2026年7月13日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">文献搜集与查找+安卓逆向广告弹窗拦截</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年8月2日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="文献搜集与查找-安卓逆向广告弹窗拦截"><a href="#文献搜集与查找-安卓逆向广告弹窗拦截" class="headerlink" title="文献搜集与查找+安卓逆向广告弹窗拦截"></a>文献搜集与查找+安卓逆向广告弹窗拦截</h1><h2 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h2><h3 id="统计学习"><a href="#统计学习" class="headerlink" title="统计学习"></a>统计学习</h3><blockquote>
+<p>在电子书上勾勾画画，这里写很陌生的概念</p>
+</blockquote>
+<ul>
+<li><p>风险函数也叫期望损失，是损失函数的期望（实际不可求），用训练数集的平均损失（经验风险或叫经验损失来估计）</p>
+</li>
+<li><p>范数（补充）：</p>
+</li>
+</ul>
+<ol>
+<li><strong>非负性</strong>：长度永远 ≥0≥0，且只有零向量的长度为 0。</li>
+<li><strong>齐次性</strong>：向量缩放 a<em>a</em> 倍，长度也缩放 ∣a∣∣<em>a</em>∣ 倍（放大3倍，长度就变3倍）。</li>
+<li><strong>三角不等式</strong>：两边之和大于第三边（两点之间直线最短）。</li>
+</ol>
+<blockquote>
+<p><strong>范数（Norm）</strong>，简单来说，就是用来<strong>度量一个向量（或矩阵）“大小”或“长度”</strong>的数学工具。</p>
+<ul>
+<li>L1 范数（曼哈顿距离）向量内所有元素绝对值之和</li>
+<li>L2 范数（欧几里得距离）向量内所有元素的平方和开根号</li>
+<li>L∞ 范数（切比雪夫距离&#x2F;无穷范数）所有元素中绝对值最大的那个</li>
+</ul>
+</blockquote>
+<ul>
+<li>经验风险最小化：选择训练数据集损失期望（经验风险）最小的函数模型</li>
+<li>结构风险最小化：为防止过拟合而增加的表示模型复杂度的正则化项</li>
+<li>泛化上界：真实误差本身的上界；泛化误差上界：真实-经验后给定的高概率成立的上界；也就是经验风险+一个关于N的单调递减函数，同时该函数会随参数复杂度增加而增加。（有点懵还，绕绕的）</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="安卓逆向"><a href="#安卓逆向" class="headerlink" title="安卓逆向"></a>安卓逆向</h3><p>再听一次时的备忘~</p>
+<ul>
+<li><p>mainfest.xml文件，里面除了有版本信息与权限之外，还有声明的实现应用部分可视化界面的activity</p>
+</li>
+<li><p>在dex文件修改activity时，可以搜索完之后，复制类的一个smail路径代码</p>
+</li>
+<li><p>更新可以从xml中改versioncode，demo中2为新</p>
+</li>
+<li><p>找弹窗在dex的位置，然后修改show</p>
+</li>
+</ul>
+<p>可用算法助手直接去，只试试，学的时候还是手动改改。</p>
+<p>算法助手直接拦截</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929112.png" srcset="/img/loading.gif" lazyload alt="image-20260708191849245"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929417.png" srcset="/img/loading.gif" lazyload alt="image-20260708191853841"></p>
+<p>mt管理器中acitivity活动记录<br><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929244.png" srcset="/img/loading.gif" lazyload alt="image-20260708192407536"></p>
+<p>Lcom的是smail语法中的路径，然后复制下来从代码里搜索<br><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929513.png" srcset="/img/loading.gif" lazyload alt="image-20260708192603527"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929911.png" srcset="/img/loading.gif" lazyload alt="image-20260708192705057"></p>
+<p>AdActivity改为ChallengThird</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929907.png" srcset="/img/loading.gif" lazyload alt="image-20260708193036735"></p>
+<p>等等，突然想起有个改时长来着，先去找那个改时长的试试，忘记在哪儿了</p>
+<p>看了一下过去的笔记，上面这个就是本身类的定义</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929372.png" srcset="/img/loading.gif" lazyload alt="image-20260708193710114"></p>
+<p>这里有时长3s<br><img src="C:/Users/czy/AppData/Roaming/Typora/typora-user-images/image-20260708193836113.png" srcset="/img/loading.gif" lazyload alt="image-20260708193836113"></p>
+<p>smail中搜3000没搜到，因为里面是用16进制写的</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929422.png" srcset="/img/loading.gif" lazyload alt="image-20260708194219574"></p>
+<p>改成0了。（不过这里改了之后，那个提示需要更新的弹窗也不见了）（晓得了，原来是因为之前是断网看的，所以才没提示）（都怪np管理器不能联网否则强制要求更新导致我的模拟器一直没开wifi）</p>
+<p>后面改为third直接跳。</p>
+<p>demo的更新弹窗~从布局查看里看这个啥都搜索不出来</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929423.png" srcset="/img/loading.gif" lazyload alt="image-20260708195448341"></p>
+<p>用算法助手捕获对应的调用位置</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929447.png" srcset="/img/loading.gif" lazyload alt="image-20260708200436394"></p>
+<p>搜索方法名，不知道为啥np管理器搜不出来，就得用mt管理器搜。。。亏我试了半天不知道哪儿出错了，又去看教程&#x2F;.&#x2F;</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929855.png" srcset="/img/loading.gif" lazyload alt="image-20260708201319155"></p>
+<p>mt这里免费版不能转java，不管了，直接搜show把它注释掉</p>
+<p>后面的两个弹窗也是，找show，注释掉（show基本都是在末尾了）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929349.png" srcset="/img/loading.gif" lazyload alt="image-20260708201917077"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929160.png" srcset="/img/loading.gif" lazyload alt="image-20260708201959592"></p>
+<p>然后是下面的资源id</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929209.png" srcset="/img/loading.gif" lazyload alt="image-20260708210232139"></p>
+<p>xml，用mt管理器，资源id搜索（还是mt好用）从搜索到的xml文件中找到了对应的资源id的文件，把宽高调为0。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130929532.png" srcset="/img/loading.gif" lazyload alt="image-20260708210722339"></p>
+<p>ok完工<del>突然发现不知道为啥文字显示不全，回头看了一眼教程，教程里这样子修了0dp后下面没事的，留作后续探索。</del></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607130928925.png" srcset="/img/loading.gif" lazyload alt="image-20260708210908325"></p>
+<h3 id="学学怎么找文献"><a href="#学学怎么找文献" class="headerlink" title="学学怎么找文献"></a>学学怎么找文献</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1aELP66Ezz/?spm_id_from=333.337.search-card.all.click&vd_source=5aaa6cf536f1e9f7b67225df23bb5e07">导师不教，但读研必须要会的科研工具_哔哩哔哩_bilibili</a></p>
+<h4 id="找核心文献-Connected-Papers"><a href="#找核心文献-Connected-Papers" class="headerlink" title="找核心文献 Connected Papers"></a>找核心文献 Connected Papers</h4><p>把找好的文献放进去，会生成文献引用图，节点越大说明被引用次数越多，越核心；越近越相似，越深越新</p>
+<h4 id="文献鸟，输入核心关键词，会发邮件发送最新论文"><a href="#文献鸟，输入核心关键词，会发邮件发送最新论文" class="headerlink" title="文献鸟，输入核心关键词，会发邮件发送最新论文"></a>文献鸟，输入核心关键词，会发邮件发送最新论文</h4><h4 id="查英文文献"><a href="#查英文文献" class="headerlink" title="查英文文献"></a>查英文文献</h4><p>Google Scholar + web of science</p>
+<p>下了个easyscholar插件，待尝试使用</p>
+<h4 id="查中文文献"><a href="#查中文文献" class="headerlink" title="查中文文献"></a>查中文文献</h4><p>知网+万方 可从微信搜索补充</p>
+<h4 id="读文献"><a href="#读文献" class="headerlink" title="读文献"></a>读文献</h4><p>小绿鲸</p>
+<p>Paper Digest，Elicit来总结观点（还没找和试）</p>
+<h4 id="管理文献"><a href="#管理文献" class="headerlink" title="管理文献"></a>管理文献</h4><p>zotero：插件Better Notes插件，Zotero Connector插件(v)，茉莉花插件(v)，SciHub插件</p>
+<h4 id="写论文（估计还久，啥时候需要了再去试）"><a href="#写论文（估计还久，啥时候需要了再去试）" class="headerlink" title="写论文（估计还久，啥时候需要了再去试）"></a>写论文（估计还久，啥时候需要了再去试）</h4><p>Elicit（综述相关文献），Quillbot（改写英文句子），Scite（检查论据），Figdraw，Color Adobe（配图配色）papers with code(模型相关论文及方向趋势)</p>
+<blockquote>
+<p>还没看完。。。明天在这个里继续写。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1jb42177Wz/?spm_id_from=333.337.search-card.all.click&vd_source=5aaa6cf536f1e9f7b67225df23bb5e07">如何快速查全、查准文献-研究生必备技能_哔哩哔哩_bilibili</a></p>
+<ol>
+<li><p>确定主题（领域+方向）(x-mol学术平台)</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607131555176.png" srcset="/img/loading.gif" lazyload alt="image-20260713094747436"></p>
+</li>
+<li><p>作者、推荐、参考文献（researchrabbitapp.com）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202607131555469.png" srcset="/img/loading.gif" lazyload alt="image-20260713094805082"></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV136dUYKEYU?spm_id_from=333.788.player.switch&vd_source=5aaa6cf536f1e9f7b67225df23bb5e07&p=2">02 Zotero 简介与安装 -_哔哩哔哩_bilibili</a></p>
+<p>跟着步骤安装操作加入对应的东西，只记录备忘</p>
+<ul>
+<li>插件商店可以更新插件，爬取不到网页可以更新转换器，还不行的话试试自己改；更新转换器后，有时候需要在浏览器插件，扩展选项，高级，重置转换器（一般情况会自动更新，爬取不成功再手动更新）</li>
+<li>拖入文件也可以自动识别</li>
+<li>可以用doi等表示符来添加文献</li>
+<li>直接拖动是复制，按住shift拖动是移动</li>
+</ul>
+</li>
+</ol>
+<p>wwwwwwwww完结</p>
+<blockquote>
+<p>以下内容由 <strong>AI助手（WorkBuddy）</strong>进行补充</p>
+</blockquote>
+<h2 id="刊物的名称查询"><a href="#刊物的名称查询" class="headerlink" title="刊物的名称查询"></a>刊物的名称查询</h2><hr>
+<h3 id="一、CCF分类是什么意思"><a href="#一、CCF分类是什么意思" class="headerlink" title="一、CCF分类是什么意思"></a>一、CCF分类是什么意思</h3><p><strong>CCF</strong> 是中国计算机学会（China Computer Federation）的缩写。CCF 定期发布《CCF推荐国际学术刊物&#x2F;会议目录》，将计算机领域的期刊和会议按质量分为 <strong>A、B、C 三类</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>等级</th>
+<th>含义</th>
+<th>数量比例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A类</strong></td>
+<td>国际上极少数顶级刊物&#x2F;会议，代表领域最高水平</td>
+<td>约 10%</td>
+</tr>
+<tr>
+<td><strong>B类</strong></td>
+<td>国际上高水平的优秀刊物&#x2F;会议</td>
+<td>约 30%</td>
+</tr>
+<tr>
+<td><strong>C类</strong></td>
+<td>国际上重要的、为学术界认可的刊物&#x2F;会议</td>
+<td>约 60%</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>此外，CCF 近年还发布了 <strong>《计算领域高质量科技期刊分级目录》</strong>，针对<strong>国内中文&#x2F;英文期刊</strong>按 <strong>T1（最顶级）、T2（非常优秀）、T3（优秀）</strong> 分级，与国际 ABC 目录是两套独立体系。</p>
+</blockquote>
+<hr>
+<h3 id="二、SCI分区（几区）是什么意思"><a href="#二、SCI分区（几区）是什么意思" class="headerlink" title="二、SCI分区（几区）是什么意思"></a>二、SCI分区（几区）是什么意思</h3><p><strong>SCI</strong>（Science Citation Index）是科睿唯安（Clarivate）的文献索引数据库。每年发布 <strong>JCR（Journal Citation Reports）</strong>，按 <strong>影响因子（IF）</strong> 将同一学科领域的期刊从高到低平均分为四个区：</p>
+<table>
+<thead>
+<tr>
+<th>分区</th>
+<th>含义</th>
+<th>在该学科中的排名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Q1（一区）</strong></td>
+<td>顶级期刊</td>
+<td>前 25%</td>
+</tr>
+<tr>
+<td><strong>Q2（二区）</strong></td>
+<td>高水平期刊</td>
+<td>25%–50%</td>
+</tr>
+<tr>
+<td><strong>Q3（三区）</strong></td>
+<td>中等期刊</td>
+<td>50%–75%</td>
+</tr>
+<tr>
+<td><strong>Q4（四区）</strong></td>
+<td>较低水平期刊</td>
+<td>后 25%</td>
+</tr>
+</tbody></table>
+<p><strong>中科院分区</strong>（国内常用）类似但更严格：将期刊分为 <strong>1区（TOP）、2区、3区、4区</strong>，通常中科院1区 ≈ JCR Q1 中排名更靠前的部分。</p>
+<blockquote>
+<p>CCF分类 和 SCI分区 是两套评价体系——CCF看重学术共同体的同行评议和领域影响力，SCI分区单纯按影响因子排名。</p>
+</blockquote>
+<hr>
+<h3 id="三、国内顶尖刊物（网络空间安全-信息安全-计算机）"><a href="#三、国内顶尖刊物（网络空间安全-信息安全-计算机）" class="headerlink" title="三、国内顶尖刊物（网络空间安全 &#x2F; 信息安全 &#x2F; 计算机）"></a>三、国内顶尖刊物（网络空间安全 &#x2F; 信息安全 &#x2F; 计算机）</h3><p>以下根据 <strong>CCF《计算领域高质量科技期刊分级目录（2025）》</strong> 整理，按 <strong>T1 → T2 → T3</strong> 排列：</p>
+<hr>
+<p>核心表格</p>
+<table>
+<thead>
+<tr>
+<th>刊物名称</th>
+<th>方向</th>
+<th>认可度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>计算机学报</strong></td>
+<td>计算机综合（含安全、AI、体系结构等）</td>
+<td><strong>T1 最顶级</strong>，国内计算机第一刊，CSCD&#x2F;北大核心</td>
+</tr>
+<tr>
+<td><strong>软件学报</strong></td>
+<td>软件科学、系统软件、AI、安全</td>
+<td><strong>T1 最顶级</strong>，国内软件领域第一刊</td>
+</tr>
+<tr>
+<td><strong>计算机研究与发展</strong></td>
+<td>计算机综合（高性能计算、网安、AI等）</td>
+<td><strong>T1 最顶级</strong>，国内历史最悠久的核心期刊之一</td>
+</tr>
+<tr>
+<td><strong>电子学报</strong></td>
+<td>电子信息综合（含信息安全、密码学）</td>
+<td><strong>T1 最顶级</strong>，中国电子学会主办</td>
+</tr>
+<tr>
+<td><strong>通信学报</strong></td>
+<td>通信与网络安全</td>
+<td><strong>T1 最顶级</strong>，通信+安全交叉方向首选</td>
+</tr>
+<tr>
+<td><strong>中国科学：信息科学</strong></td>
+<td>信息科学综合</td>
+<td><strong>T1 最顶级</strong>，对标国际顶刊的综合期刊</td>
+</tr>
+<tr>
+<td><strong>自动化学报</strong></td>
+<td>自动化、AI、控制安全</td>
+<td><strong>T1 最顶级</strong></td>
+</tr>
+<tr>
+<td><strong>Cybersecurity（网络空间安全科学与技术）</strong></td>
+<td>网络空间安全</td>
+<td><strong>T1 最顶级</strong>，中科院信工所主办，英文</td>
+</tr>
+<tr>
+<td><strong>JCST（计算机科学技术学报）</strong></td>
+<td>计算机综合</td>
+<td><strong>T1 最顶级</strong>，中科院计算所主办，英文</td>
+</tr>
+<tr>
+<td><strong>中文信息学报</strong></td>
+<td>中文信息处理、NLP安全</td>
+<td><strong>T1 最顶级</strong></td>
+</tr>
+<tr>
+<td><strong>电子与信息学报</strong></td>
+<td>电子信息、信号处理、信息安全</td>
+<td><strong>T1 最顶级</strong></td>
+</tr>
+<tr>
+<td><strong>信息安全学报</strong></td>
+<td>信息安全综合</td>
+<td><strong>T2 非常优秀</strong>，中科院信工所主办</td>
+</tr>
+<tr>
+<td><strong>密码学报</strong></td>
+<td>密码学</td>
+<td><strong>T2 非常优秀</strong>，中国密码学会主办</td>
+</tr>
+<tr>
+<td><strong>网络与信息安全学报</strong></td>
+<td>网络安全</td>
+<td><strong>T2 非常优秀</strong>，人民邮电出版社</td>
+</tr>
+<tr>
+<td><strong>计算机科学</strong></td>
+<td>计算机综合</td>
+<td><strong>T2 非常优秀</strong></td>
+</tr>
+<tr>
+<td><strong>计算机工程</strong></td>
+<td>计算机工程、网络安全应用</td>
+<td><strong>T2 非常优秀</strong></td>
+</tr>
+<tr>
+<td><strong>计算机应用</strong></td>
+<td>计算机应用技术</td>
+<td><strong>T2 非常优秀</strong></td>
+</tr>
+<tr>
+<td><strong>信息网络安全</strong></td>
+<td>信息网络安全（公安&#x2F;行业导向）</td>
+<td><strong>T3 优秀</strong>，公安部三所主办</td>
+</tr>
+<tr>
+<td><strong>保密科学技术</strong></td>
+<td>保密与信息安全</td>
+<td><strong>T3 优秀</strong>，国家保密科技测评中心</td>
+</tr>
+<tr>
+<td><strong>信息安全研究</strong></td>
+<td>信息安全研究</td>
+<td><strong>T3 优秀</strong>，国家信息中心</td>
+</tr>
+<tr>
+<td><strong>密码与信息安全学报</strong></td>
+<td>密码与信息安全</td>
+<td><strong>T3 优秀</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<p> 重点推荐（网络空间安全&#x2F;信息安全方向）</p>
+<p>如果你主攻 <strong>网络空间安全 &#x2F; 信息安全</strong>，国内最值得关注的期刊依次为：</p>
+<ol>
+<li><strong>Cybersecurity</strong>（T1，英文，SCI收录，IF≈4.0）</li>
+<li><strong>计算机学报</strong>（T1，中文，可发网安方向）</li>
+<li><strong>计算机研究与发展</strong>（T1，中文，设有网络与信息安全专栏）</li>
+<li><strong>信息安全学报</strong>（T2，中文，信息安全领域专门刊）</li>
+<li><strong>密码学报</strong>（T2，中文，密码学专门刊）</li>
+<li><strong>网络与信息安全学报</strong>（T2，中文）</li>
+<li><strong>通信学报</strong>（T1，中文，网络安全的传统顶刊）</li>
+</ol>
+<hr>
+<p>CCF分类和SCI分区的对照说明</p>
+<table>
+<thead>
+<tr>
+<th>评价体系</th>
+<th>最高级</th>
+<th>次高级</th>
+<th>中级</th>
+<th>较低</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>CCF国际期刊</strong></td>
+<td>A类</td>
+<td>B类</td>
+<td>C类</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>CCF国内期刊</strong></td>
+<td>T1</td>
+<td>T2</td>
+<td>T3</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>SCI JCR分区</strong></td>
+<td>Q1（一区）</td>
+<td>Q2（二区）</td>
+<td>Q3（三区）</td>
+<td>Q4（四区）</td>
+</tr>
+<tr>
+<td><strong>中科院分区</strong></td>
+<td>1区（Top）</td>
+<td>2区</td>
+<td>3区</td>
+<td>4区</td>
+</tr>
+</tbody></table>
+<p>两者<strong>没有直接换算关系</strong>，投稿时建议两套标准同时参考——CCF 代表同行认可度，SCI 分区影响毕业&#x2F;评奖的硬性指标。</p>
+<hr>
+<blockquote>
+<p>以下内容由 <strong>AI助手（WorkBuddy）</strong> 基于网络空间安全 × 具身智能交叉方向推荐，适用于研0阶段导师方向为具身智能的同学。</p>
+</blockquote>
+<h2 id="四、具身智能（Embodied-AI）与网络空间安全交叉方向的学习指引"><a href="#四、具身智能（Embodied-AI）与网络空间安全交叉方向的学习指引" class="headerlink" title="四、具身智能（Embodied AI）与网络空间安全交叉方向的学习指引"></a>四、具身智能（Embodied AI）与网络空间安全交叉方向的学习指引</h2><h3 id="背景简介"><a href="#背景简介" class="headerlink" title="背景简介"></a>背景简介</h3><p>具身智能安全研究的是：当机器人&#x2F;自动驾驶&#x2F;无人机等实体在物理世界中”感知→决策→行动”时，攻击者如何从各个层面破坏它，以及如何防御。</p>
+<p>攻击面覆盖完整闭环：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">感知(传感器) → 决策(大模型/算法) → 行动(执行器)<br>   ↑<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__↓</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="（一）研0阶段学习路线"><a href="#（一）研0阶段学习路线" class="headerlink" title="（一）研0阶段学习路线"></a>（一）研0阶段学习路线</h3><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>目标</th>
+<th>推荐内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>研0–入学前</strong></td>
+<td>建立全局认知</td>
+<td>读综述：arXiv:2502.13175（Towards Robust and Secure Embodied AI）+ 徐文渊等《具身智能安全治理》，中科院院刊2025</td>
+</tr>
+<tr>
+<td><strong>研一上</strong></td>
+<td>打基础</td>
+<td>系统学CV(CS231n)+RL(CS285)，跑通Habitat&#x2F;Isaac Sim仿真环境，每周追踪arXiv:cs.CR+cs.RO交叉部分</td>
+</tr>
+<tr>
+<td><strong>研一寒假</strong></td>
+<td>深入方向</td>
+<td>精读15篇S&amp;P&#x2F;CCS近3年相关论文，复现一个攻击方法（如物理对抗补丁），确定研究方向</td>
+</tr>
+<tr>
+<td><strong>研一下–研二</strong></td>
+<td>产出论文</td>
+<td>目标：CCS&#x2F;ICRA&#x2F;S&amp;P&#x2F;RA-L</td>
+</tr>
+</tbody></table>
+<h3 id="（二）具身智能安全的核心研究方向"><a href="#（二）具身智能安全的核心研究方向" class="headerlink" title="（二）具身智能安全的核心研究方向"></a>（二）具身智能安全的核心研究方向</h3><table>
+<thead>
+<tr>
+<th>子方向</th>
+<th>具体问题</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>传感器欺骗攻击</td>
+<td>声音&#x2F;光&#x2F;电磁干扰让机器人误判</td>
+<td>浙大徐文渊团队重点方向</td>
+</tr>
+<tr>
+<td>对抗性物理补丁</td>
+<td>在物体上贴特殊图案让目标检测失效</td>
+<td>清华AdvPatch系列</td>
+</tr>
+<tr>
+<td>VLM&#x2F;LLM攻击</td>
+<td>对视觉语言模型做jailbreak，诱导错误指令</td>
+<td>RoboAttack、BadRobot</td>
+</tr>
+<tr>
+<td>机器人控制劫持</td>
+<td>篡改运动规划&#x2F;执行器指令</td>
+<td>中科院信工所相关工作</td>
+</tr>
+<tr>
+<td>供应链&#x2F;后门攻击</td>
+<td>预训练模型植入后门</td>
+<td>TrojAI系列</td>
+</tr>
+<tr>
+<td>多智能体系统安全</td>
+<td>多机器人协作中的攻击</td>
+<td>较新方向，竞争少</td>
+</tr>
+</tbody></table>
+<h3 id="（三）目标期刊与会议"><a href="#（三）目标期刊与会议" class="headerlink" title="（三）目标期刊与会议"></a>（三）目标期刊与会议</h3><p><strong>安全方向顶会（科学界最看重，重要性 &gt; 期刊）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>会议</th>
+<th>全称</th>
+<th>级别</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>IEEE S&amp;P (Oakland)</strong></td>
+<td>IEEE Symposium on Security and Privacy</td>
+<td>安全最高级别</td>
+</tr>
+<tr>
+<td><strong>ACM CCS</strong></td>
+<td>ACM Conf. on Computer and Communications Security</td>
+<td>安全顶会</td>
+</tr>
+<tr>
+<td><strong>USENIX Security</strong></td>
+<td>USENIX Security Symposium</td>
+<td>安全顶会</td>
+</tr>
+<tr>
+<td><strong>NDSS</strong></td>
+<td>Network and Distributed System Security Symp.</td>
+<td>安全顶会</td>
+</tr>
+</tbody></table>
+<p><strong>目标期刊：</strong></p>
+<table>
+<thead>
+<tr>
+<th>期刊</th>
+<th>方向</th>
+<th>CCF等级</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IEEE TDSC</td>
+<td>可信&#x2F;安全计算</td>
+<td>A类</td>
+</tr>
+<tr>
+<td>IEEE TIFS</td>
+<td>信息取证与安全</td>
+<td>A类</td>
+</tr>
+<tr>
+<td>IEEE TRO</td>
+<td>机器人学</td>
+<td>B类</td>
+</tr>
+<tr>
+<td>Computers &amp; Security</td>
+<td>安全应用</td>
+<td>B类</td>
+</tr>
+<tr>
+<td>IEEE RA-L</td>
+<td>机器人快报</td>
+<td>审稿快(6-8周)</td>
+</tr>
+</tbody></table>
+<p><strong>具身智能&#x2F;AI方向也要关注的会议：</strong> CoRL、RSS、ICRA&#x2F;IROS、NeurIPS&#x2F;ICML&#x2F;ICLR、CVPR&#x2F;ICCV</p>
+<h3 id="（四）需要关注的研究团队"><a href="#（四）需要关注的研究团队" class="headerlink" title="（四）需要关注的研究团队"></a>（四）需要关注的研究团队</h3><table>
+<thead>
+<tr>
+<th>团队&#x2F;学者</th>
+<th>单位</th>
+<th>方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>徐文渊 &#x2F; 冀晓宇</td>
+<td>浙江大学</td>
+<td>国内具身智能安全开创者</td>
+</tr>
+<tr>
+<td>张超</td>
+<td>清华大学</td>
+<td>AI安全、对抗机器学习</td>
+</tr>
+<tr>
+<td>刘杨</td>
+<td>南洋理工</td>
+<td>AI安全、软件安全</td>
+</tr>
+<tr>
+<td>Song Dawn</td>
+<td>UC Berkeley</td>
+<td>AI安全鼻祖级人物</td>
+</tr>
+</tbody></table>
+<h3 id="（五）持续追踪的信息源"><a href="#（五）持续追踪的信息源" class="headerlink" title="（五）持续追踪的信息源"></a>（五）持续追踪的信息源</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>arXiv邮件订阅</td>
+<td>cs.CR(安全)、cs.RO(机器人)、cs.AI、cs.CV</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>Awesome-Embodied-AI、Awesome-Adversarial-Robotics</td>
+</tr>
+<tr>
+<td>公众号</td>
+<td>机器之心、新智云（具身智能板块）、安全学术圈</td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/re/" class="print-no-link">#re</a>
+      
+        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="print-no-link">#机器学习</a>
+      
+        <a href="/tags/%E6%96%87%E7%8C%AE/" class="print-no-link">#文献</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>文献搜集与查找+安卓逆向广告弹窗拦截</div>
+      <div>https://xyyr-c.github.io/2026/07/13/文献搜集与查找+安卓逆向广告弹窗拦截/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>xyyr</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年7月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/07/14/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91-%E6%A0%A1%E9%AA%8C%E7%9A%84N%E6%AC%A1%E6%96%B9/" title="安卓逆向-校验的N次方-签名校验对抗、PM代理、IO重定向">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">安卓逆向-校验的N次方-签名校验对抗、PM代理、IO重定向</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/07/07/moe2025-hardpivot-WorkBuddy-auto-pwn/" title="Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（LEAVE_RET + 回写BSS突破80字节墙）">
+                        <span class="hidden-mobile">Moe2025 Hardpivot — WorkBuddy 纯自动解题记录（LEAVE_RET + 回写BSS突破80字节墙）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"Ov23liOzmAtwEFUyS6IV","clientSecret":"430e9946d3d88b2b9d10d34d9ace5dda909038d5","repo":"xyyr-c.github.io","owner":"xyyr-c","admin":["xyyr-c"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":false,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '80189c579f9415dc49b233e07903f70d'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/scrollAnimation.js"></script>
+<script src="/js/particle.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/22.2017.cba-normal.model.json"},"display":{"position":"left","width":300,"height":600,"hOffset":-60,"vOffset":-150},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
