@@ -19,12 +19,12 @@
   <meta name="author" content="xyyr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="title:ret2dl学习以及对应符号表解析1（no relro）tags:pwnret2dl学习以及对应符号表解析1前置知识 动态链接（程序默认使用）：程序内只存一个函数名称，用ld动态链接器来按照名字来找地址，需要.dynstr存名字、.dynsym存地址等元信息  .dynamic段（总索引），这是Elf32_Dyn类型数组，每项8字节，前4字节代表常量含义（d_tag），后4字节代表地">
+    <meta name="description" content="ret2dl学习以及对应符号表解析1前置知识 动态链接（程序默认使用）：程序内只存一个函数名称，用ld动态链接器来按照名字来找地址，需要.dynstr存名字、.dynsym存地址等元信息  .dynamic段（总索引），这是Elf32_Dyn类型数组，每项8字节，前4字节代表常量含义（d_tag），后4字节代表地址或值。    d_tag 常量 值 含义    DT_STRTAB 5 指向 .dy">
 <meta property="og:type" content="article">
-<meta property="og:title" content="xyyr">
+<meta property="og:title" content="ret2dl学习以及对应符号表解析1（no relro）">
 <meta property="og:url" content="https://xyyr-c.github.io/2026/08/16/ret2dl%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%A7%A3%E6%9E%901/index.html">
 <meta property="og:site_name" content="xyyr">
-<meta property="og:description" content="title:ret2dl学习以及对应符号表解析1（no relro）tags:pwnret2dl学习以及对应符号表解析1前置知识 动态链接（程序默认使用）：程序内只存一个函数名称，用ld动态链接器来按照名字来找地址，需要.dynstr存名字、.dynsym存地址等元信息  .dynamic段（总索引），这是Elf32_Dyn类型数组，每项8字节，前4字节代表常量含义（d_tag），后4字节代表地">
+<meta property="og:description" content="ret2dl学习以及对应符号表解析1前置知识 动态链接（程序默认使用）：程序内只存一个函数名称，用ld动态链接器来按照名字来找地址，需要.dynstr存名字、.dynsym存地址等元信息  .dynamic段（总索引），这是Elf32_Dyn类型数组，每项8字节，前4字节代表常量含义（d_tag），后4字节代表地址或值。    d_tag 常量 值 含义    DT_STRTAB 5 指向 .dy">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162144825.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162145105.png">
@@ -40,14 +40,15 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512010.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608191512011.png">
 <meta property="article:published_time" content="2026-08-16T13:26:50.703Z">
-<meta property="article:modified_time" content="2026-08-19T12:11:54.595Z">
+<meta property="article:modified_time" content="2026-08-19T12:23:14.033Z">
 <meta property="article:author" content="xyyr">
+<meta property="article:tag" content="pwn">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608162144825.png">
   
   
   
-  <title>xyyr</title>
+  <title>ret2dl学习以及对应符号表解析1（no relro） - xyyr</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -230,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="ret2dl学习以及对应符号表解析1（no relro）"></span>
           
         </div>
 
@@ -301,7 +302,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header"></h1>
+            <h1 id="seo-header">ret2dl学习以及对应符号表解析1（no relro）</h1>
             
               <p id="updated-time" class="note note-info" style="">
                 
@@ -314,8 +315,7 @@
             
               <div class="markdown-body">
                 
-                <hr>
-<h2 id="title-ret2dl学习以及对应符号表解析1（no-relro）tags-pwn"><a href="#title-ret2dl学习以及对应符号表解析1（no-relro）tags-pwn" class="headerlink" title="title:ret2dl学习以及对应符号表解析1（no relro）tags:pwn"></a>title:ret2dl学习以及对应符号表解析1（no relro）<br>tags:pwn</h2><h1 id="ret2dl学习以及对应符号表解析1"><a href="#ret2dl学习以及对应符号表解析1" class="headerlink" title="ret2dl学习以及对应符号表解析1"></a>ret2dl学习以及对应符号表解析1</h1><h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><ul>
+                <h1 id="ret2dl学习以及对应符号表解析1"><a href="#ret2dl学习以及对应符号表解析1" class="headerlink" title="ret2dl学习以及对应符号表解析1"></a>ret2dl学习以及对应符号表解析1</h1><h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><ul>
 <li><p>动态链接（程序默认使用）：程序内只存一个函数名称，用ld动态链接器来按照名字来找地址，需要.dynstr存名字、.dynsym存地址等元信息</p>
 </li>
 <li><p>.dynamic段（总索引），这是Elf32_Dyn类型数组，每项8字节，前4字节代表常量含义（d_tag），后4字节代表地址或值。</p>
@@ -442,6 +442,13 @@
               <div class="post-metas my-3">
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/pwn/" class="print-no-link">#pwn</a>
+      
+    </div>
+  
 </div>
 
 
@@ -450,7 +457,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
+      <div>ret2dl学习以及对应符号表解析1（no relro）</div>
       <div>https://xyyr-c.github.io/2026/08/16/ret2dl学习以及对应符号表解析1/</div>
     </div>
     <div class="license-meta">
@@ -495,9 +502,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/08/19/ret2dl%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%A7%A3%E6%9E%902%EF%BC%88partial-relro%EF%BC%89/" title="">
+                      <a href="/2026/08/19/ret2dl%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%A7%A3%E6%9E%902%EF%BC%88partial-relro%EF%BC%89/" title="ret2dl学习以及对应符号表解析2（partial relro）">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile"></span>
+                        <span class="hidden-mobile">ret2dl学习以及对应符号表解析2（partial relro）</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     

@@ -245,14 +245,14 @@
       <h2 class="index-header">
         
         <a href="/2026/08/19/ret2dl%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%A7%A3%E6%9E%902%EF%BC%88partial-relro%EF%BC%89/" target="_self">
-          
+          ret2dl学习以及对应符号表解析2（partial relro）
         </a>
       </h2>
 
       
       <a class="index-excerpt index-excerpt__noimg" href="/2026/08/19/ret2dl%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%A7%A3%E6%9E%902%EF%BC%88partial-relro%EF%BC%89/" target="_self">
         <div>
-          title:ret2dl学习以及对应符号表解析2（partial relro）tags:pwnret2dl学习以及对应符号表解析2 开启partial之后，.dynamic的所有段都不可以修改，于是伪造下标来达成解析的目的。即动态链接器不检测下标的长度，不查询各个表一共多少项，一共有多长。  dynsm中每个表项为16字节，按表项来查询内容 12345678typedef struct &#12
+          ret2dl学习以及对应符号表解析2 开启partial之后，.dynamic的所有段都不可以修改，于是伪造下标来达成解析的目的。即动态链接器不检测下标的长度，不查询各个表一共多少项，一共有多长。  dynsm中每个表项为16字节，按表项来查询内容 12345678typedef struct &#123;  Elf32_Word  st_name;   // 0-3  字节：符号名在 .dyns
         </div>
       </a>
 
@@ -267,6 +267,13 @@
         
         
         
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/pwn/">#pwn</a>
+            
+          </div>
+        
       </div>
     </article>
   </div>
@@ -278,14 +285,14 @@
       <h2 class="index-header">
         
         <a href="/2026/08/16/ret2dl%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%A7%A3%E6%9E%901/" target="_self">
-          
+          ret2dl学习以及对应符号表解析1（no relro）
         </a>
       </h2>
 
       
       <a class="index-excerpt index-excerpt__noimg" href="/2026/08/16/ret2dl%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%A7%A3%E6%9E%901/" target="_self">
         <div>
-          title:ret2dl学习以及对应符号表解析1（no relro）tags:pwnret2dl学习以及对应符号表解析1前置知识 动态链接（程序默认使用）：程序内只存一个函数名称，用ld动态链接器来按照名字来找地址，需要.dynstr存名字、.dynsym存地址等元信息  .dynamic段（总索引），这是Elf32_Dyn类型数组，每项8字节，前4字节代表常量含义（d_tag），后4字节代表地
+          ret2dl学习以及对应符号表解析1前置知识 动态链接（程序默认使用）：程序内只存一个函数名称，用ld动态链接器来按照名字来找地址，需要.dynstr存名字、.dynsym存地址等元信息  .dynamic段（总索引），这是Elf32_Dyn类型数组，每项8字节，前4字节代表常量含义（d_tag），后4字节代表地址或值。    d_tag 常量 值 含义    DT_STRTAB 5 指向 .dy
         </div>
       </a>
 
@@ -299,6 +306,13 @@
           </div>
         
         
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/pwn/">#pwn</a>
+            
+          </div>
         
       </div>
     </article>

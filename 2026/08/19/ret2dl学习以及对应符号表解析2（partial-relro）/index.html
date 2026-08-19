@@ -19,12 +19,12 @@
   <meta name="author" content="xyyr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="title:ret2dl学习以及对应符号表解析2（partial relro）tags:pwnret2dl学习以及对应符号表解析2 开启partial之后，.dynamic的所有段都不可以修改，于是伪造下标来达成解析的目的。即动态链接器不检测下标的长度，不查询各个表一共多少项，一共有多长。  dynsm中每个表项为16字节，按表项来查询内容 12345678typedef struct &amp;#12">
+    <meta name="description" content="ret2dl学习以及对应符号表解析2 开启partial之后，.dynamic的所有段都不可以修改，于是伪造下标来达成解析的目的。即动态链接器不检测下标的长度，不查询各个表一共多少项，一共有多长。  dynsm中每个表项为16字节，按表项来查询内容 12345678typedef struct &#123;  Elf32_Word  st_name;   &#x2F;&#x2F; 0-3  字节：符号名在 .dyns">
 <meta property="og:type" content="article">
-<meta property="og:title" content="xyyr">
+<meta property="og:title" content="ret2dl学习以及对应符号表解析2（partial relro）">
 <meta property="og:url" content="https://xyyr-c.github.io/2026/08/19/ret2dl%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%A7%A3%E6%9E%902%EF%BC%88partial-relro%EF%BC%89/index.html">
 <meta property="og:site_name" content="xyyr">
-<meta property="og:description" content="title:ret2dl学习以及对应符号表解析2（partial relro）tags:pwnret2dl学习以及对应符号表解析2 开启partial之后，.dynamic的所有段都不可以修改，于是伪造下标来达成解析的目的。即动态链接器不检测下标的长度，不查询各个表一共多少项，一共有多长。  dynsm中每个表项为16字节，按表项来查询内容 12345678typedef struct &amp;#12">
+<meta property="og:description" content="ret2dl学习以及对应符号表解析2 开启partial之后，.dynamic的所有段都不可以修改，于是伪造下标来达成解析的目的。即动态链接器不检测下标的长度，不查询各个表一共多少项，一共有多长。  dynsm中每个表项为16字节，按表项来查询内容 12345678typedef struct &#123;  Elf32_Word  st_name;   &#x2F;&#x2F; 0-3  字节：符号名在 .dyns">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608192018768.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608192019191.png">
@@ -33,14 +33,15 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608192020032.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608192020033.png">
 <meta property="article:published_time" content="2026-08-19T08:31:20.359Z">
-<meta property="article:modified_time" content="2026-08-19T12:20:24.103Z">
+<meta property="article:modified_time" content="2026-08-19T12:23:25.692Z">
 <meta property="article:author" content="xyyr">
+<meta property="article:tag" content="pwn">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/xyyr-c/picture-for-md/main/img/202608192018768.png">
   
   
   
-  <title>xyyr</title>
+  <title>ret2dl学习以及对应符号表解析2（partial relro） - xyyr</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -223,7 +224,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="ret2dl学习以及对应符号表解析2（partial relro）"></span>
           
         </div>
 
@@ -246,7 +247,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k 字
+          1.3k 字
         
       </span>
     
@@ -294,7 +295,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header"></h1>
+            <h1 id="seo-header">ret2dl学习以及对应符号表解析2（partial relro）</h1>
             
               <p id="updated-time" class="note note-info" style="">
                 
@@ -307,8 +308,7 @@
             
               <div class="markdown-body">
                 
-                <hr>
-<h2 id="title-ret2dl学习以及对应符号表解析2（partial-relro）tags-pwn"><a href="#title-ret2dl学习以及对应符号表解析2（partial-relro）tags-pwn" class="headerlink" title="title:ret2dl学习以及对应符号表解析2（partial relro）tags:pwn"></a>title:ret2dl学习以及对应符号表解析2（partial relro）<br>tags:pwn</h2><h1 id="ret2dl学习以及对应符号表解析2"><a href="#ret2dl学习以及对应符号表解析2" class="headerlink" title="ret2dl学习以及对应符号表解析2"></a>ret2dl学习以及对应符号表解析2</h1><ul>
+                <h1 id="ret2dl学习以及对应符号表解析2"><a href="#ret2dl学习以及对应符号表解析2" class="headerlink" title="ret2dl学习以及对应符号表解析2"></a>ret2dl学习以及对应符号表解析2</h1><ul>
 <li>开启partial之后，.dynamic的所有段都不可以修改，于是伪造下标来达成解析的目的。即动态链接器不检测下标的长度，不查询各个表一共多少项，一共有多长。</li>
 </ul>
 <p>dynsm中每个表项为16字节，按表项来查询内容</p>
@@ -399,6 +399,13 @@
               <div class="post-metas my-3">
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/pwn/" class="print-no-link">#pwn</a>
+      
+    </div>
+  
 </div>
 
 
@@ -407,7 +414,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
+      <div>ret2dl学习以及对应符号表解析2（partial relro）</div>
       <div>https://xyyr-c.github.io/2026/08/19/ret2dl学习以及对应符号表解析2（partial-relro）/</div>
     </div>
     <div class="license-meta">
@@ -456,8 +463,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/08/16/ret2dl%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%A7%A3%E6%9E%901/" title="">
-                        <span class="hidden-mobile"></span>
+                      <a href="/2026/08/16/ret2dl%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%A7%A3%E6%9E%901/" title="ret2dl学习以及对应符号表解析1（no relro）">
+                        <span class="hidden-mobile">ret2dl学习以及对应符号表解析1（no relro）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
